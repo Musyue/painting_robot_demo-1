@@ -25,6 +25,9 @@ class CLMBPKG:
         self.rotation_close_loop_inital()
         self.hold_close_loop_inital()
     def rotation_close_loop_inital(self,):
+        self.rotation_joint_line_equation_k=rospy.get_param("rotation_joint_line_equation_k")
+        self.rotation_joint_line_equation_b=rospy.get_param("rotation_joint_line_equation_b")
+        self.pid_tolerance_error_rotation=rospy.get_param("pid_tolerance_error_rotation")
         self.Kp_rotation = rospy.get_param("rotation_kp")
         self.Ki_rotation = rospy.get_param("rotation_ki")
         self.Kd_rotation = rospy.get_param("rotation_kd")
@@ -39,6 +42,7 @@ class CLMBPKG:
         self.windup_guard_rotation = 0.1
         self.output_rotation = 0.0
     def hold_close_loop_inital(self,):
+        self.pid_tolerance_error_standbar=rospy.get_param("pid_tolerance_error_standbar")
         self.Kp_hold = rospy.get_param("hold_kp")
         self.Ki_hold = rospy.get_param("hold_ki")
         self.Kd_hold = rospy.get_param("hold_kd")
@@ -51,8 +55,10 @@ class CLMBPKG:
         self.DTerm_hold=0
         self.int_hold_error = 0.0
         self.windup_guard_hold = 0.1
-        self.output_hold = 0.0        
+        self.output_hold = 0.0
+        self.read_line_l0_encode_bottom=rospy.get_param("read_line_l0_encode_bottom")        
     def climb_close_loop_inital(self,):
+        self.pid_tolerance_error_climb=rospy.get_param("pid_tolerance_error_climb")
         self.Kp_climb = rospy.get_param("climb_kp")
         self.Ki_climb = rospy.get_param("climb_ki")
         self.Kd_climb = rospy.get_param("climb_kd")
@@ -106,7 +112,6 @@ class CLMBPKG:
             return [int(datahexstr[:2],16),int(datahexstr[2:],16)]
     def Control_3DOF_Robot_Velocity(self, ser, control_id, velocity):  # velocity control
                 """
-
                 :param master:
                 :param control_id: 1-stand,2-rotation,3-climber
                 :param velocity: 0-2500
@@ -119,114 +124,19 @@ class CLMBPKG:
                     #p324
                     send324DataHEXlist=self.plccmd.HOLDING_INITIAL_P324_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(velocity)
                     self.Send_message_to_port(ser,self.Get_crc_16_str(send324DataHEXlist))#seting pos model
-
-                    # self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.HOLD_DRIVER_MODEL_POSITION))#seting pos model
-                    
-                    # rospy.loginfo(master.execute(control_id, cst.READ_HOLDING_REGISTERS, 0, 8))
-                    # # print type(master.execute(4, cst.READ_HOLDING_REGISTERS, 0, 8))
-                    # master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 1, output_value=6) #
-                    # #rospy.loginfo(master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 282, output_value=1))  # enable Climb Driver
-                    # master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 290,
-                    #                         output_value=outputPulse)  # High 16 10000 pulse 1 rpm,negtive up,positive up
-                    # #rospy.loginfo(master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 291, output_value=outputPulse))  # Low 16bit
-                    # master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 97, output_value=velocity)  # internal velocity
-                    # # rospy.loginfo(master.execute(4, cst.WRITE_SINGLE_REGISTER, 113, output_value=1000))  # internal velocity
-                    # # rospy.loginfo(master.execute(4, cst.WRITE_SINGLE_REGISTER, 114, output_value=1000))  # internal velocity
-                    # master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 324, output_value=1000)  # set fixed velocity
                 if control_id==3:
                     #p001
                     self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.CLIMB_DRIVER_MODEL_VELOCITY))#seting pos model
                     #p290
-    
-                    # send290DataHEXlist=self.plccmd.CLIMB_INITIAL_P290_BASE_PULSE_DATA[:4]+self.Get_hex_list_from_OCT(outputPulse)
-                    # rospy.loginfo(self.Send_message_to_port(ser,self.Get_crc_16_str(send290DataHEXlist)))#seting pos model
-
-    
-                    # send97DataHEXlist=self.plccmd.CLIMB_INITIAL_P97_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(velocity)
-                    # self.Send_message_to_port(ser,self.Get_crc_16_str(send97DataHEXlist))#seting pos model
-
                     send324DataHEXlist=self.plccmd.CLIMB_INITIAL_P324_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(velocity)
                     self.Send_message_to_port(ser,self.Get_crc_16_str(send324DataHEXlist))#seting pos model
                 if control_id==2:
                     #p001
                     self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.ROTATION_DRIVER_MODEL_VELOCITY))#seting pos model
                     #p290
-    
-                    # send290DataHEXlist=self.plccmd.ROTATION_INITIAL_P290_BASE_PULSE_DATA[:4]+self.Get_hex_list_from_OCT(outputPulse)
-                    # rospy.loginfo(self.Send_message_to_port(ser,self.Get_crc_16_str(send290DataHEXlist)))#seting pos model
-
-    
-                    # send97DataHEXlist=self.plccmd.ROTATION_INITIAL_P97_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(velocity)
-                    # self.Send_message_to_port(ser,self.Get_crc_16_str(send97DataHEXlist))#seting pos model
-
                     send324DataHEXlist=self.plccmd.ROTATION_INITIAL_P324_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(velocity)
                     self.Send_message_to_port(ser,self.Get_crc_16_str(send324DataHEXlist))#seting pos model
-    def Control_3DOF_Robot(self, ser, control_id, velocity, outputPulse):  # position control
-            """
-
-            :param master:
-            :param control_id: 1-stand,2-rotation,3-climber
-            :param velocity: 0-2500
-            :param outputPulse: High 32位
-            :return:
-            """
-            if control_id==1:
-                #p001
-                self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.HOLD_DRIVER_MODEL_POSITION))#seting pos model
-                #p290
- 
-                send290DataHEXlist=self.plccmd.HOLDING_INITIAL_P290_BASE_PULSE_DATA[:4]+self.Get_hex_list_from_OCT(outputPulse)
-                rospy.loginfo(self.Send_message_to_port(ser,self.Get_crc_16_str(send290DataHEXlist)))#seting pos model
-
- 
-                send97DataHEXlist=self.plccmd.HOLDING_INITIAL_P97_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(velocity)
-                self.Send_message_to_port(ser,self.Get_crc_16_str(send97DataHEXlist))#seting pos model
-
-                send324DataHEXlist=self.plccmd.HOLDING_INITIAL_P324_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(1000)
-                self.Send_message_to_port(ser,self.Get_crc_16_str(send324DataHEXlist))#seting pos model
-
-                # self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.HOLD_DRIVER_MODEL_POSITION))#seting pos model
-                 
-                # rospy.loginfo(master.execute(control_id, cst.READ_HOLDING_REGISTERS, 0, 8))
-                # # print type(master.execute(4, cst.READ_HOLDING_REGISTERS, 0, 8))
-                # master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 1, output_value=6) #
-                # #rospy.loginfo(master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 282, output_value=1))  # enable Climb Driver
-                # master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 290,
-                #                         output_value=outputPulse)  # High 16 10000 pulse 1 rpm,negtive up,positive up
-                # #rospy.loginfo(master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 291, output_value=outputPulse))  # Low 16bit
-                # master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 97, output_value=velocity)  # internal velocity
-                # # rospy.loginfo(master.execute(4, cst.WRITE_SINGLE_REGISTER, 113, output_value=1000))  # internal velocity
-                # # rospy.loginfo(master.execute(4, cst.WRITE_SINGLE_REGISTER, 114, output_value=1000))  # internal velocity
-                # master.execute(control_id, cst.WRITE_SINGLE_REGISTER, 324, output_value=1000)  # set fixed velocity
-            if control_id==3:
-                #p001
-                self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.CLIMB_DRIVER_MODEL_POSITION))#seting pos model
-                #p290
- 
-                send290DataHEXlist=self.plccmd.CLIMB_INITIAL_P290_BASE_PULSE_DATA[:4]+self.Get_hex_list_from_OCT(outputPulse)
-                rospy.loginfo(self.Send_message_to_port(ser,self.Get_crc_16_str(send290DataHEXlist)))#seting pos model
-
- 
-                send97DataHEXlist=self.plccmd.CLIMB_INITIAL_P97_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(velocity)
-                self.Send_message_to_port(ser,self.Get_crc_16_str(send97DataHEXlist))#seting pos model
-
-                send324DataHEXlist=self.plccmd.CLIMB_INITIAL_P324_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(1000)
-                self.Send_message_to_port(ser,self.Get_crc_16_str(send324DataHEXlist))#seting pos model
-            if control_id==2:
-                #p001
-                self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.ROTATION_DRIVER_MODEL_POSITION))#seting pos model
-                #p290
- 
-                send290DataHEXlist=self.plccmd.ROTATION_INITIAL_P290_BASE_PULSE_DATA[:4]+self.Get_hex_list_from_OCT(outputPulse)
-                rospy.loginfo(self.Send_message_to_port(ser,self.Get_crc_16_str(send290DataHEXlist)))#seting pos model
-
- 
-                send97DataHEXlist=self.plccmd.ROTATION_INITIAL_P97_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(velocity)
-                self.Send_message_to_port(ser,self.Get_crc_16_str(send97DataHEXlist))#seting pos model
-
-                send324DataHEXlist=self.plccmd.ROTATION_INITIAL_P324_BASE_VELOCITY_DATA[:4]+self.Get_hex_list_from_OCT(1000)
-                self.Send_message_to_port(ser,self.Get_crc_16_str(send324DataHEXlist))#seting pos model
-    def Hold_Robot_close_loop_control(self, ser,DesireDistance, feedback_distance,control_id=1):  # velocity control
+    def Hold_Robot_close_loop_control(self, ser, DesireDistance, feedback_distance,control_id=1):  # velocity control
             """
             Integral windup, also known as integrator windup or reset windup,
             refers to the situation in a PID feedback controller where
@@ -242,8 +152,13 @@ class CLMBPKG:
             :param control_id:
             :return:
             """
+            Desiredisplacement=self.read_line_l0_encode_bottom-DesireDistance
+            feedback_displacement=self.read_line_l0_encode_bottom-feedback_distance
+            displacement_error=Desiredisplacement-feedback_displacement
+            rospy.logerr("standbar----target displacement is:%s",str(Desiredisplacement))
+            rospy.logerr("standbar----feedback displacement is:%s",str(feedback_displacement))
+            rospy.logerr("standbar----displacement error is:%s",str(displacement_error))
             Distance_error=DesireDistance-feedback_distance
-            rospy.loginfo("------hold robot,pos up")
             self.current_time_hold=time.time()
             deltatime=self.current_time_hold-self.last_time_hold
             
@@ -263,18 +178,17 @@ class CLMBPKG:
                 self.output_hold=self.PTerm_hold + (self.Ki_hold *self.ITerm_hold) + (self.Kd_hold * self.DTerm_hold)
 
                 velocity = self.output_hold 
-                rospy.logerr("hold----velocity---before:  %s",str(velocity))
+                # rospy.logerr("hold----velocity---before:  %s",str(velocity))
                 if velocity<0 and abs(velocity)>1300:
                     velocity=-1300.0
                 elif velocity>0 and abs(velocity)>1300:
                     velocity=1300.0
                 else:
                     pass
-                rospy.logerr("hold----velocity---after:  %s",str(velocity))
-                if abs(Distance_error)<=0.005:
+                rospy.loginfo("hold----velocity:  %s",str(velocity))
+                if abs(Distance_error)<=self.pid_tolerance_error_standbar:
                     os.system('rosparam set /renov_up_level/hold_distance_tracking_over 1')
                     velocity=0
-                rospy.logerr("hold----Distance_error---%s",str(Distance_error))
                 self.Control_3DOF_Robot_Velocity(ser, control_id, velocity)
     def Rotation_Robot_close_loop_control(self, ser,DesireEncodeData,feedback_EncodeData,control_id=2):  # velocity control
         """
@@ -293,7 +207,12 @@ class CLMBPKG:
         :return:
         """
         encodedata_error=DesireEncodeData-feedback_EncodeData
-        rospy.loginfo("------neg anticlockwise ,pos clockwise---error---%s",encodedata_error)
+        target_angle=self.rotation_joint_line_equation_k*DesireEncodeData+self.rotation_joint_line_equation_b
+        current_angle=self.rotation_joint_line_equation_k*feedback_EncodeData+self.rotation_joint_line_equation_b
+        angle_error=encodedata_error*self.rotation_joint_line_equation_k
+        rospy.logerr("---target_angle---%s",str(target_angle))
+        rospy.logerr("---current_angle---%s",str(current_angle))        
+        rospy.logerr("------neg anticlockwise, pos clockwise---angle_error---%s",str(angle_error))
         self.current_time_rotation=time.time()
         deltatime=self.current_time_rotation-self.last_time_rotation
         
@@ -314,14 +233,13 @@ class CLMBPKG:
 
             velocity = -1.0*self.output_rotation
             rospy.loginfo("-------roation pid control velocity------%s",velocity) 
-            
             if velocity<0 and abs(velocity)>1000:
                 velocity=-1000.0
             elif velocity>0 and abs(velocity)>1000:
                 velocity=1000.0
             else:
                 pass
-            if abs(encodedata_error)<=3:
+            if abs(angle_error)<=self.pid_tolerance_error_rotation:
                 velocity=0
                 os.system('rosparam set /renov_up_level/rotation_distance_tracking_over 1')
             self.Control_3DOF_Robot_Velocity(ser, control_id, velocity)
@@ -344,12 +262,12 @@ class CLMBPKG:
         :return:
         """
         Distance_error=DesireDistance-feedback_distance
-        rospy.loginfo("------climb robot,neg down,pos up")
+        rospy.logerr("-------climb pid control Desired Distance-:  %s",str(DesireDistance))
+        rospy.logerr("-------climb pid control feedback Distance-:  %s",str(feedback_distance))     
+        rospy.logerr("-------climb pid control Distance_error-:  %s",str(Distance_error))
+
         self.current_time_climb=time.time()
         deltatime=self.current_time_climb-self.last_time_climb
-
-        # outputPulse = DesireDistance *42.5
-        
         deltaerror=Distance_error-self.last_error_climb
         if(deltatime>=self.sample_time_climb):
             self.PTerm_climb=self.Kp_climb*Distance_error
@@ -366,64 +284,18 @@ class CLMBPKG:
             self.output_climb=self.PTerm_climb + (self.Ki_climb *self.ITerm_climb) + (self.Kd_climb * self.DTerm_climb)
 
             velocity = -1.0*self.output_climb #*42.5
-            rospy.loginfo("-------climb pid control velocity------before:  %s",str(velocity))
+            # rospy.loginfo("-------climb pid control velocity------before:  %s",str(velocity))
             if velocity<0 and abs(velocity)>1000:
                 velocity=-1000.0
             elif velocity>0 and abs(velocity)>1000:
                 velocity=1000.0
             else:
                 pass
-            rospy.loginfo("-------climb pid control velocity------after:  %s",str(velocity))
-
-            rospy.logerr("-------climb pid control Desired Distance-:  %s",str(DesireDistance))
-            rospy.logerr("-------climb pid control feedback Distance-:  %s",str(feedback_distance))            
-            rospy.logerr("-------climb pid control Distance_error-:  %s",str(Distance_error))
-            if abs(Distance_error)<=0.02:
+            rospy.loginfo("-------climb pid control velocity------:  %s",str(velocity))       
+            if abs(Distance_error)<=self.pid_tolerance_error_climb:
                 velocity=0
                 os.system('rosparam set /renov_up_level/climb_distance_tracking_over 1')
-            self.Control_3DOF_Robot_Velocity(ser, control_id, velocity)
-    def Holding_Robot(self, ser, velocity, outputDistance, control_id=1):  # position control
-        """
-
-        :param master:
-        :param velocity:
-        :param outputPulse:Distance unit:m pos up,neg Down
-        :param control_id:
-        :return:
-        """
-        outputPulse = int(outputDistance*444.4)
-        self.Control_3DOF_Robot(ser, control_id, velocity, -1.0*outputPulse)
-
-
-    def Rotation_Robot(self, ser, velocity, outputDegree, control_id=2):  # position control
-        """
-
-        :param master:
-        :param velocity: 0-2500
-        :param outputDegree: 0-3.14Degree,Positive disclockwise,Negtive clockwise
-        :param control_id:
-        :return:
-        int(outputDegree)#
-        """
-        rospy.loginfo("0-3.14 Degree,Positive disclockwise,Negtive clockwise")
-        
-        outputPulse = int(outputDegree*8.73)#9.17
-        self.Control_3DOF_Robot(ser, control_id, velocity, -1.0*outputPulse)
-
-
-    def Climbing_Robot(self, ser, velocity, outputDistance, control_id=3):  # position control
-        """
-
-        :param master:
-        :param velocity: 0-2500
-        :param outputDistance: 0-300cm
-        :param control_id:
-        :return:
-        """
-
-        rospy.loginfo("------climb robot,neg down,pos up")
-        outputPulse = int(outputDistance *42.5)
-        self.Control_3DOF_Robot(ser, control_id, velocity, -1.0*outputPulse)
+            self.Control_3DOF_Robot_Velocity(ser, control_id, velocity)  
     def Open_Stop_Enable_Driver(self, ser, control_id,stop_open_flag):
         if control_id==1:
             #p282
@@ -442,7 +314,7 @@ class CLMBPKG:
             if stop_open_flag==1:
                 rospy.loginfo(self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.ROTATION_DRIVER_P282_ENABALE)))#seting pos model
             if stop_open_flag==0:
-                rospy.loginfo(self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.ROTATION_DRIVER_P282_DISENABALE)))#seting pos model      
+                rospy.loginfo(self.Send_message_to_port(ser,self.Get_crc_16_str(self.plccmd.ROTATION_DRIVER_P282_DISENABALE)))#seting pos model 
                         
   
 def main():
@@ -452,18 +324,16 @@ def main():
 
     climb_port = rospy.get_param("climb_port")
     rospy.loginfo("%s is %s", rospy.resolve_name('climb_port'), climb_port)
-
     # fetch the utterance parameter from our parent namespace
     climb_port_baudrate = rospy.get_param('climb_port_baudrate')
     rospy.loginfo("%s is %s", rospy.resolve_name('climb_port_baudrate'), climb_port_baudrate)
-
     stand_bar_flex_distance=rospy.get_param("stand_bar_flex_distance")
     light_scan_to_top_distance=rospy.get_param("light_scan_to_top_distance")
     rotation_homing_abs_encode_data=rospy.get_param("rotation_homing_abs_encode_data")
     read_line_l0_encode = rospy.get_param("read_line_l0_encode")
-    read_line_l1_encode = rospy.get_param("read_line_l1_encode")
     rotation_joint_line_equation_k = rospy.get_param("rotation_joint_line_equation_k")
     rotation_joint_line_equation_b = rospy.get_param("rotation_joint_line_equation_b")
+
     try:
         ser = serial.Serial(port=climb_port, baudrate=climb_port_baudrate, bytesize=serial.EIGHTBITS, parity=serial.PARITY_EVEN, stopbits=1,timeout=0.3, xonxoff=0,rtscts=False,dsrdtr=False)
     except:
@@ -472,81 +342,58 @@ def main():
 
     count=0
     rate = rospy.Rate(30)
-
     while not rospy.is_shutdown():
-        
         read_line_encode = rospy.get_param("read_line_encode")
         read_line_encode_bottom = rospy.get_param("read_line_encode_bottom")
         read_line_l0_encode_bottom = rospy.get_param("read_line_l0_encode_bottom")
         # rospy.loginfo("%s is %s", rospy.resolve_name('read_line_encode'), read_line_encode)
         rotation_abs_encode= rospy.get_param("rotation_abs_encode")
-        
         climb_port_ok_flag = rospy.get_param("climb_port_ok_flag")
-
         light_scan_to_ceil_distance = rospy.get_param("light_scan_to_ceil_distance")
-
-
         close_all_3dof_climb_driver_flag = rospy.get_param("close_all_3dof_climb_driver_flag")
         # rospy.loginfo("%s is %s", rospy.resolve_name('close_all_3dof_climb_driver_flag'), close_all_3dof_climb_driver_flag)
-
         enable_control_stand_bar = rospy.get_param("enable_control_stand_bar")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_control_stand_bar'), enable_control_stand_bar)
-
         enable_control_rotation = rospy.get_param("enable_control_rotation")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_control_rotation'), enable_control_rotation)
-
         enable_climb_control = rospy.get_param("enable_climb_control")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_climb_control'), enable_climb_control)
-
         velocity_control_stand_bar = rospy.get_param("velocity_control_stand_bar")
         # rospy.loginfo("%s is %s", rospy.resolve_name('velocity_control_stand_bar'), velocity_control_stand_bar)
-
         velocity_control_rotation = rospy.get_param("velocity_control_rotation")
         # rospy.loginfo("%s is %s", rospy.resolve_name('velocity_control_rotation'), velocity_control_rotation)
-
         velocity_climb_control = rospy.get_param("velocity_climb_control")
-
         # rospy.loginfo("%s is %s", rospy.resolve_name('velocity_climb_control'), velocity_climb_control)
-
         distance_control_stand_bar = rospy.get_param("distance_control_stand_bar")
         # rospy.loginfo("%s is %s", rospy.resolve_name('distance_control_stand_bar'), distance_control_stand_bar)
-
         rad_control_rotation = rospy.get_param("rad_control_rotation")
         # rospy.loginfo("%s is %s", rospy.resolve_name('rad_control_rotation'), rad_control_rotation)
-        
         distance_climb_control = rospy.get_param("distance_climb_control")
         # rospy.loginfo("%s is %s", rospy.resolve_name('distance_climb_control'), distance_climb_control)
-
         top_limit_switch_status = rospy.get_param("top_limit_switch_status")
         # rospy.loginfo("%s is %s", rospy.resolve_name('top_limit_switch_status'), top_limit_switch_status)
-
         mid_limit_switch_status = rospy.get_param("mid_limit_switch_status")
         # rospy.loginfo("%s is %s", rospy.resolve_name('mid_limit_switch_status'), mid_limit_switch_status)
-        
         bottom_limit_switch_status = rospy.get_param("bottom_limit_switch_status")
         # rospy.loginfo("%s is %s", rospy.resolve_name('bottom_limit_switch_status'), bottom_limit_switch_status)
-
         enable_second_control_stand_bar = rospy.get_param("enable_second_control_stand_bar")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_second_control_stand_bar'), enable_second_control_stand_bar)
-
-
         enable_second_climb_control = rospy.get_param("enable_second_climb_control")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_second_climb_control'), enable_second_climb_control)
-
         enable_third_stand_bar = rospy.get_param("enable_third_stand_bar")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_third_stand_bar'), enable_third_stand_bar)
-
         open_climb_flag = rospy.get_param("open_climb_flag")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_second_control_stand_bar'), enable_second_control_stand_bar)
-
         open_hold_flag = rospy.get_param("open_hold_flag")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_second_climb_control'), enable_second_climb_control)
         open_rotation_flag = rospy.get_param("open_rotation_flag")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_third_stand_bar'), enable_third_stand_bar)
+
         open_hold_to_ceil_flag = rospy.get_param("open_hold_to_ceil_flag")
 
         if clbpkg.Openmodbus_ok_flag!=1 and climb_port_ok_flag==1:
 
+            # the collision of top limit switch triggers stopping stand bar 
             if top_limit_switch_status==1:
                 if enable_second_control_stand_bar==0:
                     try:
@@ -554,7 +401,7 @@ def main():
                     except:
                         rospy.logerr("some errors with top_limit_switch_status --- hold--0")
                     rospy.set_param('open_hold_flag',0)
-
+            # the collision of middle limit switch triggers stopping climb mechanism 
             if mid_limit_switch_status==1:
                 if enable_second_climb_control==0:
                     try:
@@ -562,48 +409,33 @@ def main():
                     except:
                         rospy.logerr("some errors with mid_limit_switch_status--- climb--0")
                     rospy.set_param('open_climb_flag',0)
-
+            # the collision of middle limit switch triggers stopping stand bar mechanism 
             if bottom_limit_switch_status==1:
                 if enable_third_stand_bar==0:
                     try:
                         clbpkg.Control_3DOF_Robot_Velocity(ser, 1, 0)
                     except:
                         rospy.logerr("some errors with bottom_limit_switch_status--- hold")
-
                     rospy.set_param('open_hold_flag',0)
 
 
-
-
+            # enabling and disabling operation for stand bar 
             if enable_control_stand_bar==1:
                 try:
                     clbpkg.Open_Stop_Enable_Driver(ser,1,1)
                 except:
                     rospy.logerr("some errors with enable_control_stand_bar--- hold--1")
-
+                rospy.set_param('enable_control_stand_bar',0)
             if enable_control_stand_bar==2:
                 try:
                     clbpkg.Open_Stop_Enable_Driver(ser,1,0)
                 except:
                     rospy.logerr("some errors with enable_control_stand_bar--- hold--0")
+                rospy.set_param("enable_control_stand_bar",0)
+                open_hold_flag=0
                 rospy.set_param('open_hold_flag',0)
 
-            if enable_control_rotation==1:
-                try:
-                    clbpkg.Open_Stop_Enable_Driver(ser,2,1)
-                except:
-                    rospy.logerr("some errors with enable_control_rotation==1")
-                # rospy.set_param('enable_control_rotation',0)
-                # open_rotation_flag=1
-                
-            if enable_control_rotation==2:
-                try:
-                    clbpkg.Open_Stop_Enable_Driver(ser,2,0)
-                except:
-                    rospy.logerr("some errors with enable_control_rotation--- rotation--0")                
-                rospy.set_param('enable_control_rotation',0)
-                # open_rotation_flag=0
-                rospy.set_param('open_rotation_flag',0)
+            # enabling and disabling operation for climbing mechanism 
             if enable_climb_control==1:
                 try:
                     clbpkg.Open_Stop_Enable_Driver(ser,3,1)
@@ -617,23 +449,41 @@ def main():
                 except:
                     rospy.logerr("some errors with enable_climb_control==2--- climb--0")                     
                 rospy.set_param('enable_climb_control',0)
-                # open_climb_flag=0
+                open_climb_flag=0
                 rospy.set_param('open_climb_flag',0)
-            #set velocity
+
+            # enabling and disabling operation for rotation mechanism 
+            if enable_control_rotation==1:
+                try:
+                    clbpkg.Open_Stop_Enable_Driver(ser,2,1)
+                except:
+                    rospy.logerr("some errors with enable_control_rotation==1")
+                rospy.set_param('enable_control_rotation',0)
+                # open_rotation_flag=1
+            if enable_control_rotation==2:
+                try:
+                    clbpkg.Open_Stop_Enable_Driver(ser,2,0)
+                except:
+                    rospy.logerr("some errors with enable_control_rotation--- rotation--0")                
+                rospy.set_param('enable_control_rotation',0)
+                open_rotation_flag=0
+                rospy.set_param('open_rotation_flag',0)
+
+            # open pid control for stand bar, climbing mechanism and rotation mechanism
             if open_hold_flag==1:
                 try:
-                    if distance_control_stand_bar>=0 and distance_control_stand_bar<0.18:
+                    rospy.loginfo("distance_control_stand_bar is: %s"%distance_control_stand_bar)
+                    if distance_control_stand_bar<=0.03 and distance_control_stand_bar>=-0.15:
                         # rospy.logerr("you can not more than 0.2----")
-                        target_hold_distance=read_line_l0_encode_bottom-distance_control_stand_bar#-light_scan_to_top_distance
+                        target_hold_distance=read_line_l0_encode_bottom+distance_control_stand_bar#-light_scan_to_top_distance
                         # rospy.logerr("read_line_encode_bottom-----inclimb modbus%s  target_hold_distance%s",read_line_encode_bottom,target_hold_distance)
                         clbpkg.Hold_Robot_close_loop_control(ser,target_hold_distance, read_line_encode_bottom)
                     else:
-                        rospy.logerr("you can not more than 0-0.18----")
+                        rospy.logerr("you can not more than -0.03-0.15----")
                 except:
                     rospy.logerr("something errro with open_hold_flag----")
                 # open_hold_flag=0
                 # rospy.set_param('open_hold_flag',0)
-
             if open_climb_flag==1:
                 try:
                     distance_climb_control = rospy.get_param("distance_climb_control")
@@ -658,7 +508,6 @@ def main():
                     else:
                         pass
                     target_abs_encode_data=(rad_control_rotation-rotation_joint_line_equation_b)/rotation_joint_line_equation_k
-                    rospy.logerr("-------target_abs_encode_data----%s",target_abs_encode_data)
                     clbpkg.Rotation_Robot_close_loop_control(ser,target_abs_encode_data,rotation_abs_encode) 
                 except:
                     rospy.logerr("something errro with open_rotation_flag----")

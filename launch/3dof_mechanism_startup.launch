@@ -26,8 +26,8 @@
     <param name="stand_bar_flex_distance" value="0.437"/>
     <param name="light_scan_to_top_distance" value="0.810"/>
 
-    <param name="rotation_joint_line_equation_k" value="0.0035634"/>
-    <param name="rotation_joint_line_equation_b" value="-158.2"/>
+    <param name="rotation_joint_line_equation_k" value="0.0062027"/>
+    <param name="rotation_joint_line_equation_b" value="-275.33"/>
 
     <!--set /climb_pkg_para/close all 3dof driver-->
     <param name="close_all_3dof_climb_driver_flag" value="0"/>
@@ -52,7 +52,7 @@
     <param name="enable_third_stand_bar" value="0"/>
     <!-- 1,open,0close -->
     <param name="open_hold_to_ceil_flag" value="0"/>
-    <param name="rotation_homing_abs_encode_data" value="44396"/>
+    <param name="rotation_homing_abs_encode_data" value="44389"/>
 
 
     <param name="velocity_control_stand_bar" value="1000" />

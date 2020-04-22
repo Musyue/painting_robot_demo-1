@@ -206,10 +206,11 @@ def main():
                 rospy.set_param('rotation_abs_encode',int(newdata,16))
                 rospy.logerr('-----rotation encode --%s--%d',rotation_abs_encode_data,int(newdata,16))
             # read line encode data
-            read_echos_status_data,read_echos_status_str=plcpkg.Send_message_to_port(ser,plcpkg.crc16.Combining_CRC_and_info(plcpkg.plccmd.READ_ECHOS_STATUS))
-            if len(read_echos_status_data)!=0:
-                rospy.set_param('read_echos_status', read_echos_status_data[4])
-            rospy.logerr("-------read echos %s-%s",read_echos_status_data,read_echos_status_str)
+            
+            # read_echos_status_data,read_echos_status_str=plcpkg.Send_message_to_port(ser,plcpkg.crc16.Combining_CRC_and_info(plcpkg.plccmd.READ_ECHOS_STATUS))
+            # if len(read_echos_status_data)!=0:
+            #     rospy.set_param('read_echos_status', read_echos_status_data[4])
+            # rospy.logerr("-------read echos %s-%s",read_echos_status_data,read_echos_status_str)
             
             # write_front_light_open_forever
             # light
