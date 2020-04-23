@@ -27,12 +27,11 @@ def rodmechanism_homing(target_standbar_displacement):
         standbar_homing_end()
         flexbar_downwardsmotion_end()
 
-def jackup_mechanism_homing():
+def jackup_mechanism_homing(rate):
     target_standbar_displacement=0.00
     target_rotation_angle=0.00
     target_climb_distance=0.00
 
-    rate = rospy.Rate(1)
     while not rospy.is_shutdown():
         one_mobilebase_operation_over_flag = rospy.get_param("/renov_up_level/one_mobilebase_operation_over_flag")
         rospy.loginfo("%s is %s", rospy.resolve_name('one_mobilebase_operation_over_flag'), one_mobilebase_operation_over_flag)
@@ -91,19 +90,31 @@ def jackup_mechanism_homing():
                 break
         rate.sleep()
 
+def jackup_mechanism_homing_simulation(rate):
+    homing_tracking_error=1.0
+    while not rospy.is_shutdown():
+        one_mobilebase_operation_over_flag = rospy.get_param("/renov_up_level/one_mobilebase_operation_over_flag")
+        rospy.loginfo("%s is %s", rospy.resolve_name('one_mobilebase_operation_over_flag'), one_mobilebase_operation_over_flag)
+        if one_mobilebase_operation_over_flag==1:
+            rospy.loginfo("the homing of jackup mechanism in process")
+            os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 0')
 
+        homing_tracking_error=homing_tracking_error-0.1
 
-class FLEX3DOFROBOTHOME():
-    def __init__(self,nodename):
-        self.nodename=nodename
-    def Init_node(self):
-        rospy.init_node(self.nodename)
+        homing_tolerance_tracking_error=0.1
+        if abs(homing_tracking_error)<homing_tolerance_tracking_error:
+            rospy.logerr("the homing of jackup mechanism is over")
+            os.system('rosparam set /renov_up_level/jackup_mechanism_homing_over_flag 1')
+            break
+        rate.sleep()            
     
 def main():
     nodename="jackup_mechanism_homing"
-    hc3dof=FLEX3DOFROBOTHOME(nodename)
-    hc3dof.Init_node()
-    jackup_mechanism_homing()
+    rospy.Init_node(nodename)
+    ratet=1
+    rate = rospy.Rate(ratet)
+    jackup_mechanism_homing(rate)
+    # jackup_mechanism_homing_simulation(rate)
 
 if __name__=="__main__":
     main()

@@ -5,6 +5,7 @@
 
     <param name="aubo_ip" value='192.168.1.11'/>
     <param name="aubo_start_point" value='(0.0,-0.52,2.62,0.0,-1.57,1.57)'/> 
+    <param name="aubo_end_point" value='(0.0,-0.52,2.62,0.0,-1.57,0)'/> 
     <!-- <param name="aubo_start_point" value='(-0.28765888888888885,0.41081666666666666,0.4193644444444445,-1.4323633333333334,-1.5504622222222222,1.6308287777777777)'/>  -->
 
     <param name="joint_maxacc_tuple" value='(2.5, 2.5, 2.5, 2.5, 2.5, 2.5)'/> 
@@ -14,10 +15,18 @@
     <param name="blend_radius" value='0.05'/> 
     
     <!-- '/aubo_startup_ns/ee_maxacc' -->
-    <node pkg="painting_robot_demo" type="aubo_control_ros_driver.py" name="aubo_control_ros_driver" output="screen" >
+    <node pkg="painting_robot_demo" type="aubo_control_rosdriver1.py" name="aubo_control_rosdriver1" output="screen" >
+    <node pkg="painting_robot_demo" type="aubo_control_rosdriver2.py" name="aubo_control_rosdriver2" output="screen" >
     </node>
-    
   </group>
-  
+
+  <group ns="renov_up_level">
+    <param name="mobile_platform_tracking_over_flag" value="0"/>
+    <param name="rodmechanism_holding_over_flag" value="0"/>
+    <param name="climbingmechanism_climbing_over_flag" value="0"/>
+    <param name="one_mobilebase_operation_over_flag" value="0" />
+    <param name="jackup_mechanism_homing_over_flag" value="0" />    
+  </group>
+
 </launch>
 

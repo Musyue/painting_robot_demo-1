@@ -12,10 +12,21 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   tf2
   tf2_ros
+  message_generation
 )
 
 find_package(yaml-cpp REQUIRED)
-
+add_message_files(
+  FILES
+  catersian_vel.msg
+  physical_para.msg
+#   Message1.msg
+#   Message2.msg
+)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES painting_robot_demo

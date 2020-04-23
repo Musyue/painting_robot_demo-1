@@ -29,8 +29,7 @@ def holding_rod_mechanism_target_standbar_displacement_computation():
     rospy.loginfo("target_standbar_displacement is:%s",str(target_standbar_displacement))
     return target_standbar_displacement
 
-def rod_mechanism_holding(target_standbar_displacement):
-    rate = rospy.Rate(1)
+def rod_mechanism_holding(target_standbar_displacement,rate):
     while not rospy.is_shutdown():
         mobile_platform_tracking_over_flag= rospy.get_param("/renov_up_level/mobile_platform_tracking_over_flag")
         rospy.loginfo("%s is %s", rospy.resolve_name('mobile_platform_tracking_over_flag'), mobile_platform_tracking_over_flag)
@@ -56,20 +55,36 @@ def rod_mechanism_holding(target_standbar_displacement):
                 break
         rate.sleep()
 
+def rod_mechanism_holding_simulation(target_standbar_displacement,rate):
+    count=10
+    while not rospy.is_shutdown():
+        mobile_platform_tracking_over_flag= rospy.get_param("/renov_up_level/mobile_platform_tracking_over_flag")
+        rospy.loginfo("%s is %s", rospy.resolve_name('mobile_platform_tracking_over_flag'), mobile_platform_tracking_over_flag)
+        if mobile_platform_tracking_over_flag==1:
+            rospy.loginfo("the motion of rod mechanism holding is in process")
+            os.system('rosparam set /renov_up_level/mobile_platform_tracking_over_flag 0')
 
-class FLEX3DOFROBOTHOLD():
-    def __init__(self,nodename):
-        self.nodename=nodename
-    def Init_node(self):
-        rospy.init_node(self.nodename)
+        count=count-1
+        if count==0:
+            os.system("rosparam set /renov_up_level/top_limit_switch_status 1")
+        top_limit_switch_status=rospy.get_param("/renov_up_level/top_limit_switch_status")
+
+        if top_limit_switch_status==1: 
+            rospy.loginfo("the motion of rod mechanism holding is closed")
+            os.system('rosparam set /renov_up_level/rodmechanism_holding_over_flag 1')
+            break
+        rate.sleep()
+
 
 def main():
-    nodename="climb_flex_bar_hold_node"
-    hc3dof=FLEX3DOFROBOTHOLD(nodename)
-    hc3dof.Init_node()
+    nodename="rod mechanism holding"
+    rospy.Init_node(nodename)
+    ratet=1
+    rate = rospy.Rate(ratet)
 
     target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
-    rod_mechanism_holding(target_standbar_displacement)
+    rod_mechanism_holding(target_standbar_displacement,rate)
+    # rod_mechanism_holding_simulation(target_standbar_displacement,rate):
 
 if __name__=="__main__":
     main()

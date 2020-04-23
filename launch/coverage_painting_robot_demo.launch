@@ -44,7 +44,14 @@
 
     <param name="path_num_planning" value="3"/>
     <param name="mobile_path_way_planning" value="0"/> -->
-    <node pkg="painting_robot_demo" type="main_node_os_coverage_planner.py" name="main_node_os_coverage_planner" output="screen" >
+
+    <param name="mobile_platform_tracking_over_flag" value="0"/>
+    <param name="rodmechanism_holding_over_flag" value="0"/>
+    <param name="climbingmechanism_climbing_over_flag" value="0"/>
+    <param name="one_mobilebase_operation_over_flag" value="0" />
+    <param name="jackup_mechanism_homing_over_flag" value="0" />    
+
+    <node pkg="painting_robot_demo" type="main_node_os_coverage_planner_zy.py" name="main_node_os_coverage_renovation" output="screen" >
     </node>
     
   </group>

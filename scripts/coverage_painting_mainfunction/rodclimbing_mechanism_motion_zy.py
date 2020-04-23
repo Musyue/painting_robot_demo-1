@@ -11,8 +11,7 @@ import os
 import math
 from jackup_mechanism_basic_functions import *
 
-def rodclimb_mechanism_motion(target_rotation_angle,target_distance):
-    rate = rospy.Rate(1)
+def rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate):
     while not rospy.is_shutdown():
         rodmechanism_holding_over_flag = rospy.get_param("/renov_up_level/rodmechanism_holding_over_flag")
         rospy.loginfo("%s is %s", rospy.resolve_name('rodmechanism_holding_over_flag'), rodmechanism_holding_over_flag)
@@ -48,22 +47,34 @@ def rodclimb_mechanism_motion(target_rotation_angle,target_distance):
                 break
         rate.sleep()
 
-class FLEX3DOFROBOTHOME():
-    def __init__(self,nodename):
-        self.nodename=nodename
-    def Init_node(self):
-        rospy.init_node(self.nodename)
-    
+def rodclimb_mechanism_motion_simulation(rate):
+    rodclimbing_tracking_error=1
+    while not rospy.is_shutdown():
+        rodmechanism_holding_over_flag = rospy.get_param("/renov_up_level/rodmechanism_holding_over_flag")
+        rospy.loginfo("%s is %s", rospy.resolve_name('rodmechanism_holding_over_flag'), rodmechanism_holding_over_flag)
+        if rodmechanism_holding_over_flag==1:
+            rospy.loginfo("the motion of rod climbing mechanism is in process")
+            os.system('rosparam set /renov_up_level/rodmechanism_holding_over_flag 0')
+
+        rodclimbing_tracking_error=rodclimbing_tracking_error-0.1
+
+        rodclimbing_tolerance_tracking_error=0.1
+        if abs(rodclimbing_tracking_error)<rodclimbing_tolerance_tracking_error:
+            rospy.loginfo("the motion of rod climbing mechanism is closed")
+            os.system('rosparam set /renov_up_level/climbingmechanism_climbing_over_flag 1')
+            break
+        rate.sleep()
+
 def main():
-    nodename="climb_flex_bar_home_node"
+    nodename="rodclimbing mechanism motion"
+    rospy.Init_node(nodename)
+    ratet=1
+    rate = rospy.Rate(ratet)
 
-    hc3dof=FLEX3DOFROBOTHOME(nodename)
-
-    hc3dof.Init_node()
     target_rotation_angle=0.0 #math.pi/2
     target_distance=0.1
-    rodclimb_mechanism_motion(target_rotation_angle,target_distance)    
-
+    rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate)    
+    # rodclimb_mechanism_motion_simulation(rate)
 
 if __name__=="__main__":
     main()

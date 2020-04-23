@@ -1,0 +1,76 @@
+#!/usr/bin/env python
+# -*- coding: utf_8 -*-
+"""
+id：1---->stand bar
+id:2----->roation
+id:3------>Upper and lower climbing pole
+"""
+import rospy
+import time
+import os
+import math
+from geometry_msgs.msg import PoseStamped,Quaternion
+import tf
+
+class mobile_platform():
+    def __init__(self):
+        self.rate=rospy.Rate(1)
+        self.mobile_go_point_pub = rospy.Publisher('/renov_down_mobile/mobile_go_to_point', PoseStamped, queue_size=1)
+    def euler_to_quaternion(self,euler_data):
+        return tf.transformations.quaternion_from_euler(euler_data[0],euler_data[1],euler_data[2])
+    def pub_posestamped(self,frame_id,posedata,euler_data):
+        p = PoseStamped()
+        p.header.frame_id = frame_id
+        p.header.stamp = rospy.Time.now()
+        p.pose.position.x=posedata[0]
+        p.pose.position.y=posedata[1]
+        p.pose.position.z=0
+        q = self.euler_to_quaternion(euler_data)
+        p.pose.orientation = Quaternion(*q)
+        self.mobile_go_point_pub.publish(p)
+    def mobile_platform_motion(self,mobiledata,rate):
+        while not rospy.is_shutdown():
+            jackup_mechanism_homing_over_flag=rospy.get_param("/renov_up_level/jackup_mechanism_homing_over_flag")
+            rospy.loginfo("%s is %s", rospy.resolve_name('jackup_mechanism_homing_over_flag'), jackup_mechanism_homing_over_flag)
+            if jackup_mechanism_homing_over_flag==1:
+                rospy.loginfo("the motion of mobile platform is in process")
+                os.system("rosparam set /renov_up_level/jackup_mechanism_homing_over_flag 0")
+                self.pub_posestamped("mobile_base_link",[mobiledata[0],mobiledata[1],0],[0,0,mobiledata[2]])
+            mobileplatform_tracking_error=rospy.get_param("/renov_up_level/mobileplatform_tracking_error")
+            mobileplatfomr_tolerance_tracking_error=0.0
+            if abs(mobileplatform_tracking_error)<=mobileplatfomr_tolerance_tracking_error:
+                rospy.loginfo("the motion of mobile platform is closed")
+                os.system("rosparam set /renov_up_level/mobile_platform_tracking_over_flag 1")
+                break
+            rate.sleep()
+    def mobile_platform_motion_simulation(self,mobiledata,rate):
+        mobileplatform_tracking_error=1
+        while not rospy.is_shutdown():
+            jackup_mechanism_homing_over_flag=rospy.get_param("/renov_up_level/jackup_mechanism_homing_over_flag")
+            rospy.loginfo("%s is %s", rospy.resolve_name('jackup_mechanism_homing_over_flag'), jackup_mechanism_homing_over_flag)
+            if jackup_mechanism_homing_over_flag==1:
+                rospy.loginfo("the motion of mobile platform is in process")
+                os.system("rosparam set /renov_up_level/jackup_mechanism_homing_over_flag 0")
+                self.pub_posestamped("mobile_base_link",[mobiledata[0],mobiledata[1],0],[0,0,mobiledata[2]])
+            mobileplatform_tracking_error=mobileplatform_tracking_error-0.1
+            mobileplatfomr_tolerance_tracking_error=0.1
+            if abs(mobileplatform_tracking_error)<=mobileplatfomr_tolerance_tracking_error:
+                rospy.loginfo("the motion of mobile platform is closed")
+                os.system("rosparam set /renov_up_level/mobile_platform_tracking_over_flag 1")
+                break
+            rate.sleep()
+
+def main():
+    nodename="mobile platform motion"
+    rospy.init_node(nodename)
+    ratet=1
+    rate = rospy.Rate(ratet)
+    
+    mobiledata=[]
+
+    renovation_mobileplatform=mobile_platform()
+    renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+    # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate):
+
+if __name__=="__main__":
+    main()

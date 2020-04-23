@@ -7,7 +7,7 @@ from aubo_robotcontrol import *
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import TwistStamped
-
+from aubo_bringup.msg import catersian_vel
 
 import numpy as np
 import time
@@ -25,11 +25,11 @@ class AuboRosDriver():
         self.move_to_point=[]
         self.move_line_points={}
 
-        self.joint_maxacctuple=self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxacc_tuple'))
-        self.joint_maxvelctuple=self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxvelc_tuple'))
-        self.ee_maxacc=rospy.get_param('/aubo_startup_ns/ee_maxacc')    
-        self.ee_maxvelc=rospy.get_param('/aubo_startup_ns/ee_maxvelc')    
-        self.blend_radius=rospy.get_param('/aubo_startup_ns/blend_radius')
+        self.joint_maxacctuple=self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup/joint_maxacc_tuple'))
+        self.joint_maxvelctuple=self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup/joint_maxvelc_tuple'))
+        self.ee_maxacc=rospy.get_param('/aubo_startup/ee_maxacc')    
+        self.ee_maxvelc=rospy.get_param('/aubo_startup/ee_maxvelc')    
+        self.blend_radius=rospy.get_param('/aubo_startup/blend_radius')
 
     def Init_node(self):
         rospy.init_node("aubo_driver_node1")
@@ -38,15 +38,15 @@ class AuboRosDriver():
         tuplefloatdata=self.Tuple_string_to_tuple(msg.data)
         if "movej" in msg.data:
             #set joint max acc
-            self.robot.set_joint_maxacc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxacc_tuple')))
+            self.robot.set_joint_maxacc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup/joint_maxacc_tuple')))
             #set joint max vel
-            self.robot.set_joint_maxvelc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxvelc_tuple')))
+            self.robot.set_joint_maxvelc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup/joint_maxvelc_tuple')))
             #set ee max acc
-            self.robot.set_end_max_line_acc(rospy.get_param('/aubo_startup_ns/ee_maxacc'))
+            self.robot.set_end_max_line_acc(rospy.get_param('/aubo_startup/ee_maxacc'))
             #set ee max vel
-            self.robot.set_end_max_line_velc(rospy.get_param('/aubo_startup_ns/ee_maxvelc'))
+            self.robot.set_end_max_line_velc(rospy.get_param('/aubo_startup/ee_maxvelc'))
             #add waypoints
-            
+            rospy.loginfo("movej start point={0}".format(tuplefloatdata[0:6]))
             self.move_to_point=tuplefloatdata
             flag=self.robot.move_joint(tuplefloatdata[0:6])
             if flag:
@@ -59,13 +59,13 @@ class AuboRosDriver():
         tuplefloatdata=self.Tuple_string_to_tuple(msg.data)
         if "movel" in msg.data:
             #set joint max acc
-            self.robot.set_joint_maxacc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxacc_tuple')))
+            self.robot.set_joint_maxacc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup/joint_maxacc_tuple')))
             #set joint max vel
-            self.robot.set_joint_maxvelc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxvelc_tuple')))
+            self.robot.set_joint_maxvelc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup/joint_maxvelc_tuple')))
             #set ee max acc
-            self.robot.set_end_max_line_acc(rospy.get_param('/aubo_startup_ns/ee_maxacc'))
+            self.robot.set_end_max_line_acc(rospy.get_param('/aubo_startup/ee_maxacc'))
             #set ee max vel
-            self.robot.set_end_max_line_velc(rospy.get_param('/aubo_startup_ns/ee_maxvelc'))
+            self.robot.set_end_max_line_velc(rospy.get_param('/aubo_startup/ee_maxvelc'))
             #add waypoints
             rospy.loginfo("movel start point={0}".format(tuplefloatdata[0:6]))
             rospy.loginfo("movel end point={0}".format(tuplefloatdata[6:]))
@@ -80,36 +80,27 @@ class AuboRosDriver():
             rospy.logerr("Please send right movel message")
     def aubo_joint_movet(self,msg):
         tuplefloatdata=self.Tuple_string_to_tuple(msg.data)
-        rospy.loginfo("before ----tuplefloatdata---%s---",tuplefloatdata)
-        rospy.loginfo("before ----msg.data---%s---",msg.data)
         if "movet" in msg.data:
             #set joint max acc
-            rospy.loginfo("after---tuplefloatdata---%s",tuplefloatdata)
-            self.robot.set_joint_maxacc((2.5, 2.5, 2.5, 2.5, 2.5, 2.5))
+            self.robot.set_joint_maxacc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup/joint_maxacc_tuple')))
             #set joint max vel
-            self.robot.set_joint_maxvelc((1.5, 1.5, 1.5, 1.5, 1.5, 1.5))
+            self.robot.set_joint_maxvelc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup/joint_maxvelc_tuple')))
             #set ee max acc
-            self.robot.set_end_max_line_acc(0.2)
+            self.robot.set_end_max_line_acc(rospy.get_param('/aubo_startup/ee_maxacc'))
             #set ee max vel
-            self.robot.set_end_max_line_velc(0.2)
-            rospy.loginfo("self.ee_maxvelc------%s",self.ee_maxvelc)
+            self.robot.set_end_max_line_velc(rospy.get_param('/aubo_startup/ee_maxvelc'))
             #set blender radius
-            self.robot.set_blend_radius(blend_radius=0.05)
+            self.robot.set_blend_radius(blend_radius=rospy.get_param('/aubo_startup/blend_radius'))
             #add waypoints
             waypoints_num=len(tuplefloatdata)/6
-            # for i in range(waypoints_num):movet((),(),())
+            # for i in range(waypoints_num):
             #     rospy.loginfo("movet waypoints={0}".format(tuplefloatdata[6*i:6*(i+1)]))
             self.robot.move_joint(tuplefloatdata[0:6])
-            rospy.loginfo("after---tuplefloatdata---%s",tuplefloatdata)
-            os.system('rosparam set /renov_up_level/write_electric_switch_painting_open 1')
             self.robot.remove_all_waypoint()
             for i in range(waypoints_num):
                 self.robot.add_waypoint(tuplefloatdata[6*i:6*(i+1)])
             flag=self.robot.move_track(RobotMoveTrackType.CARTESIAN_MOVEP)
-            os.system('rosparam set /renov_up_level/write_electric_switch_painting_open 0')
-            os.system('rosparam set /renov_up_level/aubo_painting_opreating_over 1')
-            self.robot.move_joint(tuplefloatdata[0:6])
-            os.system('rosparam set /renov_up_level/aubo_painting_opreating_over 1')
+
             if flag:
                 rospy.loginfo("movet command work successfully")
             else:
@@ -220,7 +211,7 @@ def main():
     Aub.Init_node()
     rate = rospy.Rate(ratet)
 
-    IPP=rospy.get_param('/aubo_startup_ns/aubo_ip')
+    IPP=rospy.get_param('/aubo_startup/aubo_ip')
 
     try:
         Aub.Init_aubo_driver(IPP)
