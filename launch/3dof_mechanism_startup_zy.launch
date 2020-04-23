@@ -60,6 +60,15 @@
     <param name="home_climb_flex_bar" value="0" />
     <param name="aubo_painting_opreating_over" value="0" />
 
+
+    <!--new ros parameters added by zy-->
+    
+    <param name="mobile_platform_tracking_over_flag" value="0"/>
+    <param name="rodmechanism_holding_over_flag" value="0"/>
+    <param name="climbingmechanism_climbing_over_flag" value="0"/>
+    <param name="one_mobilebase_operation_over_flag" value="0" />
+    <param name="jackup_mechanism_homing_over_flag" value="0" />    
+
     <!-- <node pkg="painting_robot_demo" type="climb_bar_startup.py" name="climb_bar_startup" output="screen" > -->
     <node pkg="painting_robot_demo" type="3dof_mechanism_rosdriver_zy.py" name="climb_bar_startup" output="screen" >
     </node>
