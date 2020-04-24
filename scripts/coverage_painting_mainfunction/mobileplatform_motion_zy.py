@@ -33,31 +33,31 @@ class mobile_platform():
             jackup_mechanism_homing_over_flag=rospy.get_param("/renov_up_level/jackup_mechanism_homing_over_flag")
             rospy.loginfo("%s is %s", rospy.resolve_name('jackup_mechanism_homing_over_flag'), jackup_mechanism_homing_over_flag)
             if jackup_mechanism_homing_over_flag==1:
-                rospy.loginfo("the motion of mobile platform is in process")
+                rospy.logerr("step 1: mobile_platform_motion is in process")
                 os.system("rosparam set /renov_up_level/jackup_mechanism_homing_over_flag 0")
                 self.pub_posestamped("mobile_base_link",[mobiledata[0],mobiledata[1],0],[0,0,mobiledata[2]])
             mobileplatform_tracking_error=rospy.get_param("/renov_up_level/mobileplatform_tracking_error")
             mobileplatfomr_tolerance_tracking_error=0.0
             if abs(mobileplatform_tracking_error)<=mobileplatfomr_tolerance_tracking_error:
-                rospy.loginfo("the motion of mobile platform is closed")
+                rospy.logerr("step 1: mobile_platform_motion is closed")
                 os.system("rosparam set /renov_up_level/mobile_platform_tracking_over_flag 1")
                 break
             rate.sleep()
     def mobile_platform_motion_simulation(self,mobiledata,rate):
-        mobileplatform_tracking_error=1
+        mobileplatform_tracking_error=0.1
         while not rospy.is_shutdown():
             jackup_mechanism_homing_over_flag=rospy.get_param("/renov_up_level/jackup_mechanism_homing_over_flag")
-            rospy.loginfo("%s is %s", rospy.resolve_name('jackup_mechanism_homing_over_flag'), jackup_mechanism_homing_over_flag)
+            # rospy.loginfo("%s is %s", rospy.resolve_name('jackup_mechanism_homing_over_flag'), jackup_mechanism_homing_over_flag)
             if jackup_mechanism_homing_over_flag==1:
-                rospy.loginfo("the motion of mobile platform is in process")
+                rospy.logerr("step 1: mobile_platform_motion is in process")
                 os.system("rosparam set /renov_up_level/jackup_mechanism_homing_over_flag 0")
                 self.pub_posestamped("mobile_base_link",[mobiledata[0],mobiledata[1],0],[0,0,mobiledata[2]])
-            mobileplatform_tracking_error=mobileplatform_tracking_error-0.1
-            mobileplatfomr_tolerance_tracking_error=0.1
-            if abs(mobileplatform_tracking_error)<=mobileplatfomr_tolerance_tracking_error:
-                rospy.loginfo("the motion of mobile platform is closed")
-                os.system("rosparam set /renov_up_level/mobile_platform_tracking_over_flag 1")
-                break
+                mobileplatform_tracking_error=mobileplatform_tracking_error-0.1
+                mobileplatfomr_tolerance_tracking_error=0.1
+                if abs(mobileplatform_tracking_error)<=mobileplatfomr_tolerance_tracking_error:
+                    rospy.logerr("step 1: mobile_platform_motion is closed")
+                    os.system("rosparam set /renov_up_level/mobile_platform_tracking_over_flag 1")
+                    break
             rate.sleep()
 
 def main():
@@ -66,11 +66,10 @@ def main():
     ratet=1
     rate = rospy.Rate(ratet)
     
-    mobiledata=[]
-
+    mobiledata=[0.0,0.0,0.0]
     renovation_mobileplatform=mobile_platform()
-    renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-    # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate):
+    # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+    renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
 
 if __name__=="__main__":
     main()

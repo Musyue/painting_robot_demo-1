@@ -25,11 +25,11 @@ class AuboRosDriver():
         self.move_to_point=[]
         self.move_line_points={}
 
-        self.joint_maxacctuple=self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxacc_tuple'))
-        self.joint_maxvelctuple=self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxvelc_tuple'))
-        self.ee_maxacc=rospy.get_param('/aubo_startup_ns/ee_maxacc')    
-        self.ee_maxvelc=rospy.get_param('/aubo_startup_ns/ee_maxvelc')    
-        self.blend_radius=rospy.get_param('/aubo_startup_ns/blend_radius')
+        self.joint_maxacctuple=self.Tuple_string_to_tuple(rospy.get_param('/renov_up_level/joint_maxacc_tuple'))
+        self.joint_maxvelctuple=self.Tuple_string_to_tuple(rospy.get_param('/renov_up_level/joint_maxvelc_tuple'))
+        self.ee_maxacc=rospy.get_param('/renov_up_level/ee_maxacc')    
+        self.ee_maxvelc=rospy.get_param('/renov_up_level/ee_maxvelc')    
+        self.blend_radius=rospy.get_param('/renov_up_level/blend_radius')
 
     def Init_node(self):
         rospy.init_node("aubo_driver_node1")
@@ -38,19 +38,19 @@ class AuboRosDriver():
         tuplefloatdata=self.Tuple_string_to_tuple(msg.data)
         if "movej" in msg.data:
             #set joint max acc
-            self.robot.set_joint_maxacc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxacc_tuple')))
+            self.robot.set_joint_maxacc(self.Tuple_string_to_tuple(rospy.get_param('/renov_up_level/joint_maxacc_tuple')))
             #set joint max vel
-            self.robot.set_joint_maxvelc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxvelc_tuple')))
+            self.robot.set_joint_maxvelc(self.Tuple_string_to_tuple(rospy.get_param('/renov_up_level/joint_maxvelc_tuple')))
             #set ee max acc
-            self.robot.set_end_max_line_acc(rospy.get_param('/aubo_startup_ns/ee_maxacc'))
+            self.robot.set_end_max_line_acc(rospy.get_param('/renov_up_level/ee_maxacc'))
             #set ee max vel
-            self.robot.set_end_max_line_velc(rospy.get_param('/aubo_startup_ns/ee_maxvelc'))
+            self.robot.set_end_max_line_velc(rospy.get_param('/renov_up_level/ee_maxvelc'))
             #add waypoints
             
             self.move_to_point=tuplefloatdata
             flag=self.robot.move_joint(tuplefloatdata[0:6])
             if flag:
-                rospy.loginfo("movej command work successfully")
+                rospy.logerr("movej command work successfully")
             else:
                 rospy.logerr("movej command doesn't work")
         else:
@@ -59,13 +59,13 @@ class AuboRosDriver():
         tuplefloatdata=self.Tuple_string_to_tuple(msg.data)
         if "movel" in msg.data:
             #set joint max acc
-            self.robot.set_joint_maxacc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxacc_tuple')))
+            self.robot.set_joint_maxacc(self.Tuple_string_to_tuple(rospy.get_param('/renov_up_level/joint_maxacc_tuple')))
             #set joint max vel
-            self.robot.set_joint_maxvelc(self.Tuple_string_to_tuple(rospy.get_param('/aubo_startup_ns/joint_maxvelc_tuple')))
+            self.robot.set_joint_maxvelc(self.Tuple_string_to_tuple(rospy.get_param('/renov_up_level/joint_maxvelc_tuple')))
             #set ee max acc
-            self.robot.set_end_max_line_acc(rospy.get_param('/aubo_startup_ns/ee_maxacc'))
+            self.robot.set_end_max_line_acc(rospy.get_param('/renov_up_level/ee_maxacc'))
             #set ee max vel
-            self.robot.set_end_max_line_velc(rospy.get_param('/aubo_startup_ns/ee_maxvelc'))
+            self.robot.set_end_max_line_velc(rospy.get_param('/renov_up_level/ee_maxvelc'))
             #add waypoints
             rospy.loginfo("movel start point={0}".format(tuplefloatdata[0:6]))
             rospy.loginfo("movel end point={0}".format(tuplefloatdata[6:]))
@@ -73,7 +73,7 @@ class AuboRosDriver():
             self.robot.move_joint(tuplefloatdata[0:6])
             flag=self.robot.move_line(tuplefloatdata[6:])
             if flag:
-                rospy.loginfo("movel command work successfully")
+                rospy.logerr("movel command work successfully")
             else:
                 rospy.logerr("movel command doesn't work")
         else:
@@ -97,17 +97,23 @@ class AuboRosDriver():
             self.robot.set_blend_radius(blend_radius=0.05)
             #add waypoints
             waypoints_num=len(tuplefloatdata)/6
+            rospy.loginfo("waypoints num is:%s",str(waypoints_num))
             # for i in range(waypoints_num):movet((),(),())
             #     rospy.loginfo("movet waypoints={0}".format(tuplefloatdata[6*i:6*(i+1)]))
             self.robot.move_joint(tuplefloatdata[0:6])
             # rospy.loginfo("after---tuplefloatdata---%s",tuplefloatdata)
             self.robot.remove_all_waypoint()
-            for i in range(waypoints_num):
-                self.robot.add_waypoint(tuplefloatdata[6*i:6*(i+1)])
+            for i in range(waypoints_num-2):
+                flag1=self.robot.add_waypoint(tuplefloatdata[6*i:6*(i+1)])
+                if flag1:
+                    rospy.logerr("add ok")
+                else:
+                    rospy.logerr("add not ok")
             flag=self.robot.move_track(RobotMoveTrackType.CARTESIAN_MOVEP)
-            self.robot.move_joint(tuplefloatdata[0:6])
+            self.robot.move_joint(tuplefloatdata[len(tuplefloatdata)-12:len(tuplefloatdata)-6])
+            self.robot.move_joint(tuplefloatdata[len(tuplefloatdata)-6:len(tuplefloatdata)])
             if flag:
-                rospy.loginfo("movet command work successfully")
+                rospy.logerr("movet command work successfully")
             else:
                 rospy.logerr("movet command doesn't work")
         else:
@@ -199,13 +205,13 @@ class AuboRosDriver():
 
 
 def main():
-    ratet=30
+    ratet=1
     Aub=AuboRosDriver()
 
     Aub.Init_node()
     rate = rospy.Rate(ratet)
 
-    IPP=rospy.get_param('/aubo_startup_ns/aubo_ip')
+    IPP=rospy.get_param('/renov_up_level/aubo_ip')
 
     try:
         Aub.Init_aubo_driver(IPP)
@@ -213,7 +219,7 @@ def main():
         logger.error("Aubo robot disconnect,Please check!")
     try:
         while not rospy.is_shutdown():
-            print("send commands to aubo driver-----")
+            rospy.loginfo("send commands to aubo driver-----")
             rate.sleep()
     except:
         rospy.logerr("ros node down")

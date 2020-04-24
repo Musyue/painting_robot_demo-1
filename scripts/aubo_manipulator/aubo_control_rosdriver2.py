@@ -41,16 +41,16 @@ class AuboRosDriver():
         current_joint_msg.effort = []
         #obtiain joint velocity
         time1=rospy.get_time()
-        print("time1",time1)
+        # print("time1",time1)
         if self.count==1:
             current_joint_msg.velocity=np.zeros(6)
         else:
             delta_t=time1-self.record_time
-            print("delta_time is:",delta_t)
-            print((current_joint_msg.position-self.array2)/delta_t)
+            # print("delta_time is:",delta_t)
+            # print((current_joint_msg.position-self.array2)/delta_t)
             current_joint_msg.velocity=(current_joint_msg.position-self.array2)/delta_t
         self.array2=np.array(current_joint_msg.position)
-        print(np.array(current_joint_msg.position))
+        # print(np.array(current_joint_msg.position))
         # obtain catersian position
         current_pose_msg = Pose()
         current_pose_msg.position.x = current_pos['pos'][0]
@@ -69,16 +69,16 @@ class AuboRosDriver():
             catersian_velocity.v=0.0
         else:
             delta_t=time1-self.record_time
-            print("delta_time is:",delta_t)
+            #print("delta_time is:",delta_t)
             catersian_velocity.vx=(current_pose_msg.position.x-self.array1[0])/delta_t
             catersian_velocity.vy=(current_pose_msg.position.y-self.array1[1])/delta_t
             catersian_velocity.vz=(current_pose_msg.position.z-self.array1[2])/delta_t
             catersian_velocity.v=math.sqrt(catersian_velocity.vx**2+catersian_velocity.vy**2+catersian_velocity.vz**2)
         self.count=self.count+1
-        print("vx",catersian_velocity.vx)
-        print("vy",catersian_velocity.vy)
-        print("vz",catersian_velocity.vz)
-        print("v_total",catersian_velocity.v)
+        # print("vx",catersian_velocity.vx)
+        # print("vy",catersian_velocity.vy)
+        # print("vz",catersian_velocity.vz)
+        # print("v_total",catersian_velocity.v)
 
         self.array1[0]=current_pos['pos'][0]
         self.array1[1]=current_pos['pos'][1]
@@ -202,7 +202,7 @@ class AuboRosDriver():
 
 
 def main():
-    ratet=20
+    ratet=30
     Aub=AuboRosDriver()
 
     Aub.Init_node()
@@ -222,7 +222,7 @@ def main():
         logger.error("Aubo robot disconnect,Please check!")
     try:
         while not rospy.is_shutdown():
-            print("aubo driver receives the data -----")
+            rospy.loginfo("aubo driver receives the data")
             Aub.obtain_aubo_info()
             rate.sleep()
     except:
