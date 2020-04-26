@@ -16,8 +16,9 @@ class Renovation_operation():
     def __init__(self):
         self.current_joints=[0.0,0.0,0.0,0.0,0.0,0.0]
         self.default_start_joints=rospy.get_param('/renov_up_level/aubo_start_point')
-        self.default_end_joints=[0.0,-0.52,2.62,0.0,-1.57,0] # rospy.get_param("/renov_up_level/aubo_end_point")
-        self.default_end_joints2=rospy.get_param("/renov_up_level/aubo_end_point")
+        self.default_start_joints2=[0.0,-0.52,2.62,0.0,-1.57,1.57]
+        self.default_end_joints=rospy.get_param("/renov_up_level/aubo_end_point")
+        self.default_end_joints2=[0.0,-0.52,2.62,0.0,-1.57,0] # rospy.get_param("/renov_up_level/aubo_end_point")
         self.aubo_move_track_pub=rospy.Publisher('/aubo_ros_script/movet', String, queue_size=1)
         self.aubo_joints_sub=rospy.Subscriber('/renov_up_level/aubo_joints',JointState,self.obtain_aubo_joints,queue_size=10)
     def group_joints_to_string(self,q_list):
@@ -33,7 +34,7 @@ class Renovation_operation():
         for i in range(len(aubo_q_list)):
             aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
         # rospy.loginfo("aubo joints are: %s",aubo_joints)
-        pubstring="movet"+self.group_joints_to_string(aubo_joints)+self.default_end_joints2+self.default_start_joints
+        pubstring="movet"+self.group_joints_to_string(aubo_joints)+self.default_end_joints+self.default_start_joints
         # rospy.loginfo("the published string is: %s",pubstring)
         while not rospy.is_shutdown():
             climbingmechanism_climbing_over_flag=rospy.get_param("/renov_up_level/climbingmechanism_climbing_over_flag")
@@ -44,41 +45,56 @@ class Renovation_operation():
                 self.aubo_move_track_pub.publish(pubstring)
                 os.system("rosparam set /renov_up_level/climbingmechanism_climbing_over_flag 0") 
 
+            start_path_joints=np.array(self.default_start_joints2)
+            # rospy.loginfo("start path joints is %s",str(start_path_joints))
+            end_path_joints=np.array(self.default_end_joints2)
+            # rospy.loginfo("end path joints is %s",str(end_path_joints))
+
             start_waypoint_joints=np.array(aubo_joints[0])
             # rospy.loginfo("start_waypoint_joints is: %s"%str(start_waypoint_joints))
             end_waypoint_joints=np.array(aubo_joints[len(aubo_joints)-1])
-            end_path_joints=np.array((self.default_end_joints))
-            # rospy.loginfo("end path joints is %s",str(end_path_joints))
+
             current_aubo_joints=np.array(self.current_joints)
             # rospy.loginfo("current_aubo_joints is %s",str(current_aubo_joints))
             # rospy.loginfo("current_aubo_joints number is %s",str(len(current_aubo_joints)))
-            
+
+            manipulator_operation_tracking_errorlist_01=start_path_joints-current_aubo_joints 
+            manipulator_operation_tracking_error_01=math.sqrt(np.sum((manipulator_operation_tracking_errorlist_01)**2))
+            rospy.loginfo("manipulator motion tracking error1 is: %s",str(manipulator_operation_tracking_error_01))                        
+
+            manipulator_operation_tracking_errorlist_02=end_path_joints-current_aubo_joints
+            manipulator_operation_tracking_error_02=math.sqrt(np.sum((manipulator_operation_tracking_errorlist_02)**2))
+            rospy.loginfo("manipulator motion tracking error2 is: %s",str(manipulator_operation_tracking_error_02))
+
             renovation_tool_tracking_errorlist_01=start_waypoint_joints-current_aubo_joints
             renovation_tool_tracking_error_01=math.sqrt(np.sum((renovation_tool_tracking_errorlist_01)**2))
-            rospy.loginfo("renovation tracking error1 is: %s",str(renovation_tool_tracking_error_01))
+            rospy.loginfo("manipulator renovation tracking error1 is: %s",str(renovation_tool_tracking_error_01))
 
-            renovation_tool_tracking_errorlist_01=end_waypoint_joints-current_aubo_joints
-            renovation_tool_tracking_error_02=math.sqrt(np.sum((renovation_tool_tracking_errorlist_01)**2))
-            rospy.loginfo("renovation tracking error2 is: %s",str(renovation_tool_tracking_error_02))
+            renovation_tool_tracking_errorlist_02=end_waypoint_joints-current_aubo_joints
+            renovation_tool_tracking_error_02=math.sqrt(np.sum((renovation_tool_tracking_errorlist_02)**2))
+            rospy.loginfo("manipulator renovation tracking error2 is: %s",str(renovation_tool_tracking_error_02))
 
-            manipulator_operation_tracking_errorlist=end_path_joints-current_aubo_joints
-            manipulator_operation_tracking_error=math.sqrt(np.sum((manipulator_operation_tracking_errorlist)**2))
-            rospy.loginfo("manipulator_operation_tracking_error is: %s",str(manipulator_operation_tracking_error))
+            tolerance_tracking_error=0.02
+            "manipulator motion will be triggered again if the manipulator is not moved "
+            if manipulator_operation_tracking_error_01<=tolerance_tracking_error:
+                os.system("rosparam set /renov_up_level/climbingmechanism_climbing_over_flag 1") 
 
-            tolerance_tracking_error=0.05
+            "painting gun will be triggered if manipulator approaches the starting point of renovation path"
             if abs(renovation_tool_tracking_error_01)<=tolerance_tracking_error:
                 rospy.logerr("the motion of electric switch is open")
                 os.system('rosparam set /renov_up_level/write_electric_switch_painting_open 1')
             else:
                 os.system('rosparam set /renov_up_level/write_electric_switch_painting_open 0')
 
+            "painting gun will be triggered if manipulator approaches the end point of renovation path"
             if abs(renovation_tool_tracking_error_02)<=tolerance_tracking_error:
                 rospy.logerr("the motion of electric switch is closed")
                 os.system('rosparam set /renov_up_level/write_electric_switch_painting_close 1')
             else:
                 os.system('rosparam set /renov_up_level/write_electric_switch_painting_close 0')
 
-            if abs(manipulator_operation_tracking_error)<=tolerance_tracking_error:
+            "manipulator motion will be stoped if manipulator approaches the end point of manipulator path"
+            if abs(manipulator_operation_tracking_error_02)<=tolerance_tracking_error:
                 rospy.logerr("step 4: manipulator_renovation_motion is closed")
                 os.system('rosparam set /renov_up_level/manipulator_renovation_over_flag 1')
                 break
@@ -88,7 +104,7 @@ class Renovation_operation():
         for i in range(len(aubo_q_list)):
             aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
         # rospy.loginfo("aubo joints are: %s",aubo_joints)
-        pubstring="movet"+self.group_joints_to_string(aubo_joints)+self.default_end_joints2+self.default_start_joints
+        pubstring="movet"+self.group_joints_to_string(aubo_joints)+self.default_end_joints+self.default_start_joints
         # rospy.loginfo("the published string is: %s",pubstring)
         count=1
         while not rospy.is_shutdown():
