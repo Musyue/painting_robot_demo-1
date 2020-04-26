@@ -66,7 +66,7 @@ class SerarchUSB():
         ser.write(message_bytes)
         ser.flushInput()
         ser.flushOutput()
-        time.sleep(0.01)
+        time.sleep(0.1)
         strt = ser.read(self.readstringlength).encode('hex')
         readbuffer=[int(int(i, 16)) for i in wrap(strt, 2)]
         return readbuffer,strt
@@ -109,6 +109,7 @@ def main():
     rospy.loginfo("%s is %s", rospy.resolve_name('climb_port'), climb_port)
     port_list.append(climb_port)
     for i in port_list:
+        rospy.loginfo("i is:%s",i)
         iob.command("chmod +777 "+i)
     # fetch the utterance parameter from our parent namespace
     climb_port_baudrate = rospy.get_param('climb_port_baudrate')
@@ -117,6 +118,7 @@ def main():
     
     for i in port_list:
         if iob.search_plc_port(i,plc_port_baudrate,"040300050001945e"):
+        #if i=="/dev/ttyUSB1":
             rospy.loginfo("This is plc port")
             rospy.set_param("plc_port",i)
             rospy.set_param("plc_port_ok_flag",1)

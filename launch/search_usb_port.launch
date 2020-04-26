@@ -13,7 +13,9 @@
     <!-- set /search_port/plc_port_baudrate -->
     <param name="plc_port_baudrate" value="115200" />
     <!-- set /search_port/plc_modbussearchcmd -->
-    <param name="plc_port_search_cmd" value="010300050001940b" />
+
+    <param name="plc_port_search_cmd" value="040300050001945e" />
+    <!-- <param name="plc_port_search_cmd" value="010300050001940b" /> -->
     <!-- set /search_port/3dof_port -->
     <param name="climb_port" value="/dev/ttyUSB2" />
     <!-- set /search_port/imu_port_baudrate -->

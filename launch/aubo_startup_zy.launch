@@ -21,8 +21,8 @@
     <param name="one_mobilebase_operation_over_flag" value="0" />
     <param name="jackup_mechanism_homing_over_flag" value="0" />
     <!-- '/aubo_startup_ns/ee_maxacc' -->
-    <!-- <node pkg="painting_robot_demo" type="aubo_control_rosdriver1.py" name="aubo_control_rosdriver1" output="screen" >
-    </node> -->
+    <node pkg="painting_robot_demo" type="aubo_control_rosdriver1.py" name="aubo_control_rosdriver1" output="screen" >
+    </node>
     <node pkg="painting_robot_demo" type="aubo_control_rosdriver2.py" name="aubo_control_rosdriver2" output="screen" >
     </node>
     </group>
