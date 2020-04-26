@@ -37,29 +37,29 @@ class RenovationRobot():
             "executing mobile platform motion"
             mobiledata=planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]["mobile_data_num_"+str(mobile_base_point_count)]
             renovation_mobileplatform=mobile_platform()
-            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-            #renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
-            break
-            # "executing rod mechanism holding operation when mobile platform motion is over"
-            # target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
-            # rod_mechanism_holding(target_standbar_displacement,rate)
-            # # rod_mechanism_holding_simulation(target_standbar_displacement,rate)
+            #renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             
-            # while not rospy.is_shutdown():
-            #     "executing climbing motion of rod climbing mechanism when holding operation is over"
-            #     climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]
-            #     climb_distance=climb_data[0]-1.2
-            #     climb_rotation_angle=climb_data[1]
+            "executing rod mechanism holding operation when mobile platform motion is over"
+            target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
+            rod_mechanism_holding(target_standbar_displacement,rate)
+            # rod_mechanism_holding_simulation(target_standbar_displacement,rate)
+            
+            while not rospy.is_shutdown():
+                "executing climbing motion of rod climbing mechanism when holding operation is over"
+                climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]
+                climb_distance=climb_data[0]-1.2
+                climb_rotation_angle=climb_data[1]
 
-            #     rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
+                rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
             #     #rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
                 
-            #     "exectuing painting operation of manipulator when climbing operation is over"
-            #     aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubo_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
-            #     aubo5=Renovation_operation()
-            #     aubo5.manipulator_motion(aubo_q_list,rate)
-            #     # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
-
+                "exectuing painting operation of manipulator when climbing operation is over"
+                aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubo_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
+                aubo5=Renovation_operation()
+                aubo5.manipulator_motion(aubo_q_list,rate)
+                # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
+                break
             #     "termination condition: all climbing base positions are conversed"                
             #     climb_base_count_num+=1
             #     rospy.loginfo("climb_base_count_num is: %s"%str(climb_base_count_num))
@@ -69,7 +69,7 @@ class RenovationRobot():
             #         rospy.loginfo("mobile_base_point_count is: %s",str(mobile_base_point_count))
             #         os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 1')
             #         break
-
+            break
             # "executing jackup motion of jackup mechanism when operation on one mobile base is over"
             # jackup_mechanism_homing(rate)
             # jackup_mechanism_homing_simulation(rate)
