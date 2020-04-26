@@ -34,11 +34,13 @@ class Renovation_operation():
         for i in range(len(aubo_q_list)):
             aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
         # rospy.loginfo("aubo joints are: %s",aubo_joints)
-        pubstring="movet"+self.group_joints_to_string(aubo_joints)+self.default_end_joints+self.default_start_joints
+        pubstring="movet"+self.default_start_joints+self.group_joints_to_string(aubo_joints)+self.default_end_joints
         # rospy.loginfo("the published string is: %s",pubstring)
         while not rospy.is_shutdown():
-            tolerance_tracking_error=0.02
+            tolerance_tracking_error=0.05
             start_path_joints=np.array(self.default_start_joints2)
+            end_path_joints=np.array(self.default_end_joints2)
+
             # rospy.loginfo("start path joints is %s",str(start_path_joints))
             climbingmechanism_climbing_over_flag=rospy.get_param("/renov_up_level/climbingmechanism_climbing_over_flag")
             rospy.loginfo("%s is %s", rospy.resolve_name('climbingmechanism_climbing_over_flag'), climbingmechanism_climbing_over_flag)
@@ -47,18 +49,17 @@ class Renovation_operation():
                 # time.sleep(1)
                 self.aubo_move_track_pub.publish(pubstring)
                 os.system("rosparam set /renov_up_level/climbingmechanism_climbing_over_flag 0") 
-
-                time.sleep(1)
+                time.sleep(0.5)
                 current_aubo_joints1=np.array(self.current_joints)
-                manipulator_operation_tracking_errorlist_01=start_path_joints-current_aubo_joints1 
+                manipulator_operation_tracking_errorlist_01=end_path_joints-current_aubo_joints1 
                 manipulator_operation_tracking_error_01=math.sqrt(np.sum((manipulator_operation_tracking_errorlist_01)**2))
                 rospy.logerr("manipulator motion tracking error1 is: %s",str(manipulator_operation_tracking_error_01))                        
                 "manipulator motion will be triggered again if the manipulator is not moved "
                 if manipulator_operation_tracking_error_01<=tolerance_tracking_error:
                     os.system("rosparam set /renov_up_level/climbingmechanism_climbing_over_flag 1") 
+                else:
+                    os.system("rosparam set /renov_up_level/manipulator_renovation_begin_flag 1")
 
-
-            end_path_joints=np.array(self.default_end_joints2)
             # rospy.loginfo("end path joints is %s",str(end_path_joints))
             start_waypoint_joints=np.array(aubo_joints[0])
             # rospy.loginfo("start_waypoint_joints is: %s"%str(start_waypoint_joints))
@@ -66,9 +67,11 @@ class Renovation_operation():
             current_aubo_joints=np.array(self.current_joints)
             # rospy.loginfo("current_aubo_joints is %s",str(current_aubo_joints))
             # rospy.loginfo("current_aubo_joints number is %s",str(len(current_aubo_joints)))
-
-            manipulator_operation_tracking_errorlist_02=end_path_joints-current_aubo_joints
-            manipulator_operation_tracking_error_02=math.sqrt(np.sum((manipulator_operation_tracking_errorlist_02)**2))
+            manipulator_renovation_begin_flag=rospy.get_param("/renov_up_level/manipulator_renovation_begin_flag")
+            manipulator_operation_tracking_error_02=1.0
+            if manipulator_renovation_begin_flag==1:
+                manipulator_operation_tracking_errorlist_02=end_path_joints-current_aubo_joints
+                manipulator_operation_tracking_error_02=math.sqrt(np.sum((manipulator_operation_tracking_errorlist_02)**2))
             rospy.loginfo("manipulator motion tracking error2 is: %s",str(manipulator_operation_tracking_error_02))
 
             renovation_tool_tracking_errorlist_01=start_waypoint_joints-current_aubo_joints
@@ -97,6 +100,7 @@ class Renovation_operation():
             if abs(manipulator_operation_tracking_error_02)<=tolerance_tracking_error:
                 rospy.logerr("step 4: manipulator_renovation_motion is closed")
                 os.system('rosparam set /renov_up_level/manipulator_renovation_over_flag 1')
+                os.system('rosparam set /renov_up_level/manipulator_renovation_begin_flag 0')
                 break
             
 
