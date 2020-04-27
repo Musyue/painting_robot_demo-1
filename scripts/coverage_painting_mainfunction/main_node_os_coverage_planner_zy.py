@@ -37,8 +37,8 @@ class RenovationRobot():
             "executing mobile platform motion"
             mobiledata=planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]["mobile_data_num_"+str(mobile_base_point_count)]
             renovation_mobileplatform=mobile_platform()
-            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-            renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             
             "executing rod mechanism holding operation when mobile platform motion is over"
             target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
@@ -73,15 +73,15 @@ class RenovationRobot():
             jackup_mechanism_homing(rate)
             # jackup_mechanism_homing_simulation(rate)
 
-            # "exit condition: all renovation surface is operated"
-            # if mobile_base_point_count >= len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
-            #     plane_num_count+=1 
-            #     mobile_base_point_count=0
-            #     rospy.loginfo("plane_num_count is: %s",str(plane_num_count))
-            # if plane_num_count>=len(planning_source_dict):
-            #     rospy.loginfo("painting operation of whole room is over")
-            #     break
-            break
+            "exit condition: all renovation surface is operated"
+            if mobile_base_point_count >= len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
+                plane_num_count+=1 
+                mobile_base_point_count=0
+                rospy.loginfo("plane_num_count is: %s",str(plane_num_count))
+            if plane_num_count>=len(planning_source_dict):
+                rospy.loginfo("painting operation of whole room is over")
+                break
+            # break
             rate.sleep()
 
 def main():

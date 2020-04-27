@@ -16,15 +16,15 @@
     <param name="jackup_mechanism_homing_over_flag" value="0" />
 
     <!-- aubo parameters -->
-    <param name="aubo_ip" value='192.168.1.11'/>
-    <param name="aubo_start_point" value='(0.0,-0.52,2.62,0.0,-1.57,1.57)'/> 
-    <param name="aubo_end_point" value='(0.0,-0.52,2.62,0.0,-1.57,0)' /> 
+    <!-- <param name="aubo_ip" value='192.168.1.11'/>
+    <param name="aubo_start_point" value='(0.0,0.7156,2.7524,0.47,-1.487,1.57)'/> 
+    <param name="aubo_end_point" value='(0.0,0.7156,2.7524,0.47,-1.487,0)' /> 
 
     <param name="joint_maxacc_tuple" value='(2.5, 2.5, 2.5, 2.5, 2.5, 2.5)'/> 
     <param name="joint_maxvelc_tuple" value='(1.5, 1.5, 1.5, 1.5, 1.5, 1.5)'/> 
     <param name="ee_maxacc" value='0.2'/> 
     <param name="ee_maxvelc" value='0.2'/>
-    <param name="blend_radius" value='0.05'/> 
+    <param name="blend_radius" value='0.05'/>  -->
     
 
 

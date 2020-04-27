@@ -101,16 +101,17 @@ class AuboRosDriver():
             # for i in range(waypoints_num):movet((),(),())
             #     rospy.loginfo("movet waypoints={0}".format(tuplefloatdata[6*i:6*(i+1)]))
             self.robot.move_joint(tuplefloatdata[0:6])
+            self.robot.move_joint(tuplefloatdata[6:12])
             # rospy.loginfo("after---tuplefloatdata---%s",tuplefloatdata)
             self.robot.remove_all_waypoint()
-            for i in range(waypoints_num-2):
+            for i in range(1,waypoints_num-1):
                 flag1=self.robot.add_waypoint(tuplefloatdata[6*i:6*(i+1)])
                 if flag1:
                     rospy.logerr("add ok")
                 else:
                     rospy.logerr("add not ok")
             flag=self.robot.move_track(RobotMoveTrackType.CARTESIAN_MOVEP)
-            self.robot.move_joint(tuplefloatdata[len(tuplefloatdata)-12:len(tuplefloatdata)-6])
+            # self.robot.move_joint(tuplefloatdata[len(tuplefloatdata)-12:len(tuplefloatdata)-6])
             self.robot.move_joint(tuplefloatdata[len(tuplefloatdata)-6:len(tuplefloatdata)])
             if flag:
                 rospy.logerr("movet command work successfully")
