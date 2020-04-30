@@ -42,6 +42,7 @@ class RenovationRobot():
             
             "executing rod mechanism holding operation when mobile platform motion is over"
             target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
+            target_standbar_displacement=0.12
             rod_mechanism_holding(target_standbar_displacement,rate)
             # rod_mechanism_holding_simulation(target_standbar_displacement,rate)
             
@@ -78,6 +79,8 @@ class RenovationRobot():
                 plane_num_count+=1 
                 mobile_base_point_count=0
                 rospy.loginfo("plane_num_count is: %s",str(plane_num_count))
+            if plane_num_count==1 and mobile_base_point_count==3:
+                break
             if plane_num_count>=len(planning_source_dict):
                 rospy.loginfo("painting operation of whole room is over")
                 break

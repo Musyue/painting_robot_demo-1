@@ -81,14 +81,15 @@ def rod_mechanism_holding_simulation(target_standbar_displacement,rate):
 
 
 def main():
-    nodename="rod mechanism holding"
+    nodename="rod_mechanism_holding"
     rospy.init_node(nodename)
     ratet=1
     rate = rospy.Rate(ratet)
 
     target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
-    # rod_mechanism_holding(target_standbar_displacement,rate)
-    rod_mechanism_holding_simulation(target_standbar_displacement,rate)
+    target_standbar_displacement=0.12
+    rod_mechanism_holding(target_standbar_displacement,rate)
+    # rod_mechanism_holding_simulation(target_standbar_displacement,rate)
 
 if __name__=="__main__":
     main()
