@@ -28,7 +28,7 @@ class Renovation_BIM_Model_Opreating():
         mobileplatform_targetjoints=[manipulatorbase_targetpose_onecell[0][0]-deltax,(manipulatorbase_targetpose_onecell[0][1]-deltay),theta_z]
 
         # computation of target joints of rodclimbing_robot
-        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz-0.7,0.0]
+        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz-1.9,0.0]
 
         # computation of inverse joints of manipulator
         aubo_joints_list=np.array([-0.2852509833270265, -0.5320376301933496, 1.3666906155038931, -1.2428644078925508, -1.856047310121923,1.5707963267948966])
@@ -88,19 +88,67 @@ class Renovation_BIM_Model_Opreating():
                     manipulatorbase_targetpose_onecell= manipulatorbase_targetpose[0][i][0][j][0][k]
                     manipulatorendeffector_targetpose_onecell = manipulatorendeffector_targetpose[0][i][0][j][0][k]
                     mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
+                    
                     climb_way_point.update({("climb_num_"+str(k)):rodclimbing_robot_targetjoints})
                     # aubo_joint_space_point.update({("aubo_planning_voxel_num_"+str(k)):self.array_to_dictlist(aubo_targetjoints)})
 
                 mobile_base.append(mobileplatform_targetjoints)
                 mobile_way_point_data.update({("mobile_data_num_"+str(j)):mobileplatform_targetjoints})
                 mobile_way_point.update({("moible_way_num_"+str(i)):mobile_way_point_data,("current_mobile_way_climb_num_"+str(j)):climb_way_point})
-                # mobile_way_point.update({("moible_way_num_"+str(i)):mobile_way_point_data,("current_mobile_way_climb_num_"+str(j)):climb_way_point,("current_mobile_way_aubo_num_"+str(j)):aubo_joint_space_point})
+                # mobile_way_point.update({("moible_way_num_"+str(i)):mobile_way_point_data,("current_mobile_way_climb_num_"+str(j)):climb_way_point,("current_mobile_way_aubo_num_"+str(j)):aubo_joint_space_point})             
+            
                 climb_way_point={}
                 aubo_joint_space_point={}
             plan_num.update({("plane_num_"+str(i)):mobile_way_point})
             mobile_way_point_data={}
+
         self.print_json(plan_num)
         return plan_num
+
+    def get_mat_data_json1(self):
+        data = io.loadmat(self.mat_path)
+        manipulatorbase_targetpose=data['renovation_cells_manipulatorbase_positions']
+        manipulatorendeffector_targetpose=data['manipulator_endeffector_positions']
+        mobile_base=[]
+
+        data_result={}
+        room_num={}
+        plan_num={}
+        mobile_way_point={}
+        climb_way_point={}
+        rotation_way_point={}
+        aubo_joint_space_point={}
+        mobile_way_point_data={}
+        clim_way_temp={}
+        for i in range(len(manipulatorbase_targetpose[0])):
+            for j in range(len(manipulatorbase_targetpose[0][i][0])):
+                for k in range(len(manipulatorbase_targetpose[0][i][0][j][0])):
+                    
+                    manipulatorbase_targetpose_onecell= manipulatorbase_targetpose[0][i][0][j][0][k]
+                    manipulatorendeffector_targetpose_onecell = manipulatorendeffector_targetpose[0][i][0][j][0][k]
+                    mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
+                    
+                    print("mobileplatform_targetjoints=: ",mobileplatform_targetjoints)
+                    print("rodclimbing_robot_targetjoints=: ",rodclimbing_robot_targetjoints)
+
+                    climb_way_point.update({("climb_num_"+str(k)):rodclimbing_robot_targetjoints})
+                    aubo_joint_space_point.update({("aubo_planning_voxel_num_"+str(k)):self.array_to_dictlist(aubo_targetjoints)})
+
+                mobile_base.append(mobileplatform_targetjoints)
+                mobile_way_point_data.update({("mobile_data_num_"+str(j)):mobileplatform_targetjoints})
+                # mobile_way_point.update({("current_mobile_way_climb_num_"+str(j)):climb_way_point})
+                mobile_way_point.update({("current_mobile_way_climb_num_"+str(j)):climb_way_point,("current_mobile_way_aubo_num_"+str(j)):aubo_joint_space_point})    
+            mobile_way_point.update({("moible_way_num_"+str(i)):mobile_way_point_data})
+            climb_way_point={}
+            aubo_joint_space_point={}     
+            plan_num.update({("plane_num_"+str(i)):mobile_way_point})
+            mobile_way_point_data={}
+            mobile_way_point={}
+        
+        self.print_json(plan_num)
+        return plan_num
+
+
 def main():
     mat_path="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/data/data.mat"
     # mat_path="/data/ros/yue_wk_2019/src/painting_robot_demo/data/data.mat"
@@ -137,6 +185,7 @@ def main():
 
                 climb_way_point.update({("climb_num_"+str(k)):rodclimbing_robot_targetjoints})
                 # aubo_joint_space_point.update({("aubo_planning_voxel_num_"+str(k)):Paintrobot.array_to_dictlist(aubo_targetjoints)})
+
             mobile_base.append(mobileplatform_targetjoints)
             mobile_way_point_data.update({("mobile_data_num_"+str(j)):mobileplatform_targetjoints})
             mobile_way_point.update({("current_mobile_way_climb_num_"+str(j)):climb_way_point})
@@ -147,10 +196,10 @@ def main():
         plan_num.update({("plane_num_"+str(i)):mobile_way_point})
         mobile_way_point_data={}
         mobile_way_point={}
-    Paintrobot.print_json(plan_num)
+    # Paintrobot.print_json(plan_num)
 
     Paintrobot2 = Renovation_BIM_Model_Opreating(mat_path,parameterx,parametery,parameterz,interval)
-    planning_source_dict=Paintrobot2.get_mat_data_json()
+    planning_source_dict=Paintrobot2.get_mat_data_json1()
 
 if __name__ == "__main__":
     main()

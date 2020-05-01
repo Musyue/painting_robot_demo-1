@@ -28,7 +28,7 @@
     
 
 
-    <node pkg="painting_robot_demo" type="main_node_os_coverage_planner_zy.py" name="main_node_os_coverage_renovation" output="screen" >
+    <node pkg="painting_robot_demo" type="coverage_painting_demo.py" name="coverage_painting_demo" output="screen" >
     </node>
 
   <!-- other parameters -->

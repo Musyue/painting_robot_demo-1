@@ -28,7 +28,7 @@ class Renovation_BIM_Model_Opreating():
         mobileplatform_targetjoints=[manipulatorbase_targetpose_onecell[0][0]-deltax,(manipulatorbase_targetpose_onecell[0][1]-deltay),theta_z]
 
         # computation of target joints of rodclimbing_robot
-        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz-0.7,0.0]
+        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz-1.9,0.0]
         # motion of rod climbing robot
         # print("rodclimbing_robot_targetjoints=",rodclimbing_robot_targetjoints)
 
