@@ -28,19 +28,20 @@ def rodmechanism_homing(target_standbar_displacement):
         flexbar_downwardsmotion_end()
 
 def jackup_mechanism_homing(rate):
+    motion_state_current2last()
     target_standbar_displacement=0.00
     target_rotation_angle=0.00
     target_climb_distance=0.00
-
     while not rospy.is_shutdown():
-        one_mobilebase_operation_over_flag = rospy.get_param("/renov_up_level/one_mobilebase_operation_over_flag")
-        rospy.loginfo("%s is %s", rospy.resolve_name('one_mobilebase_operation_over_flag'), one_mobilebase_operation_over_flag)
-        if one_mobilebase_operation_over_flag==1:
+        last_motion_phase_over_flag = rospy.get_param("/renov_up_level/last_motion_phase_over_flag")
+        rospy.loginfo("%s is %s", rospy.resolve_name('last_motion_phase_over_flag'), last_motion_phase_over_flag)
+        if last_motion_phase_over_flag==1:
             rotation_enable(target_rotation_angle)
             climb_enable(target_climb_distance)
             standbar_homing_process(target_standbar_displacement)
             flexbar_downwardsmotion_process()
             rospy.logerr("step 5: jackup_mechanism_homing in process")
+            os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
             # rospy.loginfo("the homing of climbing mechanism in process")
             # rospy.loginfo("the homing of rotation mechanism in process")
 
@@ -62,8 +63,8 @@ def jackup_mechanism_homing(rate):
         pid_tolerance_error_rotation=rospy.get_param("/renov_up_level/pid_tolerance_error_rotation")
         current_rotation_angle=rospy.get_param("/renov_up_level/rotation_abs_encode")*rotation_joint_line_equation_k+rotation_joint_line_equation_b
         rotation_trackingerror= target_rotation_angle-current_rotation_angle
-        rospy.logerr(("%s is %f"%("rotation  mechanism target angle",target_rotation_angle)))
-        rospy.logerr(("%s is %f"%("rotation mechanism current angle",current_rotation_angle)))
+        rospy.loginfo(("%s is %f"%("rotation  mechanism target angle",target_rotation_angle)))
+        rospy.loginfo(("%s is %f"%("rotation mechanism current angle",current_rotation_angle)))
         rospy.logerr(("%s is %f"%("rotation mechanism tracking error",rotation_trackingerror)))
         rospy.loginfo("-----------------------------------------------------------")
 
@@ -72,8 +73,8 @@ def jackup_mechanism_homing(rate):
         read_line_l0_encode=rospy.get_param("/renov_up_level/read_line_l0_encode")
         current_distance=rospy.get_param("/renov_up_level/read_line_encode")-read_line_l0_encode
         climb_tracking_error=target_climb_distance-current_distance
-        rospy.logerr(("%s is %f"%("climb mechanism target distance",target_climb_distance)))
-        rospy.logerr(("%s is %f"%("climb mechanism current distance",current_distance)))
+        rospy.loginfo(("%s is %f"%("climb mechanism target distance",target_climb_distance)))
+        rospy.loginfo(("%s is %f"%("climb mechanism current distance",current_distance)))
         rospy.logerr(("%s is %f"%("climb mechanism tracking error",climb_tracking_error)))
         rospy.loginfo("-----------------------------------------------------------")
 
@@ -87,8 +88,7 @@ def jackup_mechanism_homing(rate):
             climb_disable()
             # rospy.logerr("the motion of climbing mechanism is closed")
             rospy.logerr("step 5: jackup_mechanism_homing is over")
-            os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 0')
-            os.system('rosparam set /renov_up_level/jackup_mechanism_homing_over_flag 1')
+            os.system('rosparam set /renov_up_level/current_motion_phase_over_flag 1')
             break
         rate.sleep()
 

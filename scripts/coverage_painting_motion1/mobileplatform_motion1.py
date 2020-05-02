@@ -29,6 +29,7 @@ class mobile_platform():
         p.pose.orientation = Quaternion(*q)
         self.mobile_go_point_pub.publish(p)
     def mobile_platform_motion(self,mobiledata,rate):
+        self.motion_state_current2last()
         while not rospy.is_shutdown():
             jackup_mechanism_homing_over_flag=rospy.get_param("/renov_up_level/jackup_mechanism_homing_over_flag")
             rospy.loginfo("%s is %s", rospy.resolve_name('jackup_mechanism_homing_over_flag'), jackup_mechanism_homing_over_flag)

@@ -69,6 +69,10 @@
     <param name="one_mobilebase_operation_over_flag" value="0" />
     <param name="jackup_mechanism_homing_over_flag" value="0" />    
 
+    <param name="last_motion_phase_over_flag" value="0" />
+    <param name="current_motion_phase_start_flag" value="0" />
+    <param name="current_motion_phase_over_flag" value="0" />
+    
     <!-- <node pkg="painting_robot_demo" type="climb_bar_startup.py" name="climb_bar_startup" output="screen" > -->
     <node pkg="painting_robot_demo" type="jackup_mechanism_rosdriver.py" name="jackup_mechanism_startup" output="screen" >
     </node>

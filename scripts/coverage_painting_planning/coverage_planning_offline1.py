@@ -28,7 +28,7 @@ class Renovation_BIM_Model_Opreating():
         mobileplatform_targetjoints=[manipulatorbase_targetpose_onecell[0][0]-deltax,(manipulatorbase_targetpose_onecell[0][1]-deltay),theta_z]
 
         # computation of target joints of rodclimbing_robot
-        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz-1.9,0.0]
+        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz-1.8,0.0]
 
         # computation of inverse joints of manipulator
         aubo_joints_list=np.array([-0.2852509833270265, -0.5320376301933496, 1.3666906155038931, -1.2428644078925508, -1.856047310121923,1.5707963267948966])

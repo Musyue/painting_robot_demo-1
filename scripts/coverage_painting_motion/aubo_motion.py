@@ -29,7 +29,7 @@ class Renovation_operation():
     def obtain_aubo_joints(self,msg):
         self.current_joints=msg.position[:]
 
-    def manipulator_motion1(self,aubo_q_list,rate):
+    def manipulator_motion(self,aubo_q_list,rate):
         aubo_joints=[]
         for i in range(len(aubo_q_list)):
             aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
