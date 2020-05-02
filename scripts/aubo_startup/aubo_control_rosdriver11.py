@@ -46,9 +46,10 @@ class AuboRosDriver():
             #set ee max vel
             self.robot.set_end_max_line_velc(rospy.get_param('/renov_up_level/ee_maxvelc'))
             #add waypoints
-            
-            self.move_to_point=tuplefloatdata
-            flag=self.robot.move_joint(tuplefloatdata[0:6])
+            rospy.loginfo("movel start point={0}".format(tuplefloatdata[0:6]))
+            rospy.loginfo("movel end point={0}".format(tuplefloatdata[6:]))
+            self.move_to_point={"startpoint":tuplefloatdata[0:6],"endpoint":tuplefloatdata[6:]}
+            flag=self.robot.move_joint(tuplefloatdata[6:12])
             if flag:
                 rospy.logerr("movej command work successfully")
             else:
@@ -80,8 +81,6 @@ class AuboRosDriver():
             rospy.logerr("Please send right movel message")
     def aubo_joint_movet(self,msg):
         tuplefloatdata=self.Tuple_string_to_tuple(msg.data)
-        # rospy.loginfo("before ----tuplefloatdata---%s---",tuplefloatdata)
-        # rospy.loginfo("before ----msg.data---%s---",msg.data)
         if "movet" in msg.data:
             #set joint max acc
             # rospy.loginfo("after---tuplefloatdata---%s",tuplefloatdata)
@@ -101,13 +100,10 @@ class AuboRosDriver():
             # for i in range(waypoints_num):movet((),(),())
             #     rospy.loginfo("movet waypoints={0}".format(tuplefloatdata[6*i:6*(i+1)]))
             self.robot.move_joint(tuplefloatdata[0:6])
-            self.robot.move_joint(tuplefloatdata[6:12])
-            # rospy.loginfo("after---tuplefloatdata---%s",tuplefloatdata)
             self.robot.remove_all_waypoint()
-            for i in range(1,waypoints_num-1):
+            for i in range(waypoints_num):
                 self.robot.add_waypoint(tuplefloatdata[6*i:6*(i+1)])
-            self.robot.move_track(RobotMoveTrackType.CARTESIAN_MOVEP)
-            self.robot.move_joint(tuplefloatdata[len(tuplefloatdata)-6:len(tuplefloatdata)])
+            flag=self.robot.move_track(RobotMoveTrackType.CARTESIAN_MOVEP)
             if flag:
                 rospy.logerr("movet command work successfully")
             else:

@@ -48,7 +48,6 @@ class RenovationRobot():
             # rod_mechanism_holding(target_standbar_displacement,rate)
             rod_mechanism_holding_simulation(target_standbar_displacement,rate)
 
-
             while not rospy.is_shutdown():
                 rospy.loginfo("execute the %sth plane"%str(plane_num_count+1))
                 rospy.loginfo("execute the %sth mobile base point"%str(mobile_base_point_count+1))
