@@ -10,7 +10,7 @@ import sys
 from geometry_msgs.msg import PoseStamped,Quaternion
 import tf
 
-sys.path.append("/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/scripts")
+sys.path.append("/data/ros/renov_robot_ws/src/painting_robot_demo/scripts")
 from coverage_painting_planning.coverage_planning_offline1 import *
 from mobileplatform_motion1 import *
 from jackup_mechanism_homing1 import *
@@ -45,8 +45,8 @@ class RenovationRobot():
             "executing rod mechanism holding operation when mobile platform motion is over"
             # target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
             target_standbar_displacement=0.12
-            # rod_mechanism_holding(target_standbar_displacement,rate)
-            rod_mechanism_holding_simulation(target_standbar_displacement,rate)
+            rod_mechanism_holding(target_standbar_displacement,rate)
+            # rod_mechanism_holding_simulation(target_standbar_displacement,rate)
 
             while not rospy.is_shutdown():
                 rospy.loginfo("execute the %sth plane"%str(plane_num_count+1))
@@ -58,14 +58,14 @@ class RenovationRobot():
                 climb_distance=climb_data[0]
                 climb_rotation_angle=climb_data[1]
 
-                # rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
-                rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
+                rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
+                # rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
 
                 "exectuing painting operation of manipulator when climbing operation is over"
                 aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubo_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
                 aubo5=Renovation_operation()
-                # aubo5.manipulator_motion(aubo_q_list,rate)
-                aubo5.manipulator_motion_simulation(aubo_q_list,rate)
+                aubo5.manipulator_motion(aubo_q_list,rate)
+                # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
 
                 #break
                 "termination condition: all climbing base positions are conversed"                
@@ -76,8 +76,8 @@ class RenovationRobot():
                     os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 1')
                     break
             "executing jackup motion of jackup mechanism when operation on one mobile base is over"
-            # jackup_mechanism_homing(rate)
-            jackup_mechanism_homing_simulation(rate)
+            jackup_mechanism_homing(rate)
+            # jackup_mechanism_homing_simulation(rate)
 
             # "exit condition: all renovation surface is operated"
             # if mobile_base_point_count >= len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):

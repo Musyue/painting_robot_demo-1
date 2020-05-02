@@ -52,8 +52,8 @@ def jackup_mechanism_homing(rate):
         current_distance=read_line_encode_bottom-read_line_l0_encoder_bottom
         standbar_tracking_error=target_homing_distance-current_distance
         pid_tolerance_error_standbar=rospy.get_param("/renov_up_level/pid_tolerance_error_standbar")
-        rospy.logerr("standbar----target Distance is:%s",str(target_homing_distance))
-        rospy.logerr("standbar----current Distance is:%s",str(current_distance))
+        rospy.loginfo("standbar----target Distance is:%s",str(target_homing_distance))
+        rospy.loginfo("standbar----current Distance is:%s",str(current_distance))
         rospy.logerr("standbar----Distance_error is:%s",str(standbar_tracking_error))
         rospy.loginfo("-----------------------------------------------------------")
 
