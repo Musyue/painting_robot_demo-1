@@ -187,9 +187,9 @@ class Renovation_operation():
         for i in range(len(aubo_q_list)):
             aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
 
-        pubstring1="movej"+self.default_start_joints+self.group_joints_to_string(aubo_joints[0:6])
-        pubstring2="movet"+self.group_joints_to_string(aubo_joints[6:len(aubo_joints)-6])
-        pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-6:len(aubo_joints)])+self.default_end_joints
+        pubstring1="movej"+self.default_start_joints+self.group_joints_to_string(aubo_joints[0])
+        pubstring2="movet"+self.group_joints_to_string(aubo_joints[1:len(aubo_joints)/6-1])
+        pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)/6-1:len(aubo_joints)/6])+self.default_end_joints
 
 
         self.manipulator_motion(pubstring1,rate,count)
@@ -208,9 +208,19 @@ def main():
     rate=rospy.Rate(ratet)
 
     aubo_q_list={"aubo_data_num_0": [-0.28525098, -0.53203763, 1.36669062, -1.24286441, -1.85604731, 1.57079633], "aubo_data_num_1": [0.71039368, -0.53203763, 1.36669062, -1.24286441, -0.86040264, 1.5707963], "aubo_data_num_2": [0.71039368, -0.63763321, 1.4856621, -1.01829734, -0.86040264, 1.57079633], "aubo_data_num_3": [-0.28525098, -0.63763321, 1.4856621, -1.01829734, -1.85604731, 1.57079633], "aubo_data_num_4": [-0.28525098, -0.78704025, 1.5382336, -0.8163188, -1.85604731, 1.57079633], "aubo_data_num_5": [0.71039368, -0.78704025, 1.5382336, -0.8163188, -0.86040264, 1.57079633], "aubo_data_num_6": [0.71039368, -0.96986677, 1.52551268, -0.64621321, -0.86040264, 1.57079633]}
-
+    # aubo_joints=[]
+    # for i in range(len(aubo_q_list)):
+    #     aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
+    # print(aubo_joints[0:1])
+    # print(aubo_joints[1:len(aubo_joints)-1])
+    # print(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])
+    # group_joints=""
+    # for i in range(len(aubo_joints)):
+    #     group_joints+=str(tuple(aubo_joints[i]))
+    # print(group_joints)
     aubo5=Renovation_operation()
-    aubo5.manipulator_motion(aubo_q_list,rate)
+    aubo5.aubo_motion(aubo_q_list,rate)
+
     # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
     
 if __name__=="__main__":
