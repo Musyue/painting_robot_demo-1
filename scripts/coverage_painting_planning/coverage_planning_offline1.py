@@ -1,17 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import rospy, sys
+import rospy, sys, os
 from math import *
 import numpy as np
 import numpy.matlib
 # import moveit_commander
 import scipy.io as io
-from transfer import *
-from aubo_kinematics import *
-from Quaternion import *
 from std_msgs.msg import String,Float64,Bool
 from sensor_msgs.msg import JointState
 import json
+
+path=os.getcwd()
+sys.path.append(path)
+from robotic_functions.transfer import *
+from robotic_functions.aubo_kinematics import *
+from robotic_functions.Quaternion import *
+
+
 class Renovation_BIM_Model_Opreating():
     def __init__(self,mat_path,parameterx,parametery,parameterz,interval):
         self.parameterx=parameterx#0.430725381079
@@ -65,45 +70,6 @@ class Renovation_BIM_Model_Opreating():
         for i in range(len(data)):
             datadict.update({("aubo_data_num_"+str(i)):list(data[i])})
         return datadict
-
-    def get_mat_data_json(self):
-        data = io.loadmat(self.mat_path)
-        manipulatorbase_targetpose=data['renovation_cells_manipulatorbase_positions']
-        manipulatorendeffector_targetpose=data['manipulator_endeffector_positions']
-        mobile_base=[]
-        data_result={}
-        room_num={}
-        plan_num={}
-        mobile_way_point={}
-        climb_way_point={}
-        rotation_way_point={}
-        aubo_joint_space_point={}
-        mobile_way_point_data={}
-        clim_way_temp={}
-
-        for i in range(len(manipulatorbase_targetpose[0])):
-            for j in range(len(manipulatorbase_targetpose[0][i][0])):
-                for k in range(len(manipulatorbase_targetpose[0][i][0][j][0])):
-        
-                    manipulatorbase_targetpose_onecell= manipulatorbase_targetpose[0][i][0][j][0][k]
-                    manipulatorendeffector_targetpose_onecell = manipulatorendeffector_targetpose[0][i][0][j][0][k]
-                    mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
-                    
-                    climb_way_point.update({("climb_num_"+str(k)):rodclimbing_robot_targetjoints})
-                    # aubo_joint_space_point.update({("aubo_planning_voxel_num_"+str(k)):self.array_to_dictlist(aubo_targetjoints)})
-
-                mobile_base.append(mobileplatform_targetjoints)
-                mobile_way_point_data.update({("mobile_data_num_"+str(j)):mobileplatform_targetjoints})
-                mobile_way_point.update({("moible_way_num_"+str(i)):mobile_way_point_data,("current_mobile_way_climb_num_"+str(j)):climb_way_point})
-                # mobile_way_point.update({("moible_way_num_"+str(i)):mobile_way_point_data,("current_mobile_way_climb_num_"+str(j)):climb_way_point,("current_mobile_way_aubo_num_"+str(j)):aubo_joint_space_point})             
-            
-                climb_way_point={}
-                aubo_joint_space_point={}
-            plan_num.update({("plane_num_"+str(i)):mobile_way_point})
-            mobile_way_point_data={}
-
-        self.print_json(plan_num)
-        return plan_num
 
     def get_mat_data_json1(self):
         data = io.loadmat(self.mat_path)
