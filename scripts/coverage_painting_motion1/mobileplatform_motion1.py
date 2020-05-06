@@ -31,18 +31,18 @@ class mobile_platform():
     def mobile_platform_motion(self,mobiledata,rate):
         self.motion_state_current2last()
         while not rospy.is_shutdown():
-            jackup_mechanism_homing_over_flag=rospy.get_param("/renov_up_level/jackup_mechanism_homing_over_flag")
-            rospy.loginfo("%s is %s", rospy.resolve_name('jackup_mechanism_homing_over_flag'), jackup_mechanism_homing_over_flag)
-            if jackup_mechanism_homing_over_flag==1:
+            last_motion_phase_over_flag=rospy.get_param("/renov_up_level/last_motion_phase_over_flag")
+            rospy.loginfo("%s is %s", rospy.resolve_name('last_motion_phase_over_flag'), last_motion_phase_over_flag)
+            if last_motion_phase_over_flag==1:
                 rospy.logerr("step 1: mobile_platform_motion is in process")
-                os.system("rosparam set /renov_up_level/jackup_mechanism_homing_over_flag 0")
-                os.system("rosparam set /renov_up_level/current_motion_phase_over_flag 1")
+                os.system("rosparam set /renov_up_level/last_motion_phase_over_flag 0")
                 self.pub_posestamped("map",[mobiledata[0],mobiledata[1],0],[0,0,mobiledata[2]])
+            mobile_platform_tracking_over_flag=rospy.get_param("/renov_up_level/mobile_platform_tracking_over_flag")
+            if mobile_platform_tracking_over_flag==1:
+                rospy.logerr("step 1: mobile_platform_motion is over")
+                os.system("rosparam set /renov_up_level/mobile_platform_tracking_over_flag 0")
+                os.system("rosparam set /renov_up_level/current_motion_phase_over_flag 1")
                 break
-            # mobile_platform_tracking_over_flag=rospy.get_param("/renov_up_level/mobile_platform_tracking_over_flag")
-            # if mobile_platform_tracking_over_flag==1:
-            #     os.system("rosparam set /renov_up_level/mobile_platform_tracking_over_flag 0")
-            #     break
             # mobileplatform_tracking_error=rospy.get_param("/renov_up_level/mobileplatform_tracking_error")
             # mobileplatfomr_tolerance_tracking_error=0.0
             # if abs(mobileplatform_tracking_error)<=mobileplatfomr_tolerance_tracking_error:

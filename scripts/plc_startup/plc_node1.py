@@ -111,7 +111,7 @@ def main():
             # read up line encoders data
             read_line_encode_data,line_encode_str=plcpkg.Send_message_to_port(ser,plcpkg.crc16.Combining_CRC_and_info(plcpkg.plccmd.READ_LINE_ENCODE))
             # rospy.logerr("-------read line %s-%s",read_line_encode_data,line_encode_str)
-            if len(read_line_encode_data)!=0 and read_line_encode_data[0]==4:
+            if len(read_line_encode_data)!=0 and read_line_encode_data[0]==4 and len(read_line_encode_data)>=5:
                 rospy.set_param('read_line_encode', read_line_encode_data[4]/100.0)
                 rospy.logerr("the up line encoder data is: %s",read_line_encode_data[4]/100.0)   
 
@@ -130,7 +130,7 @@ def main():
             # read bottom line encoders data
             read_line_encode_data_bottom,line_encode_str_bottom=plcpkg.Send_message_to_port(ser,plcpkg.crc16.Combining_CRC_and_info(plcpkg.plccmd.READ_LINE_ENCODE_BOTTOM))
             # rospy.logerr("-------read_line_encode_data_bottom %s-%s",read_line_encode_data_bottom,line_encode_str_bottom)
-            if len(read_line_encode_data_bottom)!=0 and read_line_encode_data_bottom[0]==4:
+            if len(read_line_encode_data_bottom)!=0 and read_line_encode_data_bottom[0]==4 and len(read_line_encode_data_bottom)>=5:
                 rospy.set_param('read_line_encode_bottom', read_line_encode_data_bottom[4]/100.0)
                 rospy.logerr("the bottom line encoder data is: %s",read_line_encode_data_bottom[4]/100.0)
 
