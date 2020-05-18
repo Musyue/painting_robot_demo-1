@@ -18,8 +18,8 @@ class Renovation_operation():
         self.current_joints=[0.0,0.0,0.0,0.0,0.0,0.0]
         self.default_start_joints=rospy.get_param('/renov_up_level/aubo_start_point')
         self.default_end_joints=rospy.get_param("/renov_up_level/aubo_end_point")
-        self.default_start_joints2=[0.0,0.7156,2.7524,0.47,-1.487,1.57]
-        self.default_end_joints2=[0.0,0.7156,2.7524,0.47,-1.487,0] # rospy.get_param("/renov_up_level/aubo_end_point")
+        # self.default_start_joints2=[0.0,0.7156,2.7524,0.47,-1.487,1.57]
+        # self.default_end_joints2=[0.0,0.7156,2.7524,0.47,-1.487,0] # rospy.get_param("/renov_up_level/aubo_end_point")
         self.tolerance_tracking_error=0.1
         self.aubo_move_track_pub=rospy.Publisher('/aubo_ros_script/movet', String, queue_size=1)
         self.aubo_move_joint_pub = rospy.Publisher('/aubo_ros_script/movej', String, queue_size=1)

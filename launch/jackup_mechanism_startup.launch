@@ -29,9 +29,9 @@
     <param name="rotation_ki" value="0.1"/>
     <param name="rotation_kd" value="0.1"/>
     <param name="pid_tolerance_error_rotation" value="0.005"/>
-    <param name="rotation_homing_abs_encode_data" value="44392"/>
-    <param name="rotation_joint_line_equation_k" value="0.0063061"/>
-    <param name="rotation_joint_line_equation_b" value="-279.94"/>
+    <param name="rotation_homing_abs_encode_data" value="43774"/>
+    <param name="rotation_joint_line_equation_k" value="0.0064695"/>
+    <param name="rotation_joint_line_equation_b" value="-283.19583"/>
     <!--set /rotation range -3.14-0.8 max pos-anticlockwise neg-clokwise-->
     <param name="rad_control_rotation" value="0"/>
     <param name="velocity_control_rotation" value="2000"/>

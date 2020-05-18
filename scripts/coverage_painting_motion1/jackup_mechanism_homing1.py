@@ -41,7 +41,6 @@ def jackup_mechanism_homing(rate):
             standbar_homing_process(target_standbar_displacement)
             flexbar_downwardsmotion_process()
             rospy.logerr("step 5: jackup_mechanism_homing in process")
-            os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
             # rospy.loginfo("the homing of climbing mechanism in process")
             # rospy.loginfo("the homing of rotation mechanism in process")
 
@@ -88,6 +87,7 @@ def jackup_mechanism_homing(rate):
             climb_disable()
             # rospy.logerr("the motion of climbing mechanism is closed")
             rospy.logerr("step 5: jackup_mechanism_homing is over")
+            os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
             os.system('rosparam set /renov_up_level/current_motion_phase_over_flag 1')
             break
         rate.sleep()

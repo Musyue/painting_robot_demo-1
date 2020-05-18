@@ -4,8 +4,8 @@
   <!-- <group ns="aubo_startup_ns"> -->
   <group ns="renov_up_level">
     <param name="aubo_ip" value='192.168.1.11'/>
-    <param name="aubo_start_point" value='(0.0,0.7156,2.7524,0.47,-1.487,1.57)'/>
-    <param name="aubo_end_point" value='(0.0,0.7156,2.7524,0.47,-1.487,1.57)' /> 
+    <param name="aubo_start_point" value='(0.0,0.6,2.7524,0.47,-1.487,1.57)'/>
+    <param name="aubo_end_point" value='(0.0,0.6,2.7524,0.47,-1.487,1.57)' /> 
     <!-- <param name="aubo_start_point" value='(0.0,-0.52,2.62,0.0,-1.57,1.57)'/>  -->
     <!-- <param name="aubo_end_point" value='(0.0,-0.52,2.62,0.0,-1.57,0)' />  -->
     <!-- <param name="aubo_start_point" value='(-0.28765888888888885,0.41081666666666666,0.4193644444444445,-1.4323633333333334,-1.5504622222222222,1.6308287777777777)'/>  -->

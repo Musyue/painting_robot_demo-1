@@ -37,7 +37,6 @@ def rod_mechanism_holding(target_standbar_displacement,rate):
         if last_motion_phase_over_flag==1:
             flexbar_upwardsmotion_process()
             standbar_motion_process(target_standbar_displacement)
-            os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
             rospy.logerr("step 2: rod_mechanism_holding is in process")
 
         read_line_encode_bottom = rospy.get_param("/renov_up_level/read_line_encode_bottom")
@@ -54,6 +53,7 @@ def rod_mechanism_holding(target_standbar_displacement,rate):
             standbar_motion_end()
             flexbar_upwardsmotion_end()
             rospy.logerr("step 2: rod_mechanism_holding is closed")
+            os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
             os.system('rosparam set /renov_up_level/current_motion_phase_over_flag 1')
             break
         rate.sleep()
@@ -70,8 +70,8 @@ def rod_mechanism_holding_simulation(target_standbar_displacement,rate):
 
             count=count-1
             if count==0:
-                os.system("rosparam set /renov_up_level/top_limit_switch_status 1")
-            top_limit_switch_status=rospy.get_param("/renov_up_level/top_limit_switch_status")
+                os.system("rosparam set /renov_up_level/top_limit_switch_status_sim 1")
+            top_limit_switch_status=rospy.get_param("/renov_up_level/top_limit_switch_status_sim")
 
             if top_limit_switch_status==1: 
                 rospy.logerr("step 2: rod_mechanism_holding is closed")

@@ -5,6 +5,7 @@
     <param name="read_buffer_bytes_num" value="6" />
     <!--set /plc_pkg_para/top_limit_switch_status 1-on -->
     <param name="top_limit_switch_status" value="0" />
+    <param name="top_limit_switch_status_sim" value="0" />
     <!--set /plc_pkg_para/mid_limit_switch_status 1-on -->
     <param name="mid_limit_switch_status" value="0" />
     <!--set /plc_pkg_para/bottom_limit_switch_status 1 on-->

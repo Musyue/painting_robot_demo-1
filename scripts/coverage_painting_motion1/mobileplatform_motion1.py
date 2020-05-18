@@ -36,7 +36,7 @@ class mobile_platform():
             if last_motion_phase_over_flag==1:
                 rospy.logerr("step 1: mobile_platform_motion is in process")
                 os.system("rosparam set /renov_up_level/last_motion_phase_over_flag 0")
-                time.sleep(5)
+                time.sleep(3.5)
                 self.pub_posestamped("map",[mobiledata[0],mobiledata[1],0],[0,0,mobiledata[2]])
             mobile_platform_tracking_over_flag=rospy.get_param("/renov_up_level/mobile_platform_tracking_over_flag")
             if mobile_platform_tracking_over_flag==1:

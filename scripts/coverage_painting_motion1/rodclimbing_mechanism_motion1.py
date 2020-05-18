@@ -25,7 +25,7 @@ def rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate):
             climb_enable(target_distance)
             # rospy.loginfo("the homing of climbing mechanism in process")
             rospy.logerr("step 3: rod_climbing_mechanism_motion is in process")
-            os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 1')
+            # os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 1')
 
         # output tracking errors 
         rotation_joint_line_equation_k=rospy.get_param("/renov_up_level/rotation_joint_line_equation_k")
@@ -50,6 +50,7 @@ def rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate):
             # rospy.loginfo("the motion of climbing mechanism is closed")
             rospy.logerr("step 3: rod_climbing_mechanism_motion is closed")
             os.system('rosparam set /renov_up_level/current_motion_phase_over_flag 1')
+            os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
             # os.system('rosparam set /renov_up_level/rodmechanism_holding_over_flag 0')
             # os.system('rosparam set /renov_up_level/climbingmechanism_climbing_over_flag 1')
             break
@@ -89,7 +90,7 @@ def main():
     ratet=1
     rate = rospy.Rate(ratet)
 
-    target_rotation_angle=0.0 #math.pi/2
+    target_rotation_angle=0.0
     target_distance=0.0
     rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate)    
     # rodclimb_mechanism_motion_simulation(target_rotation_angle,target_distance,rate)
