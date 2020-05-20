@@ -36,10 +36,11 @@ class Renovation_BIM_Model_Opreating():
         rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz+0.7-0.86-0.62,0.0]
 
         # computation of inverse joints of manipulator
-        aubo_joints_list1=np.array([-0.0190, -2.7974, -0.5543, -0.6213, -1.5752, -0.0047])
+        aubo_joints_list1=np.array([24.456, -23.852, 48.547, -94.960, -67.3825, -7.2210])
+        for i in range(len(aubo_joints_list1)):
+            aubo_joints_list1[i]=aubo_joints_list1[i]*pi/180
         previous_aubo_joints=aubo_joints_list1
         aubo_joints_list=[]
-
         for i in range(len(manipulatorendeffector_targetpose_onecell)):
             p=np.zeros(3)
             p[0]=manipulatorendeffector_targetpose_onecell[i][0]
@@ -55,6 +56,8 @@ class Renovation_BIM_Model_Opreating():
             aubo_arm = Aubo_kinematics()
             aubo_joints_onepoint = aubo_arm.GetInverseResult(mat2, previous_aubo_joints)
             previous_aubo_joints = aubo_joints_onepoint
+            for k in range(len(aubo_joints_onepoint)):
+                aubo_joints_onepoint[k]=aubo_joints_onepoint[k]*180/pi
             print("aubo_joints_onepoint is:",aubo_joints_onepoint)
             aubo_joints_list = np.append(aubo_joints_list, aubo_joints_onepoint, axis=0)
 

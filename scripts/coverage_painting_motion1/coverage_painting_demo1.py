@@ -74,7 +74,10 @@ class RenovationRobot():
                 aubo5=Renovation_operation()
                 # aubo5.aubo_motion(aubo_q_list,rate)
                 for i in range(len(aubo_q_list)):
-                    print(aubo_q_list["aubo_data_num_"+str(i)])
+                    list1=aubo_q_list["aubo_data_num_"+str(i)]
+                    for j in range(len(list1)):
+                        list1[j]=list1[j]
+                    print("aubo_q_list is:",list1)
                 print("the number of aubo_q is:",len(aubo_q_list))
                 aubo5.manipulator_motion_simulation(aubo_q_list,rate)
 
