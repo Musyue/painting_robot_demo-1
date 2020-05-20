@@ -24,18 +24,18 @@ def aubo_ros_test():
     joint_radian11 = (0.71039368, -1.39770205, 1.3012984, -0.44259221, -0.86040264, 1.57079633)
     joint_radian12 = (-0.28525098, -1.39770205, 1.3012984, -0.44259221, -1.85604731, 1.57079633)
 
-    # pub1 = rospy.Publisher('/aubo_ros_script/movej', String, queue_size=10)
+    pub1 = rospy.Publisher('/aubo_ros_script/movej', String, queue_size=10)
     # pub2 = rospy.Publisher('/aubo_ros_script/movel', String, queue_size=10)
-    pub3 = rospy.Publisher('/aubo_ros_script/movet', String, queue_size=10)
+    # pub3 = rospy.Publisher('/aubo_ros_script/movet', String, queue_size=10)
     rospy.init_node('aubo_ros_test', anonymous=True)
     rate = rospy.Rate(20) # 1hz
     while not rospy.is_shutdown():
-        #movej_points="movej"+str(joint_radian1)
+        movej_points="movej"+str(joint_radian1)
         #movel_points="movel"+str(joint_radian1)+str(joint_radian2)
-        movet_points="movej"+str(joint_radian1)+str(joint_radian2)+str(joint_radian3)+str(joint_radian4)
+        # movet_points="movej"+str(joint_radian1)+str(joint_radian2)+str(joint_radian3)+str(joint_radian4)
         # pub1.publish(movej_points)
         # pub2.publish(movel_points)
-        pub3.publish(movet_points)
+        pub1.publish(movej_points)
         rate.sleep()
 
 if __name__ == '__main__':

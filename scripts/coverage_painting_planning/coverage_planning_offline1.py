@@ -55,16 +55,15 @@ class Renovation_BIM_Model_Opreating():
             mat2 = mat1.tolist()
             aubo_arm = Aubo_kinematics()
             aubo_joints_onepoint = aubo_arm.GetInverseResult(mat2, previous_aubo_joints)
-            previous_aubo_joints = aubo_joints_onepoint
-            for k in range(len(aubo_joints_onepoint)):
-                aubo_joints_onepoint[k]=aubo_joints_onepoint[k]*180/pi
-            print("aubo_joints_onepoint is:",aubo_joints_onepoint)
+            # previous_aubo_joints = aubo_joints_onepoint
+            # for k in range(len(aubo_joints_onepoint)):
+            #     aubo_joints_onepoint[k]=aubo_joints_onepoint[k]*180/pi
+            # print("aubo_joints_onepoint is:",aubo_joints_onepoint)
             aubo_joints_list = np.append(aubo_joints_list, aubo_joints_onepoint, axis=0)
 
         points_num=len(aubo_joints_list)/6
         for i in range(points_num):
             aubo_joints=np.array(aubo_joints_list[6*i:6*i+6])
-
         aubo_targetjoints = aubo_joints_list.reshape(len(aubo_joints_list) / 6, 6)
         return mobileplatform_targetjoints, rodclimbing_robot_targetjoints, aubo_targetjoints
 

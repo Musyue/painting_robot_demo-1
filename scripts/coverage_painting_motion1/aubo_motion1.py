@@ -190,7 +190,7 @@ class Renovation_operation():
             aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
 
         pubstring1="movej"+self.default_start_joints+self.group_joints_to_string(aubo_joints[0:1])
-        pubstring2="movet"+self.group_joints_to_string(aubo_joints[1:len(aubo_joints)-1])
+        pubstring2="movet"+self.group_joints_to_string(aubo_joints[1:len(aubo_joints)])
         pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])+self.default_end_joints
 
         print("pubstring1=%s"%pubstring1)
