@@ -33,11 +33,12 @@ class Renovation_BIM_Model_Opreating():
         mobileplatform_targetjoints=[manipulatorbase_targetpose_onecell[0][0]-deltax,(manipulatorbase_targetpose_onecell[0][1]-deltay),theta_z]
 
         # computation of target joints of rodclimbing_robot
-        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz-1.75,0.0]
+        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz+0.7-0.86-0.62,0.0]
 
         # computation of inverse joints of manipulator
-        aubo_joints_list=np.array([-0.2852509833270265, -0.5320376301933496, 1.3666906155038931, -1.2428644078925508, -1.856047310121923,1.5707963267948966])
-        previous_aubo_joints=aubo_joints_list
+        aubo_joints_list1=np.array([-0.0190, -2.7974, -0.5543, -0.6213, -1.5752, -0.0047])
+        previous_aubo_joints=aubo_joints_list1
+        aubo_joints_list=[]
 
         for i in range(len(manipulatorendeffector_targetpose_onecell)):
             p=np.zeros(3)
@@ -54,6 +55,7 @@ class Renovation_BIM_Model_Opreating():
             aubo_arm = Aubo_kinematics()
             aubo_joints_onepoint = aubo_arm.GetInverseResult(mat2, previous_aubo_joints)
             previous_aubo_joints = aubo_joints_onepoint
+            print("aubo_joints_onepoint is:",aubo_joints_onepoint)
             aubo_joints_list = np.append(aubo_joints_list, aubo_joints_onepoint, axis=0)
 
         points_num=len(aubo_joints_list)/6

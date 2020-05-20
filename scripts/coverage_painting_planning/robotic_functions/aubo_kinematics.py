@@ -498,13 +498,25 @@ def main():
     mat_T2=np.array(mat_T1).reshape(4,4)
     # print mat_T2[0][3],mat_T2[1][3],mat_T2[2][3]
 
-
     joint1=np.array([0,pi/2,0])
     rotation=pose2mat()
     rot=rotation.rpy2r(joint1)
     print(rot[0,0])
-    joint2=Q.quaternion(rot)
-    print("joints=:",joint2)
+    # joint2=Q.quaternion(rot)
+    # print("joints=:",joint2)
+
+    aubo_joints1=[-1.087634, -160.281194, -31.758751, -35.583879, -90.254509, -0.273632]
+    # aubo_joints1=([-0.0190, -2.7974, -0.5543, -0.6213, -1.5752, -0.0047])
+    # for i in range(len(aubo_joints1)):
+    #     aubo_joints1[i] = aubo_joints1[i] * 180 / pi
+
+    for i in range(len(aubo_joints1)):
+        aubo_joints1[i]=aubo_joints1[i]
+    print("aubo_joints1 is:",aubo_joints1)
+    mat_T3=ak47.aubo_forward(aubo_joints1)
+    mat_T4=np.array(mat_T3).reshape(4,4)
+    print("mat_T4 is:",mat_T4)
+    
 
 
 if __name__ == "__main__":

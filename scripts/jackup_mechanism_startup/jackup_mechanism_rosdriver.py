@@ -487,7 +487,7 @@ def main():
             if open_climb_flag==1:
                 try:
                     distance_climb_control = rospy.get_param("distance_climb_control")
-                    if distance_climb_control>=0.0 and distance_climb_control<=0.90:
+                    if distance_climb_control>=-0.15 and distance_climb_control<=0.90:
                         target_distance=distance_climb_control+read_line_l0_encode
 
                         clbpkg.Climbing_Robot_close_loop_control(ser,target_distance,read_line_encode)
