@@ -72,17 +72,17 @@ class RenovationRobot():
                 "exectuing painting operation of manipulator when climbing operation is over"
                 aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubo_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
                 aubo5=Renovation_operation()
-                # aubo5.aubo_motion(aubo_q_list,rate)
-                # for i in range(len(aubo_q_list)):
-                #     list1=aubo_q_list["aubo_data_num_"+str(i)]
-                #     for j in range(len(list1)):
-                #         list1[j]=list1[j]
-                    # print(list1)
-                print("the number of aubo_q is:",len(aubo_q_list))
                 aubo5.aubo_motion(aubo_q_list,rate)
-                # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
-
+                for i in range(len(aubo_q_list)):
+                    list1=aubo_q_list["aubo_data_num_"+str(i)]
+                    for j in range(len(list1)):
+                        list1[j]=list1[j]*180/pi
+                    print(list1)
+                print("the number of aubo_q is:",len(aubo_q_list))
+                # aubo5.aubo_motion(aubo_q_list,rate)
+                aubo5.manipulator_motion_simulation(aubo_q_list,rate)
                 break
+                
                 "termination condition: all climbing base positions are conversed"                
                 climb_base_count_num+=1
                 # if climb_base_count_num>=1:
