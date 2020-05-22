@@ -1,11 +1,11 @@
 <launch>
   <group ns="renov_up_level">
     <!-- mat document reading parameters -->
-    <!-- <param name="mat_data_path" value="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/data/data.mat"/>
-    <param name="coverage_planner_path" value="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/scripts"/> -->
+    <param name="mat_data_path" value="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/data/data.mat"/>
+    <param name="coverage_planner_path" value="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/scripts"/>
     
-    <param name="mat_data_path" value="/data/ros/renov_robot_ws/src/painting_robot_demo/data/data.mat"/>
-    <param name="coverage_planner_path" value="/data/ros/renov_robot_ws/src/painting_robot_demo/scripts"/>
+    <!-- <param name="mat_data_path" value="/data/ros/renov_robot_ws/src/painting_robot_demo/data/data.mat"/>
+    <param name="coverage_planner_path" value="/data/ros/renov_robot_ws/src/painting_robot_demo/scripts"/> -->
   
     <param name="mat_parameterx" value="0.430725381079" />
     <param name="mat_parametery" value="-0.00033063639818" />
@@ -14,15 +14,16 @@
 
 
     <!-- aubo parameters -->
-    <!-- <param name="aubo_ip" value='192.168.1.11'/>
-    <param name="aubo_start_point" value='(0.0,0.7156,2.7524,0.47,-1.487,1.57)'/> 
-    <param name="aubo_end_point" value='(0.0,0.7156,2.7524,0.47,-1.487,0)' /> 
+    <param name="aubo_ip" value='192.168.1.11'/>
+    <param name="aubo_start_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,0)'/>
+    <param name="aubo_end_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,0)' /> 
+
 
     <param name="joint_maxacc_tuple" value='(2.5, 2.5, 2.5, 2.5, 2.5, 2.5)'/> 
     <param name="joint_maxvelc_tuple" value='(1.5, 1.5, 1.5, 1.5, 1.5, 1.5)'/> 
     <param name="ee_maxacc" value='0.2'/> 
     <param name="ee_maxvelc" value='0.2'/>
-    <param name="blend_radius" value='0.05'/>  -->
+    <param name="blend_radius" value='0.05'/> 
 
     <!-- FSM parameters -->
     <param name="mobile_platform_tracking_over_flag" value="0"/>
