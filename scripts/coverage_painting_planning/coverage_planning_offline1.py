@@ -24,7 +24,9 @@ class Renovation_BIM_Model_Opreating():
         self.parameterz=parameterz#0.028625
         self.interval=  interval#0.10
         self.mat_path=mat_path
-    def renovationrobot_joints_computation_1(self,manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell):
+    def renovationrobot_joints_computation_1(self,manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list1):
+
+    # def renovationrobot_joints_computation_1(self,manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell):
 
         # computation of target joints of mobile platform
         theta_z=manipulatorbase_targetpose_onecell[0][5]
@@ -35,8 +37,9 @@ class Renovation_BIM_Model_Opreating():
         # computation of target joints of rodclimbing_robot
         rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz+0.7-0.86-0.62,0.0]
 
+        # aubo_joints_list1=np.array([37.57375715065746, -11.383079576802844, 70.85252590777286, -79.0851925954416, -53.913611719443864, 168.73807653957576-90.0])
+
         # computation of inverse joints of manipulator
-        aubo_joints_list1=np.array([24.456, -23.852, 48.547, -94.960, -67.3825, -7.2210+180.0])
         for i in range(len(aubo_joints_list1)):
             aubo_joints_list1[i]=aubo_joints_list1[i]*pi/180
         previous_aubo_joints=aubo_joints_list1
@@ -56,7 +59,7 @@ class Renovation_BIM_Model_Opreating():
             aubo_arm = Aubo_kinematics()
             aubo_joints_onepoint = aubo_arm.GetInverseResult(mat2, previous_aubo_joints)
             
-            print("aubo_joints_onepoint is:",aubo_joints_onepoint)
+            # print("aubo_joints_onepoint is:",aubo_joints_onepoint)
             aubo_joints_onepoint1=[]
             for k in range(len(aubo_joints_onepoint)):
                 aubo_joints_onepoint1.append(aubo_joints_onepoint[k]*180/pi)
@@ -93,13 +96,24 @@ class Renovation_BIM_Model_Opreating():
         aubo_joint_space_point={}
         mobile_way_point_data={}
         clim_way_temp={}
+
+        aubo_joints_list_1=np.array([37.57375715065746, -11.383079576802844, 70.85252590777286, -79.0851925954416, -53.913611719443864, 168.73807653957576-90.0])
+        aubo_joints_list_2=np.array([37.57375715065746, -11.383079576802844, 70.85252590777286, -79.0851925954416, -53.913611719443864, 168.73807653957576-270.0])
+        
+
         for i in range(len(manipulatorbase_targetpose[0])):
             for j in range(len(manipulatorbase_targetpose[0][i][0])):
                 for k in range(len(manipulatorbase_targetpose[0][i][0][j][0])):
                     
                     manipulatorbase_targetpose_onecell= manipulatorbase_targetpose[0][i][0][j][0][k]
                     manipulatorendeffector_targetpose_onecell = manipulatorendeffector_targetpose[0][i][0][j][0][k]
-                    mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
+
+                    if k==0:
+                        # mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
+                        mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list_1)
+                    else:
+                        # mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
+                        mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list_2)
                     
                     print("mobileplatform_targetjoints=: ",mobileplatform_targetjoints)
                     print("rodclimbing_robot_targetjoints=: ",rodclimbing_robot_targetjoints)
