@@ -78,9 +78,8 @@ class RenovationRobot():
                 #         list1[j]=list1[j]*180/pi
                 #     print(list1)
                 print("the number of aubo_q is:",len(aubo_q_list))
-                aubo5.aubo_motion(aubo_q_list,rate)
-                # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
-                
+                # aubo5.aubo_motion(aubo_q_list,rate)
+                aubo5.manipulator_motion_simulation(aubo_q_list,rate)
                 
                 "termination condition: all climbing base positions are conversed"                
                 climb_base_count_num+=1
@@ -104,7 +103,7 @@ class RenovationRobot():
             if plane_num_count>=len(planning_source_dict):
                 rospy.loginfo("painting operation of whole room is over")
                 break
-            break
+            # break
             rate.sleep()
 
 def main():

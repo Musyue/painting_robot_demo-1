@@ -24,7 +24,7 @@ class Renovation_BIM_Model_Opreating():
         self.parameterz=parameterz#0.028625
         self.interval=  interval#0.10
         self.mat_path=mat_path
-    def renovationrobot_joints_computation_1(self,manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list1):
+    def renovationrobot_joints_computation_1(self,manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list1,offset_length):
 
     # def renovationrobot_joints_computation_1(self,manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell):
 
@@ -35,7 +35,7 @@ class Renovation_BIM_Model_Opreating():
         mobileplatform_targetjoints=[manipulatorbase_targetpose_onecell[0][0]-deltax,(manipulatorbase_targetpose_onecell[0][1]-deltay),theta_z]
 
         # computation of target joints of rodclimbing_robot
-        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz+0.7-0.86-0.62,0.0]
+        rodclimbing_robot_targetjoints=[manipulatorbase_targetpose_onecell[0][2]-self.parameterz+offset_length-0.86-0.62,0.0]
 
         # aubo_joints_list1=np.array([37.57375715065746, -11.383079576802844, 70.85252590777286, -79.0851925954416, -53.913611719443864, 168.73807653957576-90.0])
 
@@ -109,11 +109,13 @@ class Renovation_BIM_Model_Opreating():
                     manipulatorendeffector_targetpose_onecell = manipulatorendeffector_targetpose[0][i][0][j][0][k]
 
                     if k==0:
+                        offset_length=-0.3
                         # mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
-                        mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list_1)
+                        mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list_1,offset_length)
                     else:
+                        offset_length=+0.7
                         # mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
-                        mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list_2)
+                        mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list_2,offset_length)
                     
                     print("mobileplatform_targetjoints=: ",mobileplatform_targetjoints)
                     print("rodclimbing_robot_targetjoints=: ",rodclimbing_robot_targetjoints)
