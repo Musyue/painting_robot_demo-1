@@ -427,6 +427,29 @@ def main():
     # for i in range(len(q_dict)):
     #     print i,q_dict[i]
     # print ak47.degree_to_rad([-3.3364,12.406,-81.09,-91.207,-86.08,0.164])
-    print ak47.GetInverseResult(tt,ak47.degree_to_rad([-3.3364,12.406,-81.09,-91.207,-86.08,0.164]))
+    # print ak47.GetInverseResult(tt,ak47.degree_to_rad([-3.3364,12.406,-81.09,-91.207,-86.08,0.164]))
+
+
+    aubo_joints1=[0.5982176981858913, -0.3280097664825776, 1.0692424127939981, -1.430778060686504, -0.9956220811743641, -1.7453915927980255]
+    for i in range(len(aubo_joints1)):
+        aubo_joints1[i]=aubo_joints1[i]*180/pi
+    print numpy.matrix(ak47.aubo_forward(aubo_joints1)).reshape((4,4))
+    aubo_joints2=[-0.15029973198925717, -0.34202595309251915, 1.046283188746198, -1.4886357311185474, -1.7159377961079914, -1.531620356215937]
+    for i in range(len(aubo_joints2)):
+        aubo_joints2[i]=aubo_joints2[i]*180/pi
+    print numpy.matrix(ak47.aubo_forward(aubo_joints2)).reshape((4,4))
+
+    aubo_joints1=[0.33763543867282575, -0.2405799482950144, 1.180663220404174, -1.4436514659473003, -1.2450988700985786, -1.6614133204664547]
+    for i in range(len(aubo_joints1)):
+        aubo_joints1[i]=aubo_joints1[i]*180/pi
+    print numpy.matrix(ak47.aubo_forward(aubo_joints1)).reshape((4,4))
+    aubo_joints2=[0.14187763944900755, -0.2439175041614554, 1.175536062928094, -1.4578039924265518, -1.4337840799658732, -1.6077485203840505]
+    for i in range(len(aubo_joints2)):
+        aubo_joints2[i]=aubo_joints2[i]*180/pi
+    print numpy.matrix(ak47.aubo_forward(aubo_joints2)).reshape((4,4))
+
+
+
+
 if __name__=="__main__":
     main()
