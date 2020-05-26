@@ -35,7 +35,7 @@ class RenovationRobot():
         planning_source_dict=rbmo.get_mat_data_json1()
         return planning_source_dict
     def renovationrobot_motion(self,planning_source_dict,rate):
-        plane_num_count=1
+        plane_num_count=0
         mobile_base_point_count=0
         climb_base_count_num=0
         list1=[]
@@ -109,7 +109,7 @@ class RenovationRobot():
             if plane_num_count>=len(planning_source_dict):
                 rospy.loginfo("painting operation of whole room is over")
                 break
-            break
+            # break
             rate.sleep()
         print("list is:",list1)
 
