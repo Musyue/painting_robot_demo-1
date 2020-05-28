@@ -10,12 +10,16 @@ import sys
 from geometry_msgs.msg import PoseStamped,Quaternion
 import tf
 
-sys.path.append("/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/scripts")
+coverage_planner_path=rospy.get_param("coverage_planner_path")
+# sys.path.append("/data/ros/renov_robot_ws/src/painting_robot_demo/scripts"
+# sys.path.append("/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/scripts")
+sys.path.append(coverage_planner_path)
 from coverage_painting_planning.coverage_planning_offline1 import *
-from mobileplatform_motion import *
-from jackup_mechanism_homing import *
-from rod_mechanism_holding import *
-from rodclimbing_mechanism_motion import *
+
+from mobileplatform_motion1 import *
+from jackup_mechanism_homing1 import *
+from rod_mechanism_holding1 import *
+from rodclimbing_mechanism_motion1 import *
 from aubo_motion1 import *
 
 class RenovationRobot():
@@ -34,63 +38,87 @@ class RenovationRobot():
         plane_num_count=0
         mobile_base_point_count=0
         climb_base_count_num=0
-
+        list1=[]
         while not rospy.is_shutdown():
+            "some selection for mobile base positions"
+            if plane_num_count==0 and mobile_base_point_count==0:
+                mobile_base_point_count=mobile_base_point_count+1
+            # if plane_num_count==1 and mobile_base_point_count==0:
+            #     mobile_base_point_count=mobile_base_point_count+1
+            if plane_num_count==1 and mobile_base_point_count==5:
+                break
+            
             "executing mobile platform motion"
             mobiledata=planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]["mobile_data_num_"+str(mobile_base_point_count)]
+            
+            "some adjustment of mobile base positions"
+            list1.append(mobiledata)
+            if plane_num_count==0 and mobile_base_point_count==1:
+                mobiledata[1]=mobiledata[1]+0.1
+            if plane_num_count==0 and mobile_base_point_count==2:
+                mobiledata[1]=mobiledata[1]+0.15
+            # time1=time.time
             renovation_mobileplatform=mobile_platform()
-            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-            renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             
             "executing rod mechanism holding operation when mobile platform motion is over"
             # target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
             target_standbar_displacement=0.12
             # rod_mechanism_holding(target_standbar_displacement,rate)
-            rod_mechanism_holding_simulation(target_standbar_displacement,rate)
+            # rod_mechanism_holding_simulation(target_standbar_displacement,rate)
 
             while not rospy.is_shutdown():
                 rospy.loginfo("execute the %sth plane"%str(plane_num_count+1))
                 rospy.loginfo("execute the %sth mobile base point"%str(mobile_base_point_count+1))
                 rospy.loginfo("execute the %sth climb base point"%str(climb_base_count_num+1))
 
-                "executing climbing motion of rod climbing mechanism when holding operation is over"
                 climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]
                 climb_distance=climb_data[0]
                 climb_rotation_angle=climb_data[1]
+                print("climb distance is:",climb_distance)
+                print("climb rotation angle is",climb_rotation_angle)
 
-                # rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
-                rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
+                # "executing climbing motion of rod climbing mechanism when holding operation is over"
+                rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
+                # rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
 
                 "exectuing painting operation of manipulator when climbing operation is over"
                 aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubo_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
                 aubo5=Renovation_operation()
-                # aubo5.manipulator_motion(aubo_q_list,rate)
-                aubo5.manipulator_motion_simulation(aubo_q_list,rate)
-
-                # break
+                # for i in range(len(aubo_q_list)):
+                #     list1=aubo_q_list["aubo_data_num_"+str(i)]
+                #     print(list1)
+                print("the number of aubo_q is:",len(aubo_q_list))
+                aubo5.aubo_motion(aubo_q_list,rate)
+                # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
+                
                 "termination condition: all climbing base positions are conversed"                
                 climb_base_count_num+=1
+                # if climb_base_count_num>=1:
                 if climb_base_count_num>=len(planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]):
                     mobile_base_point_count+=1
                     climb_base_count_num=0
                     os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 1')
                     break
+                # break
             "executing jackup motion of jackup mechanism when operation on one mobile base is over"
-            # jackup_mechanism_homing(rate)
-            jackup_mechanism_homing_simulation(rate)
+            jackup_mechanism_homing(rate)
+            # jackup_mechanism_homing_simulation(rate)
 
             "exit condition: all renovation surface is operated"
             if mobile_base_point_count >= len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
                 plane_num_count+=1 
                 mobile_base_point_count=0
                 # rospy.loginfo("plane_num_count is: %s",str(plane_num_count))
-            if plane_num_count==1 and mobile_base_point_count==3:
-                break
+            # if plane_num_count==1 and mobile_base_point_count==3:
+            #     break
             if plane_num_count>=len(planning_source_dict):
                 rospy.loginfo("painting operation of whole room is over")
                 break
             # break
             rate.sleep()
+        print("list is:",list1)
 
 def main():
     rospy.init_node("painting_opreating_node_with_bim_model")

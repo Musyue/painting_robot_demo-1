@@ -33,8 +33,8 @@ def rotation_enable(target_rotation_angle):
     os.system('rosparam set /renov_up_level/rad_control_rotation '+str(target_rotation_angle))
 def rotation_disable():
     os.system('rosparam set /renov_up_level/open_rotation_flag 0')
-    os.system('rosparam set /renov_up_level/enable_control_rotation 2')
-    os.system('rosparam set /renov_up_level/enable_control_rotation 0')
+    # os.system('rosparam set /renov_up_level/enable_control_rotation 2')
+    # os.system('rosparam set /renov_up_level/enable_control_rotation 0')
 
 def climb_enable(target_distance):
     # the motion command of climb mechanism
@@ -45,8 +45,8 @@ def climb_enable(target_distance):
 
 def climb_disable():
     os.system('rosparam set /renov_up_level/open_climb_flag 0')
-    os.system('rosparam set /renov_up_level/enable_climb_control 2')
-    os.system('rosparam set /renov_up_level/enable_climb_control 0')
+    # os.system('rosparam set /renov_up_level/enable_climb_control 2')
+    # os.system('rosparam set /renov_up_level/enable_climb_control 0')
 
 def standbar_motion_process(target_standbar_displacement):
     target_motion_distance=-target_standbar_displacement
@@ -59,8 +59,8 @@ def standbar_motion_process(target_standbar_displacement):
 
 def standbar_motion_end():
     os.system('rosparam set /renov_up_level/open_hold_flag 0')
-    os.system('rosparam set /renov_up_level/enable_control_stand_bar 2')
-    os.system('rosparam set /renov_up_level/enable_control_stand_bar 0')
+    # os.system('rosparam set /renov_up_level/enable_control_stand_bar 2')
+    # os.system('rosparam set /renov_up_level/enable_control_stand_bar 0')
     rospy.logerr("the motion of standbar mechanism is closed")
 
 def standbar_homing_process(target_standbar_displacement):
@@ -75,8 +75,8 @@ def standbar_homing_process(target_standbar_displacement):
 
 def standbar_homing_end():
     os.system('rosparam set /renov_up_level/open_hold_flag 0')
-    os.system('rosparam set /renov_up_level/enable_control_stand_bar 2')
-    os.system('rosparam set /renov_up_level/enable_control_stand_bar 0')
+    # os.system('rosparam set /renov_up_level/enable_control_stand_bar 2')
+    # os.system('rosparam set /renov_up_level/enable_control_stand_bar 0')
     os.system('rosparam set /renov_up_level/enable_second_control_stand_bar 0')
     rospy.loginfo("the motion of standbar mechanism is closed")
 
