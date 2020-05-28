@@ -49,8 +49,12 @@ class Renovation_BIM_Model_Opreating():
             p[0]=manipulatorendeffector_targetpose_onecell[i][0]
             p[1]=manipulatorendeffector_targetpose_onecell[i][1]
             p[2]=manipulatorendeffector_targetpose_onecell[i][2]
+            if offset_length==-0.5:
+                angle= pi/2
+            else:
+                angle= manipulatorendeffector_targetpose_onecell[i][4]
             q = np.array(
-                [manipulatorendeffector_targetpose_onecell[i][3], manipulatorendeffector_targetpose_onecell[i][4],
+                [manipulatorendeffector_targetpose_onecell[i][3],angle,
                  manipulatorendeffector_targetpose_onecell[i][5]])
             T_mat_generation = pose2mat()
             mat = T_mat_generation.mat4x4(p, q)
@@ -108,7 +112,7 @@ class Renovation_BIM_Model_Opreating():
                     manipulatorendeffector_targetpose_onecell = manipulatorendeffector_targetpose[0][i][0][j][0][k]
 
                     if k==0:
-                        offset_length=-0.4
+                        offset_length=-0.5
                         # mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
                         mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list_1,offset_length)
                     else:

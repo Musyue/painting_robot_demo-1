@@ -50,6 +50,7 @@ def rod_mechanism_holding(target_standbar_displacement,rate):
         pid_tolerance_error_standbar=rospy.get_param("/renov_up_level/pid_tolerance_error_standbar")
         top_limit_switch_status=rospy.get_param("/renov_up_level/top_limit_switch_status")
         if top_limit_switch_status==1 or abs(standbar_tracking_error)<pid_tolerance_error_standbar:
+        # if top_limit_switch_status==1:
             standbar_motion_end()
             flexbar_upwardsmotion_end()
             rospy.logerr("step 2: rod_mechanism_holding is closed")
