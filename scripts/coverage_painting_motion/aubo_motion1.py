@@ -206,6 +206,40 @@ class Renovation_operation():
         count=count+1
         self.manipulator_motion(pubstring3,rate,count)
 
+    def aubo_motion1(self, aubo_q_list, rate):
+        aubo_joints=[]
+        for i in range(len(aubo_q_list)):
+            aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
+
+        "motion of manipulator to start point"
+        count=1
+        pubstring1="movej"+self.default_start_joints+self.group_joints_to_string(aubo_joints[0:1])
+        print("pubstring1=%s"%pubstring1)
+        self.manipulator_motion(pubstring1,rate,count)
+        count=count+1
+
+        "motion of manipulator to waypoints lines"
+        for i in range(len(aubo_joints)-1):
+            if i%2==1:
+                self.painting_gun_open_control()
+                pubstring="movel"+self.group_joints_to_string(aubo_joints[i])+self.group_joints_to_string(aubo_joints[i+1])
+                print("pubstring%s is %s"%(str(count),pubstring))
+                self.manipulator_motion(pubstring,rate,count)
+                self.painting_gun_close_control()
+                count=count+1
+            else:
+                pubstring="movel"+self.group_joints_to_string(aubo_joints[i])+self.group_joints_to_string(aubo_joints[i+1])
+                print("pubstring%s is %s"%(str(count),pubstring))
+                self.manipulator_motion(pubstring,rate,count)
+                count=count+1
+
+        "motion of manipulator to end points"
+        pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])+self.default_end_joints
+        print("pubstring3=%s"%pubstring3)
+        self.manipulator_motion(pubstring3,rate,count)
+
+
+
 
 def main():
     nodename="renovation_operation"

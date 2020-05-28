@@ -13,7 +13,7 @@
     <param name="joint_maxacc_tuple" value='(2.5, 2.5, 2.5, 2.5, 2.5, 2.5)'/> 
     <param name="joint_maxvelc_tuple" value='(1.5, 1.5, 1.5, 1.5, 1.5, 1.5)'/> 
     <param name="ee_maxacc" value='0.2'/> 
-    <param name="ee_maxvelc" value='0.2'/>
+    <param name="ee_maxvelc" value='0.1'/>
     <param name="blend_radius" value='0.05'/> 
     
     <!-- <param name="mobile_platform_tracking_over_flag" value="0"/>
