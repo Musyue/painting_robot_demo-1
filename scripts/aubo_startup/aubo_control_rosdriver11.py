@@ -71,7 +71,7 @@ class AuboRosDriver():
             rospy.loginfo("movel start point={0}".format(tuplefloatdata[0:6]))
             rospy.loginfo("movel end point={0}".format(tuplefloatdata[6:]))
             self.move_line_points={"startpoint":tuplefloatdata[0:6],"endpoint":tuplefloatdata[6:]}
-            self.robot.move_joint(tuplefloatdata[0:6])
+            # self.robot.move_joint(tuplefloatdata[0:6])
             flag=self.robot.move_line(tuplefloatdata[6:])
             if flag:
                 rospy.logerr("movel command work successfully")

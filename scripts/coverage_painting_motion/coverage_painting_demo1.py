@@ -68,8 +68,8 @@ class RenovationRobot():
             "executing mobile platform motion"
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
-            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-            renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
             self.time1_pub.publish(delta_time1)
@@ -98,8 +98,8 @@ class RenovationRobot():
 
                 "executing climbing motion of rod climbing mechanism when holding operation is over"
                 time1=time.time()
-                # rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
-                rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
+                rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
+                # rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
                 time2=time.time()
                 delta_time3=time2-time1
                 self.time3_pub.publish(delta_time3)
@@ -113,8 +113,8 @@ class RenovationRobot():
                 print("the number of aubo_q is:",len(aubo_q_list))
 
                 time1=time.time()
-                # aubo5.aubo_motion(aubo_q_list,rate)
-                aubo5.manipulator_motion_simulation(aubo_q_list,rate)
+                aubo5.aubo_motion1(aubo_q_list,rate)
+                # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
                 time2=time.time()
                 delta_time4=time2-time1
                 self.time4_pub.publish(delta_time4)
@@ -130,8 +130,8 @@ class RenovationRobot():
                 # break
             "executing jackup motion of jackup mechanism when operation on one mobile base is over"
             time1=time.time()
-            # jackup_mechanism_homing(rate)
-            jackup_mechanism_homing_simulation(rate)
+            jackup_mechanism_homing(rate)
+            # jackup_mechanism_homing_simulation(rate)
             time2=time.time()
             delta_time5=time2-time1
             self.time5_pub.publish(delta_time5)
