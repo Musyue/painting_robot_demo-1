@@ -37,7 +37,7 @@
     <param name="current_motion_phase_start_flag" value="0" />
     <param name="current_motion_phase_over_flag" value="0" />
 
-    <node pkg="painting_robot_demo" type="coverage_painting_demo1.py" name="coverage_painting_simulation" output="screen" >
+    <node pkg="painting_robot_demo" type="coverage_painting_demo.py" name="coverage_painting_simulation" output="screen" >
     </node>
 
   <!-- other parameters -->
