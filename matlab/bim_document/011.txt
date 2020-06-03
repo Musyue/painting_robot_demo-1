@@ -1,0 +1,13 @@
+SCENE Overview Map Information 
+
+Associated TIF file: C:\Users\ALIENWARE\Desktop\011.tif
+
+Pixel/m: 64
+Image size: 12, 16 m
+
+Image size in pixel: 768 x 1024
+
+Top Left Corner: (-8.000000, 8.000000, 3.032032)
+Top Right Corner: (4.000000, 8.000000, 3.032032)
+Bottom Left Corner: (-8.000000, -8.000000, 3.032032)
+Bottom Right Corner: (4.000000, -8.000000, 3.032032)
