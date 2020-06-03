@@ -2,7 +2,6 @@
 
   <!-- set /global_example parameter -->  
   <group ns="renov_up_level">
-  
     <!--ros parameters of stand bar mechanism-->
     <param name="open_hold_flag" value="0"/>
     <param name="enable_control_stand_bar" value="0" />
@@ -62,27 +61,15 @@
 
 
     <!--new ros parameters added by zy-->
-    
-    <param name="mobile_platform_tracking_over_flag" value="0"/>
-    <param name="rodmechanism_holding_over_flag" value="0"/>
-    <param name="climbingmechanism_climbing_over_flag" value="0"/>
-    <param name="one_mobilebase_operation_over_flag" value="0" />
-    <param name="jackup_mechanism_homing_over_flag" value="0" />    
-
     <param name="last_motion_phase_over_flag" value="0" />
     <param name="current_motion_phase_start_flag" value="0" />
     <param name="current_motion_phase_over_flag" value="0" />
     
-    <!-- <node pkg="painting_robot_demo" type="climb_bar_startup.py" name="climb_bar_startup" output="screen" > -->
     <node pkg="painting_robot_demo" type="jackup_mechanism_rosdriver.py" name="jackup_mechanism_startup" output="screen" >
     </node>
     
   </group>
 
-  <!-- <include file="$(find painting_robot_demo)/launch/climb_flex_bar_holding.launch">
-  </include>
-  <include file="$(find painting_robot_demo)/launch/climb_flex_bar_homing.launch">
-  </include> -->
   
 </launch>
 
