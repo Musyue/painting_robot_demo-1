@@ -51,13 +51,12 @@
     <!--climbing distance range: 0-2.5m (pos-up neg-down)-->
     <param name="distance_climb_control" value="0"/>   
 
-
     <!--other ros parameters -->
     <!--set /climb_pkg_para/close all 3dof driver-->
-    <param name="close_all_3dof_climb_driver_flag" value="0"/>
+    <!-- <param name="close_all_3dof_climb_driver_flag" value="0"/>
     <param name="open_hold_to_ceil_flag" value="0"/>
     <param name="home_climb_flex_bar" value="0" />
-    <param name="aubo_painting_opreating_over" value="0" />
+    <param name="aubo_painting_opreating_over" value="0" /> -->
 
 
     <!--new ros parameters added by zy-->
@@ -65,6 +64,15 @@
     <param name="current_motion_phase_start_flag" value="0" />
     <param name="current_motion_phase_over_flag" value="0" />
     
+
+    <!--several ranges-->
+    <param name="min_holding_distance" value="-0.03" />
+    <param name="max_holding_distance" value="0.15" />
+    <param name="min_climbing_distance" value="-0.17" />
+    <param name="max_climbing_distance" value="0.90" />
+    <param name="min_rotation_distance" value="-0.50" />
+    <param name="max_rotation_distance" value="2.36" />
+
     <node pkg="painting_robot_demo" type="jackup_mechanism_rosdriver.py" name="jackup_mechanism_startup" output="screen" >
     </node>
     

@@ -22,7 +22,7 @@ class Renovation_BIM_Model_Opreating():
         self.parameterx=parameterx#0.430725381079
         self.parametery=parametery#-0.00033063639818
         self.parameterz=parameterz#0.028625
-        self.interval=  interval#0.10
+        self.interval=interval#0.10
         self.mat_path=mat_path
         self.offset_length1=-0.45
         self.offset_length2=+0.65
@@ -105,7 +105,6 @@ class Renovation_BIM_Model_Opreating():
         aubo_joints_list_1=np.array([37.57375715065746, -11.383079576802844, 70.85252590777286, -79.0851925954416, -53.913611719443864, 168.73807653957576-90.0])
         aubo_joints_list_2=np.array([37.57375715065746, -11.383079576802844, 70.85252590777286, -79.0851925954416, -53.913611719443864, 168.73807653957576-270.0])
         
-
         for i in range(len(manipulatorbase_targetpose[0])):
             for j in range(len(manipulatorbase_targetpose[0][i][0])):
                 for k in range(len(manipulatorbase_targetpose[0][i][0][j][0])):
@@ -132,6 +131,7 @@ class Renovation_BIM_Model_Opreating():
                 mobile_way_point_data.update({("mobile_data_num_"+str(j)):mobileplatform_targetjoints})
                 # mobile_way_point.update({("current_mobile_way_climb_num_"+str(j)):climb_way_point})
                 mobile_way_point.update({("current_mobile_way_climb_num_"+str(j)):climb_way_point,("current_mobile_way_aubo_num_"+str(j)):aubo_joint_space_point})    
+            
             mobile_way_point.update({("moible_way_num_"+str(i)):mobile_way_point_data})
             climb_way_point={}
             aubo_joint_space_point={}     

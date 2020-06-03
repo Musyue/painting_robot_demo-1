@@ -155,8 +155,8 @@ class CLMBPKG:
             Desiredisplacement=self.read_line_l0_encode_bottom-DesireDistance
             feedback_displacement=self.read_line_l0_encode_bottom-feedback_distance
             displacement_error=Desiredisplacement-feedback_displacement
-            rospy.logerr("standbar----target displacement is:%s",str(Desiredisplacement))
-            rospy.logerr("standbar----feedback displacement is:%s",str(feedback_displacement))
+            rospy.loginfo("standbar----target displacement is:%s",str(Desiredisplacement))
+            rospy.loginfo("standbar----feedback displacement is:%s",str(feedback_displacement))
             rospy.logerr("standbar----displacement error is:%s",str(displacement_error))
             Distance_error=DesireDistance-feedback_distance
             self.current_time_hold=time.time()
@@ -185,7 +185,7 @@ class CLMBPKG:
                     velocity=1300.0
                 else:
                     pass
-                rospy.loginfo("hold----velocity:  %s",str(velocity))
+                # rospy.loginfo("hold----velocity:  %s",str(velocity))
                 if abs(Distance_error)<=self.pid_tolerance_error_standbar:
                     os.system('rosparam set /renov_up_level/hold_distance_tracking_over 1')
                     velocity=0
@@ -210,8 +210,8 @@ class CLMBPKG:
         target_angle=self.rotation_joint_line_equation_k*DesireEncodeData+self.rotation_joint_line_equation_b
         current_angle=self.rotation_joint_line_equation_k*feedback_EncodeData+self.rotation_joint_line_equation_b
         angle_error=encodedata_error*self.rotation_joint_line_equation_k
-        rospy.logerr("---target_angle---%s",str(target_angle))
-        rospy.logerr("---current_angle---%s",str(current_angle))        
+        rospy.loginfo("---target_angle---%s",str(target_angle))
+        rospy.loginfo("---current_angle---%s",str(current_angle))        
         rospy.logerr("------neg anticlockwise, pos clockwise---angle_error---%s",str(angle_error))
         self.current_time_rotation=time.time()
         deltatime=self.current_time_rotation-self.last_time_rotation
@@ -232,7 +232,7 @@ class CLMBPKG:
             self.output_rotation=self.PTerm_rotation + (self.Ki_rotation *self.ITerm_rotation) + (self.Kd_climb * self.DTerm_climb)
 
             velocity = -1.0*self.output_rotation
-            rospy.loginfo("-------roation pid control velocity------%s",velocity) 
+            # rospy.loginfo("-------roation pid control velocity------%s",velocity) 
             if velocity<0 and abs(velocity)>1000:
                 velocity=-1000.0
             elif velocity>0 and abs(velocity)>1000:
@@ -262,8 +262,8 @@ class CLMBPKG:
         :return:
         """
         Distance_error=DesireDistance-feedback_distance
-        rospy.logerr("-------climb pid control Desired Distance-:  %s",str(DesireDistance))
-        rospy.logerr("-------climb pid control feedback Distance-:  %s",str(feedback_distance))     
+        rospy.loginfo("-------climb pid control Desired Distance-:  %s",str(DesireDistance))
+        rospy.loginfo("-------climb pid control feedback Distance-:  %s",str(feedback_distance))     
         rospy.logerr("-------climb pid control Distance_error-:  %s",str(Distance_error))
 
         self.current_time_climb=time.time()
@@ -291,7 +291,7 @@ class CLMBPKG:
                 velocity=1000.0
             else:
                 pass
-            rospy.loginfo("-------climb pid control velocity------:  %s",str(velocity))       
+            # rospy.loginfo("-------climb pid control velocity------:  %s",str(velocity))       
             if abs(Distance_error)<=self.pid_tolerance_error_climb:
                 velocity=0
                 os.system('rosparam set /renov_up_level/climb_distance_tracking_over 1')
@@ -472,47 +472,44 @@ def main():
             # open pid control for stand bar, climbing mechanism and rotation mechanism
             if open_hold_flag==1:
                 try:
-                    rospy.loginfo("distance_control_stand_bar is: %s"%distance_control_stand_bar)
-                    if distance_control_stand_bar<=0.03 and distance_control_stand_bar>=-0.15:
+                    distance_control_stand_bar = rospy.get_param("distance_control_stand_bar")
+                    min_holding_distance = rospy.get_param("min_holding_distance")
+                    max_holding_distance = rospy.get_param("max_holding_distance")
+                    if distance_control_stand_bar>=min_holding_distance and distance_control_stand_bar<=max_holding_distance:
                         # rospy.logerr("you can not more than 0.2----")
                         target_hold_distance=read_line_l0_encode_bottom+distance_control_stand_bar#-light_scan_to_top_distance
                         # rospy.logerr("read_line_encode_bottom-----inclimb modbus%s  target_hold_distance%s",read_line_encode_bottom,target_hold_distance)
                         clbpkg.Hold_Robot_close_loop_control(ser,target_hold_distance, read_line_encode_bottom)
                     else:
-                        rospy.logerr("you can not more than -0.03-0.15----")
+                        rospy.logerr("the holding distance should be within the distance range")
                 except:
-                    rospy.logerr("something errro with open_hold_flag----")
-                # open_hold_flag=0
-                # rospy.set_param('open_hold_flag',0)
+                    rospy.logerr("something error with open_hold_flag----")
+
             if open_climb_flag==1:
                 try:
                     distance_climb_control = rospy.get_param("distance_climb_control")
-                    if distance_climb_control>=-0.17 and distance_climb_control<=0.90:
+                    min_climbing_distance = rospy.get_param("min_climbing_distance")
+                    max_climbing_distance = rospy.get_param("max_climbing_distance")
+                    if distance_climb_control>=min_climbing_distance and distance_climb_control<=max_climbing_distance:
                         target_distance=distance_climb_control+read_line_l0_encode
-
                         clbpkg.Climbing_Robot_close_loop_control(ser,target_distance,read_line_encode)
                     else:
-                        rospy.logerr("the climbing distance should be not more than -0.17-0.9----")
+                        rospy.logerr("the climbing distance should be within the distance range")
                 except:
-                    rospy.logerr("something errro with open_climb_flag----")
-                # open_climb_flag=0
-                # rospy.set_param('open_climb_flag',0)
+                    rospy.logerr("something error with open_climb_flag----")
+
             if open_rotation_flag==1:
                 try:
-                    if rad_control_rotation<=-0.51:
-                        rospy.logerr("-------rad_control_rotation is more than the anticlockwise limit ,you can not more than----%s",0.5)
-                        rad_control_rotation=-0.5
-                    elif rad_control_rotation>=3.0*math.pi/4.0+0.01:
-                        rospy.logerr("-------rad_control_rotation is more than the clockwise limit ,you can not more than----%s","3*pi/4")
-                        rad_control_rotation=3.0*math.pi/4.0
+                    rad_control_rotation = rospy.get_param("rad_control_rotation")
+                    min_rotation_distance = rospy.get_param("min_rotation_distance")
+                    max_rotation_distance = rospy.get_param("max_rotation_distance")
+                    if rad_control_rotation>=min_rotation_distance and rad_control_rotation<=max_rotation_distance:
+                        target_abs_encode_data=(rad_control_rotation-rotation_joint_line_equation_b)/rotation_joint_line_equation_k
+                        clbpkg.Rotation_Robot_close_loop_control(ser,target_abs_encode_data,rotation_abs_encode) 
                     else:
-                        pass
-                    target_abs_encode_data=(rad_control_rotation-rotation_joint_line_equation_b)/rotation_joint_line_equation_k
-                    clbpkg.Rotation_Robot_close_loop_control(ser,target_abs_encode_data,rotation_abs_encode) 
+                        rospy.logerr("the rotation angle should be within the angle range")
                 except:
-                    rospy.logerr("something errro with open_rotation_flag----")
-                # rospy.set_param('open_rotation_flag',0)
-                # open_rotation_flag=0       
+                    rospy.logerr("something error with open_rotation_flag----")     
 
         else:
             try:

@@ -99,21 +99,26 @@ def main():
             count=0
         if open_serial_port_again_flag!=1 and plc_port_ok_flag==1:
             start_time=time.time()
-
             # read light scan to ceils distance data 
             light_scan_to_ceil_distance,light_scan_to_ceil_distance_str=plcpkg.Send_message_to_port(ser,plcpkg.crc16.Combining_CRC_and_info(plcpkg.plccmd.READ_LIGHT_SCAN_ENCODE_DATA))
             # rospy.logerr("-------read light_scan device-- %s-%s",light_scan_to_ceil_distance,light_scan_to_ceil_distance_str)  
             if len(light_scan_to_ceil_distance)!=0 and light_scan_to_ceil_distance[0]==5:
                 scan_len=len(light_scan_to_ceil_distance_str)
                 rospy.set_param('light_scan_to_ceil_distance', int(int(light_scan_to_ceil_distance_str[scan_len-4:],16))/1000.0)
-                rospy.logerr("the distance of light scan device to ceil is: %s-%s",light_scan_to_ceil_distance,int(int(light_scan_to_ceil_distance_str[scan_len-4:],16)))        
-            
+                rospy.loginfo("light scan device is ok!")
+                # rospy.logerr("the distance of light scan device to ceil is: %s-%s",light_scan_to_ceil_distance,int(int(light_scan_to_ceil_distance_str[scan_len-4:],16)))        
+            else:
+                rospy.logerr("light scan device is not ok!")
+
             # read up line encoders data
             read_line_encode_data,line_encode_str=plcpkg.Send_message_to_port(ser,plcpkg.crc16.Combining_CRC_and_info(plcpkg.plccmd.READ_LINE_ENCODE))
             # rospy.logerr("-------read line %s-%s",read_line_encode_data,line_encode_str)
             if len(read_line_encode_data)!=0 and read_line_encode_data[0]==4 and len(read_line_encode_data)>=5:
                 rospy.set_param('read_line_encode', read_line_encode_data[4]/100.0)
-                rospy.logerr("the up line encoder data is: %s",read_line_encode_data[4]/100.0)   
+                rospy.loginfo("line encode for climbing joint is ok!")
+                # rospy.logerr("the up line encoder data is: %s",read_line_encode_data[4]/100.0)   
+            else:
+                rospy.logerr("line encode for climbing joint is not ok!")
 
             # read rotation encoders data
             rotation_abs_encode_data,rotation_abs_encode_str=plcpkg.Send_message_to_port(ser,plcpkg.crc16.Combining_CRC_and_info(plcpkg.plccmd.READ_ROTATION_ENCODE_DATA))            
@@ -125,14 +130,20 @@ def main():
                 low16str=low16str.zfill(len(low16str)+2-len(low16str))
                 newdata='0x'+high16str+low16str
                 rospy.set_param('rotation_abs_encode',int(newdata,16))
-                rospy.logerr('the rotation encoder data is: %s--%d',rotation_abs_encode_data,int(newdata,16))
+                rospy.loginfo("encode for rotation joint is ok!")
+                # rospy.logerr('the rotation encoder data is: %s--%d',rotation_abs_encode_data,int(newdata,16))
+            else:
+                rospy.logerr("encode for rotation joint is not ok!")
 
             # read bottom line encoders data
             read_line_encode_data_bottom,line_encode_str_bottom=plcpkg.Send_message_to_port(ser,plcpkg.crc16.Combining_CRC_and_info(plcpkg.plccmd.READ_LINE_ENCODE_BOTTOM))
             # rospy.logerr("-------read_line_encode_data_bottom %s-%s",read_line_encode_data_bottom,line_encode_str_bottom)
             if len(read_line_encode_data_bottom)!=0 and read_line_encode_data_bottom[0]==4 and len(read_line_encode_data_bottom)>=5:
                 rospy.set_param('read_line_encode_bottom', read_line_encode_data_bottom[4]/100.0)
-                rospy.logerr("the bottom line encoder data is: %s",read_line_encode_data_bottom[4]/100.0)
+                rospy.loginfo("line encode for holding joint is ok!")
+                # rospy.logerr("the bottom line encoder data is: %s",read_line_encode_data_bottom[4]/100.0)
+            else:
+                rospy.logerr("line encode for holding joint is not ok!")
 
             # read  read_limit_switch_status
             read_limit_switch_status_data,read_limit_switch_status_str=plcpkg.Send_message_to_port(ser,plcpkg.crc16.Combining_CRC_and_info(plcpkg.plccmd.READ_LIMIT_SWITCH_STATUS))
@@ -189,12 +200,13 @@ def main():
                 rospy.set_param('write_electric_switch_painting_open',0)
 
             end_time=time.time()
-            rospy.logerr("------send message time spending----#%s",end_time-start_time)   
+            rospy.loginfo("PLC usb port is ok!")
+            # rospy.logerr("------send message time spending----#%s",end_time-start_time)   
         else:
             try:
                 ser = serial.Serial(port=plc_port, baudrate=plc_port_baudrate, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=1,timeout=0.3, xonxoff=0,rtscts=False,dsrdtr=False)
             except:
-                rospy.loginfo("Please check PLC Usb port----,I will reconnect after three seconds-----")
+                rospy.logerr("PLC usb port is not ok!")
                 open_serial_port_again_flag=1
                 time.sleep(3)
         count+=1    

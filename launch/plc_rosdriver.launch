@@ -13,18 +13,17 @@
     <!-- Use for light scan dervice -->
     <param name="light_scan_to_ceil_distance" value="0" />
 
-
     <param name="climb_distance_tracking_over" value="0" />
     <!-- anticlockwise abs encode increase -->
-    <param name="rotation_abs_encode" value="0" />
+    <param name="rotation_abs_encode" value="43774" />
     <param name="rotation_distance_tracking_over" value="0" />
 
     <!--the below ones are written by zy-->
     <!--set /plc_pkg_para/test_plc_communication-->
     <param name="test_plc_communication" value="0" />
     <!--set /plc_pkg_para/read_line_encode-->
-    <param name="read_line_encode" value="0" />
-    <param name="read_line_encode_bottom" value="0" />
+    <param name="read_line_encode" value="0.62" />
+    <param name="read_line_encode_bottom" value="0.22" />
     <!-- power on first line encode data name:l0 -->
     <param name="read_line_l0_encode" value="0.62" />
     <param name="read_line_l0_encode_bottom" value="0.22" />

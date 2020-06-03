@@ -36,7 +36,6 @@ class RenovationRobot():
         self.time4_pub = rospy.Publisher('/renov_up_level/manipulator_motion_time', Float64, queue_size=1)
         self.time5_pub = rospy.Publisher('/renov_up_level/jackupmechanism_homing_time', Float64, queue_size=1)
 
-
     def renovation_planning_source_dict_generation(self):
         planning_source_dict={}
         rbmo=Renovation_BIM_Model_Opreating(self.mat_path,self.parameterx,self.parametery,self.parameterz,self.interval)

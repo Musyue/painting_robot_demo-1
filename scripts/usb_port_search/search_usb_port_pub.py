@@ -87,8 +87,8 @@ class SerarchUSB():
 def main():
     iob=SerarchUSB("search_port_node")
     iob.Init_node()
-    iob.password()
-
+    # iob.password()
+    
     port_list=[]
     imu_port = rospy.get_param("imu_port")
     rospy.loginfo("%s is %s", rospy.resolve_name('imu_port'), imu_port)
@@ -140,22 +140,31 @@ def main():
 
     while not rospy.is_shutdown():
         imu_port = rospy.get_param("imu_port")
+        plc_port = rospy.get_param("plc_port")
         climb_port = rospy.get_param("climb_port")
         plc_port_ok_flag=rospy.get_param("plc_port_ok_flag")
         imu_port_ok_flag=rospy.get_param("imu_port_ok_flag")
         climb_port_ok_flag=rospy.get_param("climb_port_ok_flag")
-        plc_port = rospy.get_param("plc_port")
-        rospy.loginfo("%s is %s", rospy.resolve_name('plc_port_ok_flag'), plc_port_ok_flag)
-        rospy.loginfo("%s is %s", rospy.resolve_name('imu_port_ok_flag'), imu_port_ok_flag)
-        rospy.loginfo("%s is %s", rospy.resolve_name('climb_port_ok_flag'), climb_port_ok_flag)
-        rospy.loginfo("%s is %s", rospy.resolve_name('plc_port_baudrate'), plc_port_baudrate)
-        rospy.loginfo("%s is %s", rospy.resolve_name('plc_port_baudrate'), plc_port_baudrate)
-        rospy.loginfo("%s is %s", rospy.resolve_name('imu_port'), imu_port)
-        rospy.loginfo("%s is %s", rospy.resolve_name('imu_port_baudrate'), imu_port_baudrate)
-        rospy.loginfo("%s is %s", rospy.resolve_name('plc_port'), plc_port)
-        rospy.loginfo("%s is %s", rospy.resolve_name('plc_port_baudrate'), plc_port_baudrate)
-        rospy.loginfo("%s is %s", rospy.resolve_name('climb_port'), climb_port)
-        rospy.loginfo("%s is %s", rospy.resolve_name('climb_port_baudrate'), climb_port_baudrate)
+        if plc_port_ok_flag==1 and imu_port_ok_flag==1 and climb_port_ok_flag==1:
+            rospy.set_param("usb_ports_ok_flag",1)
+        usb_ports_ok_flag=rospy.get_param("usb_ports_ok_flag")
+        if usb_ports_ok_flag==1:
+            rospy.loginfo("all three usb ports are ok !")
+        else:
+            rospy.logerr("some problems with usb ports")
+
+        # rospy.loginfo("%s is %s", rospy.resolve_name('plc_port_ok_flag'), plc_port_ok_flag)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('imu_port_ok_flag'), imu_port_ok_flag)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('climb_port_ok_flag'), climb_port_ok_flag)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('plc_port_baudrate'), plc_port_baudrate)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('plc_port_baudrate'), plc_port_baudrate)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('imu_port'), imu_port)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('imu_port_baudrate'), imu_port_baudrate)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('plc_port'), plc_port)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('plc_port_baudrate'), plc_port_baudrate)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('climb_port'), climb_port)
+        # rospy.loginfo("%s is %s", rospy.resolve_name('climb_port_baudrate'), climb_port_baudrate)
+
         rate.sleep()
 if __name__ == '__main__':
     main()
