@@ -13,10 +13,10 @@ coverage_planner_path="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/
 mat_path="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/data/data3.mat" 
 
 sys.path.append(coverage_planner_path)
-from coverage_painting_planning.coverage_planning_offline1 import *
-from coverage_painting_planning.robotic_functions.transfer import *
-from coverage_painting_planning.robotic_functions.aubo_kinematics import *
-from coverage_painting_planning.robotic_functions.Quaternion import *
+from paintingrobot_planning.coverage_planning_offline1 import *
+from paintingrobot_planning.robotic_functions.transfer import *
+from paintingrobot_planning.robotic_functions.aubo_kinematics import *
+from paintingrobot_planning.robotic_functions.Quaternion import *
 
 from geometry_msgs.msg import PoseStamped, Pose, Point
 from visualization_msgs.msg import Marker, MarkerArray
@@ -184,7 +184,7 @@ class Renovationrobot_motion():
         maobileplatform_T1 = rotz(mobileplatform_targetjoints[2])
         maobileplatform_T2 = r2t(maobileplatform_T1)
         q0 = quaternion(maobileplatform_T2)
-        frame = 'base_link'
+        frame = 'map'
         mobileplatform_targepositions=np.array([mobileplatform_targetjoints[0],mobileplatform_targetjoints[1],0, q0.s, q0.v[0, 0], q0.v[0, 1], q0.v[0, 2]])
         scale1=np.array([0.2,0.2,0.2])
         color1=np.array([1.0,0.0,0.0])
@@ -210,7 +210,7 @@ class Renovationrobot_motion():
         q0 = quaternion(maobileplatform_T2)
         manipulatorbase_targepositions=np.array([manipulatorbase_targetpose_onecell[0][0],manipulatorbase_targetpose_onecell[0][1],manipulatorbase_targetpose_onecell[0][2], q0.s, q0.v[0, 0], q0.v[0, 1], q0.v[0, 2]])
 
-        frame = 'base_link'
+        frame = 'map'
         scale2 = np.array([0.1, 0.1, 0.25])
         color2 = np.array([0.0, 1.0, 0.0])
         visualization_num=visualization_num+1
@@ -221,7 +221,7 @@ class Renovationrobot_motion():
 
     def target_region_visualization(self,visualization_num,painting_targetregion_onecell):
         # visualization of target painting region
-        frame = 'base_link'
+        frame = 'map'
         for i in range(len(painting_targetregion_onecell)):
             visualization_num = visualization_num + 1
             waypoints = painting_targetregion_onecell[i]
@@ -237,7 +237,7 @@ class Renovationrobot_motion():
 
     def target_path_visualization(self,visualization_num,manipulatorendeffector_targetpose_onecell):
         "visualization of planned paths of manipulator"       
-        frame='base_link'
+        frame='map'
         visualization_num=visualization_num+1
         marker1,visualization_num=path1_visualization(manipulatorendeffector_targetpose_onecell,frame,visualization_num)
         marker_pub.publish(marker1)
@@ -280,6 +280,7 @@ class Renovationrobot_motion():
         "computation of target joints of mobile platform and rodclimbing mechanisam and inverse joints of manipulator" 
         mobileplatform_targetjoints, rodclimbing_robot_targetjoints, aubo_targetjoints=self.renovationrobot_joints_computation_0(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell)
         
+
         "visualization of target mobile platform base positions"
         visualization_num=visualization_num+1
         visualization_num=self.mobile_platform_visualization(visualization_num, mobileplatform_targetjoints)
@@ -307,7 +308,7 @@ class Renovationrobot_motion():
 
 if __name__ == "__main__":
     moveit_commander.roscpp_initialize(sys.argv)
-    rospy.init_node('paintingrobot_simulation', anonymous=True)
+    rospy.init_node('paintingrobot_planner', anonymous=True)
     marker_pub = rospy.Publisher("visualization_marker", Marker, queue_size=10)
 
     data = io.loadmat(mat_path)
@@ -320,10 +321,9 @@ if __name__ == "__main__":
     visualization_num=1
     try:
         while not rospy.is_shutdown():
-            # for i in range(1): # range(len(manipulatorbase_targetpose[0])):
-            #     for j in range(1): # range(len(manipulatorbase_targetpose[0][i][0])):
-            #         for k in range(1): # range(len(manipulatorbase_targetpose[0][i][0][j][0])):
-
+        # for i in range(1): # range(len(manipulatorbase_targetpose[0])):
+        #     for j in range(1): # range(len(manipulatorbase_targetpose[0][i][0])):
+        #         for k in range(1): # range(len(manipulatorbase_targetpose[0][i][0][j][0])):
             for i in range(len(manipulatorbase_targetpose[0])):
                 for j in range(len(manipulatorbase_targetpose[0][i][0])):
                     for k in range(len(manipulatorbase_targetpose[0][i][0][j][0])):
@@ -348,7 +348,15 @@ if __name__ == "__main__":
     moveit_commander.roscpp_shutdown()
     moveit_commander.os._exit(0)
 
-
-
-
-
+# -1.3192469452282336, -1.9515323742482475, -0.3584438970917431
+# -1.5121965458002296, -2.4665765001628213, -0.3584438970917431
+# -1.7051461463722257, -2.9816206260773948, -0.3584438970917431
+# -1.8980957469442217, -3.4966647519919682, -0.3584438970917431
+# -2.0647340383473094, -3.9414755880091006, -0.3584438970917431
+# 2.048898875211897, -1.074114146268727, -1.8953594448649913
+# 1.5276143002953437, -0.8987220371130715, -1.8953594448649913
+# 1.077413985594685, -0.7472470337513697, -1.8953594448649913
+# data1=[0,0,-0.3584438970917431]
+# ('quaternion angles is:', array([ 0.        ,  0.        , -0.17826404,  0.98398269]))
+# data2=[0,0, -1.8953594448649913]
+# ('quaternion angles is:', array([ 0.        ,  0.       , -0.81206365,  0.58356887]))

@@ -74,6 +74,11 @@ class mobile_platform():
         if current_motion_phase_over_flag==1:
             os.system("rosparam set /renov_up_level/last_motion_phase_over_flag 1")
 
+def euler_to_quaternion_function(euler_data):
+    angles=tf.transformations.quaternion_from_euler(euler_data[0],euler_data[1],euler_data[2])
+    print("quaternion angles is:",angles)
+    
+
 def main():
     nodename="mobile platform motion"
     rospy.init_node(nodename)
@@ -81,9 +86,16 @@ def main():
     rate = rospy.Rate(ratet)
     
     mobiledata=[0.0,0.0,0.0]
-    renovation_mobileplatform=mobile_platform()
+    # renovation_mobileplatform=mobile_platform()
     # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-    renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
+    # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
+
+    data1=[0,0,-0.3584438970917431]
+    data2=[0,0, -1.8953594448649913]
+    data3=[0,0,0]
+    euler_to_quaternion_function(data1)
+    euler_to_quaternion_function(data2)
+    euler_to_quaternion_function(data3)
 
 if __name__=="__main__":
     main()

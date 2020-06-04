@@ -12,7 +12,7 @@ class MoveItObstaclesDemo:
         # 初始化move_group的API
         moveit_commander.roscpp_initialize(sys.argv)
         # 初始化ROS节点
-        rospy.init_node('moveit_obstacles_demo')
+        rospy.init_node('paintingrobot_planningscene')
         # 初始化场景对象
         scene = PlanningSceneInterface()
         # 创建一个发布场景变化信息的发布者
@@ -22,7 +22,7 @@ class MoveItObstaclesDemo:
         # 等待场景准备就绪
         rospy.sleep(1)                
         # 设置目标位置所使用的参考坐标系
-        reference_frame = 'base_link'
+        reference_frame = 'map'
         stl_id='stl'
         scene.remove_world_object(stl_id)   
         stl_size=[1.0,1.0,1.0]
