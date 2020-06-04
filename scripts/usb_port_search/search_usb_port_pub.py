@@ -87,7 +87,7 @@ class SerarchUSB():
 def main():
     iob=SerarchUSB("search_port_node")
     iob.Init_node()
-    # iob.password()
+    iob.password()
     
     port_list=[]
     imu_port = rospy.get_param("imu_port")

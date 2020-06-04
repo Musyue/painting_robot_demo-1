@@ -12,18 +12,18 @@ import os
 def flexbar_upwardsmotion_process():
     # upwards motion of flexbar mechanism 
     os.system('rosparam set /renov_up_level/write_flex_pole_motor_up 1')
-    rospy.logerr("upwards motion of flexbar mecahnism")
+    # rospy.logerr("upwards motion of flexbar mecahnism")
 def flexbar_upwardsmotion_end():
     os.system('rosparam set /renov_up_level/write_flex_pole_motor_up 0')
-    rospy.logerr("upwards motion of flexbar mechanism is closed")
+    # rospy.logerr("upwards motion of flexbar mechanism is closed")
 
 def flexbar_downwardsmotion_process():
     # downwards motion of flexbar mechanism
     os.system('rosparam set /renov_up_level/write_flex_pole_motor_down 2')
-    rospy.logerr("downwards motion of flexbar mechanism")   
+    # rospy.logerr("downwards motion of flexbar mechanism")   
 def flexbar_downwardsmotion_end():
     os.system('rosparam set /renov_up_level/write_flex_pole_motor_down 0') 
-    rospy.logerr("downwards motion of flexbar mechanism is closed")   
+    # rospy.logerr("downwards motion of flexbar mechanism is closed")   
 
 def rotation_enable(target_rotation_angle):
     # motion of rotation mechanism 
@@ -55,13 +55,13 @@ def standbar_motion_process(target_standbar_displacement):
     os.system('rosparam set /renov_up_level/enable_control_stand_bar 1')
     os.system('rosparam set /renov_up_level/enable_control_stand_bar 0')
     os.system('rosparam set /renov_up_level/distance_control_stand_bar '+str(target_motion_distance))
-    rospy.loginfo("the homing of standbar mechanism in process")
+    # rospy.loginfo("the homing of standbar mechanism in process")
 
 def standbar_motion_end():
     os.system('rosparam set /renov_up_level/open_hold_flag 0')
     # os.system('rosparam set /renov_up_level/enable_control_stand_bar 2')
     # os.system('rosparam set /renov_up_level/enable_control_stand_bar 0')
-    rospy.logerr("the motion of standbar mechanism is closed")
+    # rospy.logerr("the motion of standbar mechanism is closed")
 
 def standbar_homing_process(target_standbar_displacement):
     target_homing_distance=-target_standbar_displacement
@@ -71,14 +71,14 @@ def standbar_homing_process(target_standbar_displacement):
     os.system('rosparam set /renov_up_level/enable_control_stand_bar 0')
     os.system('rosparam set /renov_up_level/enable_second_control_stand_bar 1')
     os.system('rosparam set /renov_up_level/distance_control_stand_bar '+str(target_homing_distance))
-    rospy.loginfo("the homing of standbar mechanism in process")
+    # rospy.loginfo("the homing of standbar mechanism in process")
 
 def standbar_homing_end():
     os.system('rosparam set /renov_up_level/open_hold_flag 0')
     # os.system('rosparam set /renov_up_level/enable_control_stand_bar 2')
     # os.system('rosparam set /renov_up_level/enable_control_stand_bar 0')
     os.system('rosparam set /renov_up_level/enable_second_control_stand_bar 0')
-    rospy.loginfo("the motion of standbar mechanism is closed")
+    # rospy.loginfo("the motion of standbar mechanism is closed")
 
 
 

@@ -24,7 +24,7 @@ def rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate):
             # rospy.loginfo("the motion of rotation mechanism in process")
             climb_enable(target_distance)
             # rospy.loginfo("the homing of climbing mechanism in process")
-            rospy.logerr("step 3: rod_climbing_mechanism_motion is in process")
+            rospy.loginfo("step 3: rod_climbing_mechanism_motion is in process")
             # os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 1')
 
         # output tracking errors 
@@ -33,8 +33,8 @@ def rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate):
         pid_tolerance_error_rotation=rospy.get_param("/renov_up_level/pid_tolerance_error_rotation")
         current_rotation_angle=rospy.get_param("/renov_up_level/rotation_abs_encode")*rotation_joint_line_equation_k+rotation_joint_line_equation_b
         rotation_trackingerror= target_rotation_angle-current_rotation_angle
-        rospy.loginfo(("%s is %f"%("rotation target angle",target_rotation_angle)))
-        rospy.loginfo(("%s is %f"%("rotation current angle",current_rotation_angle)))
+        # rospy.loginfo(("%s is %f"%("rotation target angle",target_rotation_angle)))
+        # rospy.loginfo(("%s is %f"%("rotation current angle",current_rotation_angle)))
         rospy.logerr(("%s is %f"%("rotation tracking error",rotation_trackingerror)))
 
         # output tracking errors 
@@ -48,7 +48,7 @@ def rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate):
             # rospy.loginfo("the motion of rotation mechanism is closed")
             climb_disable()
             # rospy.loginfo("the motion of climbing mechanism is closed")
-            rospy.logerr("step 3: rod_climbing_mechanism_motion is closed")
+            rospy.loginfo("step 3: rod_climbing_mechanism_motion is closed")
             os.system('rosparam set /renov_up_level/current_motion_phase_over_flag 1')
             os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
             # os.system('rosparam set /renov_up_level/rodmechanism_holding_over_flag 0')
@@ -67,14 +67,14 @@ def rodclimb_mechanism_motion_simulation(target_rotation_angle,target_distance,r
         # rospy.loginfo("%s is %s", rospy.resolve_name('last_motion_phase_over_flag'), last_motion_phase_over_flag)
         # if rodmechanism_holding_over_flag==1 or manipulator_renovation_over_flag==1:
         if last_motion_phase_over_flag==1:
-            rospy.logerr("step 3: rod_climbing_mechanism_motion is in process")
+            rospy.loginfo("step 3: rod_climbing_mechanism_motion is in process")
             os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
 
             rodclimbing_tracking_error=rodclimbing_tracking_error-0.1
 
             rodclimbing_tolerance_tracking_error=0.1
             if abs(rodclimbing_tracking_error)<rodclimbing_tolerance_tracking_error:
-                rospy.logerr("step 3: rod_climbing_mechanism_motion is closed")
+                rospy.loginfo("step 3: rod_climbing_mechanism_motion is closed")
                 os.system('rosparam set /renov_up_level/current_motion_phase_over_flag 1')
                 break
         rate.sleep()
@@ -91,7 +91,7 @@ def main():
     rate = rospy.Rate(ratet)
 
     target_rotation_angle=0.0
-    target_distance=0.0
+    target_distance=0.1
     rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate)    
     # rodclimb_mechanism_motion_simulation(target_rotation_angle,target_distance,rate)
 

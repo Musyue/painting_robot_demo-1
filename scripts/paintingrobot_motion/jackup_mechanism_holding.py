@@ -37,14 +37,14 @@ def rod_mechanism_holding(target_standbar_displacement,rate):
         if last_motion_phase_over_flag==1:
             flexbar_upwardsmotion_process()
             standbar_motion_process(target_standbar_displacement)
-            rospy.logerr("step 2: rod_mechanism_holding is in process")
+            rospy.loginfo("step 2: rod_mechanism_holding is in process")
 
         read_line_encode_bottom = rospy.get_param("/renov_up_level/read_line_encode_bottom")
         read_line_l0_encoder_bottom = rospy.get_param("/renov_up_level/read_line_l0_encode_bottom")
         current_displacement=-(read_line_encode_bottom-read_line_l0_encoder_bottom)
         standbar_tracking_error=target_standbar_displacement-current_displacement
-        rospy.loginfo("standbar----target Distance is: %s",str(target_standbar_displacement))
-        rospy.loginfo("standbar----current Distance is:%s",str(current_displacement))
+        # rospy.loginfo("standbar----target Distance is: %s",str(target_standbar_displacement))
+        # rospy.loginfo("standbar----current Distance is:%s",str(current_displacement))
         rospy.logerr("standbar----Distance_error is:%s",str(standbar_tracking_error))
 
         pid_tolerance_error_standbar=rospy.get_param("/renov_up_level/pid_tolerance_error_standbar")
@@ -53,7 +53,7 @@ def rod_mechanism_holding(target_standbar_displacement,rate):
         # if top_limit_switch_status==1:
             standbar_motion_end()
             flexbar_upwardsmotion_end()
-            rospy.logerr("step 2: rod_mechanism_holding is closed")
+            rospy.loginfo("step 2: rod_mechanism_holding is closed")
             os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
             os.system('rosparam set /renov_up_level/current_motion_phase_over_flag 1')
             break

@@ -18,8 +18,8 @@ from coverage_painting_planning.coverage_planning_offline1 import *
 
 from mobileplatform_motion import *
 from jackup_mechanism_homing import *
-from rod_mechanism_holding import *
-from rodclimbing_mechanism_motion import *
+from jackup_mechanism_holding import *
+from jackup_mechanism_motion import *
 from aubo_motion import *
 
 class RenovationRobot():
