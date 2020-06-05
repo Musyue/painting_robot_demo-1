@@ -9,8 +9,8 @@ import moveit_commander
 import scipy.io as io
 import tf
 
-coverage_planner_path="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/scripts"
-mat_path="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/data/data3.mat" 
+coverage_planner_path="/data/ros/renov_robot_ws/src/painting_robot_demo/scripts"
+mat_path="/data/ros/renov_robot_ws/src/painting_robot_demo/data/data3.mat" 
 
 sys.path.append(coverage_planner_path)
 from paintingrobot_planning.coverage_planning_offline1 import *
@@ -321,6 +321,7 @@ if __name__ == "__main__":
     visualization_num=1
     try:
         while not rospy.is_shutdown():
+        
         # for i in range(1): # range(len(manipulatorbase_targetpose[0])):
         #     for j in range(1): # range(len(manipulatorbase_targetpose[0][i][0])):
         #         for k in range(1): # range(len(manipulatorbase_targetpose[0][i][0][j][0])):
@@ -334,7 +335,7 @@ if __name__ == "__main__":
                         print("the plane num is:",i+1)
                         print("the mobile positions num is:",j+1)
                         print("the rod climbing positions num is:",k+1)
-                        
+                    
                         # print("manipulatorbase_targetpose_onecell=:", manipulatorbase_targetpose_onecell)
                         # print("manipulatorendeffector_targetpose_onecell=:",manipulatorendeffector_targetpose_onecell)
                         # print("paintingrobotendeffector_targetpose_onecell=:",paintingrobotendeffector_targetpose_onecell)

@@ -32,7 +32,7 @@ class MoveItObstaclesDemo:
         stl_pose.pose.position.y = 0.0
         stl_pose.pose.position.z = -2.4701
         stl_pose.pose.orientation.w = 1.0
-        scene.add_mesh(stl_id,stl_pose,'/home/zy/Desktop/510room/bim_document/001_1.stl')   
+        scene.add_mesh(stl_id,stl_pose,'/data/ros/renov_robot_ws/src/painting_robot_demo/matlab/bim_document/001_1.stl')   
         self.setColor(stl_id, 0.8, 0.4, 0, 1.0)
         # 将场景中的颜色设置发布
         self.sendColors()    
