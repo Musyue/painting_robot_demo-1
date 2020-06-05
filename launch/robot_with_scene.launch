@@ -3,6 +3,7 @@
   </include>  
   <include file="$(find ground_truth)/launch/ground_truth_pub.launch">
   </include>
+  
   <node name="paintingrobot_planner" pkg="painting_robot_demo" type="paintingrobot_planner.py" output="screen"/>
   <node name="paintingrobot_planningscene" pkg="painting_robot_demo" type="paintingrobot_planningscene.py" output="screen"/>
 
