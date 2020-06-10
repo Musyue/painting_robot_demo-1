@@ -1,15 +1,15 @@
 
-% function [renovation_cells_clustering_waypaths,renovation_cells_waypioints_onwaypath,renovation_cells_manipulatorbase_positions, manipulator_endeffector_positions_onpath]=renovation_cells_generation(room_plane_edge_cell,renovation_plane_edge_cell,renovation_effective_waypaths,renovation_plane_norm_vector,mobilebase_plane_edge_cell,length_interval,width_interval,path_distance)
+% function [renovation_cells_clustering_waypaths,renovation_cells_waypioints_onwaypath,renovation_cells_manipulatorbase_positions, manipulator_endeffector_positions_onpath]=renovation_cells_generation(room_plane_edge_cell,renovation_plane_edge_cell,renovation_effective_waypaths,renovation_plane_norm_vector,manipulatorbase_plane_edge_cell,length_interval,width_interval,path_distance)
 
-mobilebase_plane_edge_cell;
+manipulatorbase_plane_edge_cell;
 renovation_plane_norm_vector;
 for i=1:1:size(renovation_plane_norm_vector,2)
     a=renovation_plane_norm_vector{i}(1,1);
     b=renovation_plane_norm_vector{i}(1,2);
     c=renovation_plane_norm_vector{i}(1,3);
-    x0=mobilebase_plane_edge_cell{i}(1,1);
-    y0=mobilebase_plane_edge_cell{i}(1,2);
-    z0=mobilebase_plane_edge_cell{i}(1,3);
+    x0=manipulatorbase_plane_edge_cell{i}(1,1);
+    y0=manipulatorbase_plane_edge_cell{i}(1,2);
+    z0=manipulatorbase_plane_edge_cell{i}(1,3);
     d=-a*x0-b*y0-c*z0;
     renovation_manipulatorbase_planes{i}(1,1)=a;
     renovation_manipulatorbase_planes{i}(1,2)=b;
@@ -356,7 +356,7 @@ for i=1:1:size(renovation_cells_manipulatorbase_positions,2)
     end
 end
 
-renovation_cells_waypath_visualization(renovation_cells_waypioints_onwaypath,renovation_cells_manipulatorbase_positions,renovation_plane_edge_cell,room_plane_edge_cell,mobilebase_plane_edge_cell);
+renovation_cells_waypath_visualization(renovation_cells_waypioints_onwaypath,renovation_cells_manipulatorbase_positions,renovation_plane_edge_cell,room_plane_edge_cell,manipulatorbase_plane_edge_cell);
 
 save('data3.mat','manipulator_endeffector_positions_onpath','renovation_cells_manipulatorbase_positions','renovation_cells_waypioints_onwaypath')
 
