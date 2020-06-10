@@ -4586,3 +4586,254 @@
 06/01/2020 10:31:42,420 [140048603334400] [INFO ] - emit event type:21 code:0 str:{"code":0,"text":"RobotShutdownDone."}, rshd=0
 06/01/2020 10:31:42,420 [140048613828352] [INFO ] - event mutex busy!
 06/01/2020 10:31:43,422 [140048674015040] [INFO ] - remove client, rshd=0
+06/10/2020 15:55:00,697 [139636089636672] [INFO ] - log4cplus started.
+06/10/2020 15:55:00,697 [139636089636672] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 15:55:00,698 [139636089636672] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 15:55:00,701 [139636089636672] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 15:55:00,701 [139636089636672] [INFO ] - sdk log: login  success.
+06/10/2020 15:55:00,703 [139636089636672] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 15:55:03,633 [139636018956032] [INFO ] - sdk log: init ik param success.
+06/10/2020 15:55:04,141 [139636089636672] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 15:55:04,142 [139636089636672] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 15:55:04,144 [139636018956032] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 15:55:04,144 [139636089636672] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 15:55:04,158 [139636018956032] [INFO ] - emit event type:44 code:0 str:{"code":0,"text":"RobotMoveControlStopDone."}, rshd=0
+06/10/2020 15:55:04,165 [139636018956032] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 15:55:04,165 [139636089636672] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 15:55:04,165 [139636089636672] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 15:55:04,165 [139636029449984] [INFO ] - call event_callback, type:44 code:0 str:{"code":0,"text":"RobotMoveControlStopDone."}
+06/10/2020 15:55:04,666 [139636089636672] [INFO ] - remove client, rshd=0
+06/10/2020 15:55:39,684 [139950732994368] [INFO ] - log4cplus started.
+06/10/2020 15:55:39,684 [139950732994368] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 15:55:39,685 [139950732994368] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 15:55:39,688 [139950732994368] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 15:55:39,688 [139950732994368] [INFO ] - sdk log: login  success.
+06/10/2020 15:55:39,689 [139950732994368] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 15:55:42,620 [139950662313728] [INFO ] - sdk log: init ik param success.
+06/10/2020 15:55:43,125 [139950732994368] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 15:55:43,125 [139950732994368] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 15:55:43,127 [139950662313728] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 15:55:43,127 [139950732994368] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 15:55:43,156 [139950662313728] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 15:55:43,266 [139950662313728] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 15:55:46,444 [139950662313728] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 15:55:46,445 [139950732994368] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 15:55:46,445 [139950732994368] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 15:55:46,445 [139950672807680] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 15:55:46,445 [139950672807680] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 15:55:46,946 [139950732994368] [INFO ] - remove client, rshd=0
+06/10/2020 15:55:48,000 [139950732994368] [INFO ] - cancel robot event thread...
+06/10/2020 16:27:00,759 [140429452953408] [INFO ] - log4cplus started.
+06/10/2020 16:27:00,759 [140429452953408] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 16:27:00,760 [140429452953408] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 16:27:00,763 [140429452953408] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 16:27:00,763 [140429452953408] [INFO ] - sdk log: login  success.
+06/10/2020 16:27:00,765 [140429452953408] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 16:27:03,702 [140429382272768] [INFO ] - sdk log: init ik param success.
+06/10/2020 16:27:04,214 [140429452953408] [INFO ] - negative quaternion square: 2 -0.000000
+06/10/2020 16:27:04,214 [140429452953408] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 16:27:04,214 [140429452953408] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 16:27:04,216 [140429382272768] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 16:27:04,216 [140429452953408] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 16:27:04,246 [140429382272768] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 16:27:04,305 [140429382272768] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 16:27:05,179 [140429382272768] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 16:27:05,179 [140429452953408] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 16:27:05,179 [140429452953408] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 16:27:05,179 [140429392766720] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 16:27:05,180 [140429392766720] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 16:27:05,680 [140429452953408] [INFO ] - remove client, rshd=0
+06/10/2020 16:27:07,000 [140429452953408] [INFO ] - cancel robot event thread...
+06/10/2020 16:35:24,071 [139645871175488] [INFO ] - log4cplus started.
+06/10/2020 16:35:24,071 [139645871175488] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 16:35:24,072 [139645871175488] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 16:35:24,075 [139645871175488] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 16:35:24,075 [139645871175488] [INFO ] - sdk log: login  success.
+06/10/2020 16:35:24,076 [139645871175488] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 16:35:27,004 [139645800494848] [INFO ] - sdk log: init ik param success.
+06/10/2020 16:35:27,511 [139645871175488] [INFO ] - negative quaternion square: 2 -0.000000
+06/10/2020 16:35:27,511 [139645871175488] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 16:35:27,512 [139645871175488] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 16:35:27,514 [139645800494848] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 16:35:27,514 [139645871175488] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 16:35:27,541 [139645800494848] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 16:35:27,558 [139645800494848] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 16:35:28,537 [139645800494848] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 16:35:28,538 [139645871175488] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 16:35:28,538 [139645871175488] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 16:35:28,538 [139645810988800] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 16:35:28,539 [139645810988800] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 16:35:29,039 [139645871175488] [INFO ] - remove client, rshd=0
+06/10/2020 16:43:08,754 [139992678594368] [INFO ] - log4cplus started.
+06/10/2020 16:43:08,754 [139992678594368] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 16:43:08,754 [139992678594368] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 16:43:08,758 [139992678594368] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 16:43:08,758 [139992678594368] [INFO ] - sdk log: login  success.
+06/10/2020 16:43:08,759 [139992678594368] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 16:43:11,692 [139992607913728] [INFO ] - sdk log: init ik param success.
+06/10/2020 16:43:12,201 [139992678594368] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 16:43:12,201 [139992678594368] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 16:43:12,203 [139992607913728] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 16:43:12,203 [139992678594368] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 16:43:12,228 [139992607913728] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 16:43:12,295 [139992607913728] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 16:43:13,325 [139992607913728] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 16:43:13,326 [139992678594368] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 16:43:13,326 [139992678594368] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 16:43:13,326 [139992618407680] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 16:43:13,326 [139992618407680] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 16:43:13,827 [139992678594368] [INFO ] - remove client, rshd=0
+06/10/2020 17:19:02,578 [140533502707520] [INFO ] - log4cplus started.
+06/10/2020 17:19:02,578 [140533502707520] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 17:19:02,579 [140533502707520] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 17:19:02,582 [140533502707520] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 17:19:02,582 [140533502707520] [INFO ] - sdk log: login  success.
+06/10/2020 17:19:02,583 [140533502707520] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 17:19:05,527 [140533432026880] [INFO ] - sdk log: init ik param success.
+06/10/2020 17:19:06,034 [140533502707520] [INFO ] - negative quaternion square: 2 -0.000000
+06/10/2020 17:19:06,034 [140533502707520] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 17:19:06,034 [140533502707520] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 17:19:06,036 [140533432026880] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 17:19:06,036 [140533502707520] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 17:19:06,067 [140533432026880] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 17:19:06,106 [140533432026880] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 17:19:07,162 [140533432026880] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 17:19:07,162 [140533502707520] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 17:19:07,163 [140533502707520] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 17:19:07,163 [140533442520832] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 17:19:07,163 [140533442520832] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 17:19:07,664 [140533502707520] [INFO ] - remove client, rshd=0
+06/10/2020 17:19:09,000 [140533502707520] [INFO ] - cancel robot event thread...
+06/10/2020 17:26:40,687 [139893581432640] [INFO ] - log4cplus started.
+06/10/2020 17:26:40,687 [139893581432640] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 17:26:40,688 [139893581432640] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 17:26:40,691 [139893581432640] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 17:26:40,691 [139893581432640] [INFO ] - sdk log: login  success.
+06/10/2020 17:26:40,692 [139893581432640] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 17:26:43,617 [139893510752000] [INFO ] - sdk log: init ik param success.
+06/10/2020 17:26:44,125 [139893581432640] [INFO ] - negative quaternion square: 2 -0.000000
+06/10/2020 17:26:44,125 [139893581432640] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 17:26:44,125 [139893581432640] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 17:26:44,127 [139893510752000] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 17:26:44,127 [139893581432640] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 17:26:44,171 [139893510752000] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 17:26:44,188 [139893510752000] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 17:26:45,148 [139893510752000] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 17:26:45,148 [139893581432640] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 17:26:45,148 [139893581432640] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 17:26:45,149 [139893521245952] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 17:26:45,149 [139893521245952] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 17:26:45,649 [139893581432640] [INFO ] - remove client, rshd=0
+06/10/2020 17:26:47,000 [139893581432640] [INFO ] - cancel robot event thread...
+06/10/2020 17:32:22,357 [139717490706240] [INFO ] - log4cplus started.
+06/10/2020 17:32:22,357 [139717490706240] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 17:32:22,357 [139717490706240] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 17:32:22,360 [139717490706240] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 17:32:22,360 [139717490706240] [INFO ] - sdk log: login  success.
+06/10/2020 17:32:22,362 [139717490706240] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 17:32:25,298 [139717420025600] [INFO ] - sdk log: init ik param success.
+06/10/2020 17:32:25,804 [139717490706240] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 17:32:25,804 [139717490706240] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 17:32:25,807 [139717420025600] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 17:32:25,807 [139717490706240] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 17:32:25,851 [139717420025600] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 17:32:25,887 [139717420025600] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 17:32:26,765 [139717420025600] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 17:32:26,765 [139717490706240] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 17:32:26,765 [139717490706240] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 17:32:26,766 [139717430519552] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 17:32:26,766 [139717430519552] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 17:32:27,266 [139717490706240] [INFO ] - remove client, rshd=0
+06/10/2020 17:37:50,016 [140308182759232] [INFO ] - log4cplus started.
+06/10/2020 17:37:50,016 [140308182759232] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 17:37:50,016 [140308182759232] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 17:37:50,020 [140308182759232] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 17:37:50,020 [140308182759232] [INFO ] - sdk log: login  success.
+06/10/2020 17:37:50,023 [140308182759232] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 17:37:52,960 [140308112078592] [INFO ] - sdk log: init ik param success.
+06/10/2020 17:37:53,464 [140308182759232] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 17:37:53,464 [140308182759232] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 17:37:53,466 [140308112078592] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 17:37:53,466 [140308182759232] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 17:37:53,511 [140308112078592] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 17:37:53,536 [140308112078592] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 17:37:56,782 [140308112078592] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 17:37:56,782 [140308182759232] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 17:37:56,782 [140308182759232] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 17:37:56,783 [140308122572544] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 17:37:56,783 [140308122572544] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 17:37:57,283 [140308182759232] [INFO ] - remove client, rshd=0
+06/10/2020 17:38:54,455 [139777200654144] [INFO ] - log4cplus started.
+06/10/2020 17:38:54,455 [139777200654144] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 17:38:54,455 [139777200654144] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 17:38:54,458 [139777200654144] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 17:38:54,458 [139777200654144] [INFO ] - sdk log: login  success.
+06/10/2020 17:38:54,461 [139777200654144] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 17:38:57,394 [139777129973504] [INFO ] - sdk log: init ik param success.
+06/10/2020 17:38:57,904 [139777200654144] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 17:38:57,904 [139777200654144] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 17:38:57,906 [139777129973504] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 17:38:57,906 [139777200654144] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 17:38:57,923 [139777129973504] [INFO ] - emit event type:44 code:0 str:{"code":0,"text":"RobotMoveControlStopDone."}, rshd=0
+06/10/2020 17:38:57,928 [139777129973504] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 17:38:57,928 [139777200654144] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 17:38:57,928 [139777200654144] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 17:38:57,928 [139777140467456] [INFO ] - call event_callback, type:44 code:0 str:{"code":0,"text":"RobotMoveControlStopDone."}
+06/10/2020 17:38:58,429 [139777200654144] [INFO ] - remove client, rshd=0
+06/10/2020 17:39:25,930 [140483691345728] [INFO ] - log4cplus started.
+06/10/2020 17:39:25,930 [140483691345728] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 17:39:25,931 [140483691345728] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 17:39:25,934 [140483691345728] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 17:39:25,934 [140483691345728] [INFO ] - sdk log: login  success.
+06/10/2020 17:39:25,935 [140483691345728] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 17:39:28,867 [140483620665088] [INFO ] - sdk log: init ik param success.
+06/10/2020 17:39:29,374 [140483691345728] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 17:39:29,374 [140483691345728] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 17:39:29,376 [140483620665088] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 17:39:29,376 [140483691345728] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 17:39:29,400 [140483620665088] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 17:39:29,489 [140483620665088] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 17:39:32,691 [140483620665088] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 17:39:32,691 [140483691345728] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 17:39:32,691 [140483691345728] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 17:39:32,691 [140483631159040] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 17:39:32,691 [140483631159040] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 17:39:33,191 [140483691345728] [INFO ] - remove client, rshd=0
+06/10/2020 17:39:40,567 [139902568650560] [INFO ] - log4cplus started.
+06/10/2020 17:39:40,567 [139902568650560] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 17:39:40,567 [139902568650560] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 17:39:40,571 [139902568650560] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 17:39:40,571 [139902568650560] [INFO ] - sdk log: login  success.
+06/10/2020 17:39:40,572 [139902568650560] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 17:39:43,505 [139902497969920] [INFO ] - sdk log: init ik param success.
+06/10/2020 17:39:44,021 [139902568650560] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 17:39:44,022 [139902568650560] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 17:39:44,024 [139902497969920] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 17:39:44,024 [139902568650560] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 17:39:44,051 [139902497969920] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 17:39:44,106 [139902497969920] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 17:39:47,725 [139902497969920] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 17:39:47,725 [139902568650560] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 17:39:47,725 [139902568650560] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 17:39:47,726 [139902508463872] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 17:39:47,726 [139902508463872] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 17:39:48,226 [139902568650560] [INFO ] - remove client, rshd=0
+06/10/2020 17:40:03,543 [140544956753728] [INFO ] - log4cplus started.
+06/10/2020 17:40:03,543 [140544956753728] [INFO ] - rshd:0---addr:192.168.1.11---port:8899
+06/10/2020 17:40:03,543 [140544956753728] [INFO ] - sdk log: Connect robot server success.
+06/10/2020 17:40:03,548 [140544956753728] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+06/10/2020 17:40:03,548 [140544956753728] [INFO ] - sdk log: login  success.
+06/10/2020 17:40:03,551 [140544956753728] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+06/10/2020 17:40:06,485 [140544886073088] [INFO ] - sdk log: init ik param success.
+06/10/2020 17:40:06,993 [140544956753728] [INFO ] - sdk log: User blocking call motion interface.
+06/10/2020 17:40:06,993 [140544956753728] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+06/10/2020 17:40:06,996 [140544886073088] [INFO ] - sdk log: Processing the robotMove response from the server..
+06/10/2020 17:40:06,997 [140544956753728] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+06/10/2020 17:40:07,030 [140544886073088] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+06/10/2020 17:40:07,058 [140544886073088] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+06/10/2020 17:40:10,698 [140544886073088] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+06/10/2020 17:40:10,698 [140544956753728] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+06/10/2020 17:40:10,698 [140544956753728] [INFO ] - sdk log: User call motion interface finish.
+06/10/2020 17:40:10,698 [140544896567040] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+06/10/2020 17:40:10,698 [140544896567040] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+06/10/2020 17:40:11,199 [140544956753728] [INFO ] - remove client, rshd=0

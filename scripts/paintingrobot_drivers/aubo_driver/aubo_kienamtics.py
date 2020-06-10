@@ -387,7 +387,8 @@ class Aubo_kinematics():
         
         if(len(q_sols_all) != 0):
             for i in q_sols_all:
-                print("num:"+str(i)+' '+"sols",q_sols_all[i])
+                pass
+                # print("num:"+str(i)+' '+"sols",q_sols_all[i])
             #remove not in limited data 
             ret2,q_sols_inlimit = self.selectIK(q_sols_all, AngleLimit)
             # print "q_sols_inlimit",q_sols_inlimit
@@ -433,20 +434,24 @@ def main():
     aubo_joints1=[0.5982176981858913, -0.3280097664825776, 1.0692424127939981, -1.430778060686504, -0.9956220811743641, -1.7453915927980255]
     for i in range(len(aubo_joints1)):
         aubo_joints1[i]=aubo_joints1[i]*180/pi
-    print numpy.matrix(ak47.aubo_forward(aubo_joints1)).reshape((4,4))
+    # print numpy.matrix(ak47.aubo_forward(aubo_joints1)).reshape((4,4))
     aubo_joints2=[-0.15029973198925717, -0.34202595309251915, 1.046283188746198, -1.4886357311185474, -1.7159377961079914, -1.531620356215937]
     for i in range(len(aubo_joints2)):
         aubo_joints2[i]=aubo_joints2[i]*180/pi
-    print numpy.matrix(ak47.aubo_forward(aubo_joints2)).reshape((4,4))
+    # print numpy.matrix(ak47.aubo_forward(aubo_joints2)).reshape((4,4))
 
     aubo_joints1=[0.33763543867282575, -0.2405799482950144, 1.180663220404174, -1.4436514659473003, -1.2450988700985786, -1.6614133204664547]
     for i in range(len(aubo_joints1)):
         aubo_joints1[i]=aubo_joints1[i]*180/pi
-    print numpy.matrix(ak47.aubo_forward(aubo_joints1)).reshape((4,4))
-    aubo_joints2=[0.14187763944900755, -0.2439175041614554, 1.175536062928094, -1.4578039924265518, -1.4337840799658732, -1.6077485203840505]
+    # print numpy.matrix(ak47.aubo_forward(aubo_joints1)).reshape((4,4))
+    aubo_joints2=[-0.28525098, -0.53203763, 1.36669062, -1.24286441, -1.85604731, -1.57079633]
     for i in range(len(aubo_joints2)):
         aubo_joints2[i]=aubo_joints2[i]*180/pi
     print numpy.matrix(ak47.aubo_forward(aubo_joints2)).reshape((4,4))
+
+    tt=[0.010016939985065143, -0.039901099098502056, -0.9991534232559417, -0.3, -0.999934201568705, 0.005186605233011846, -0.010231894219208601, -0.09507448660946277, 0.005590478198847001, 0.999190172798396, -0.039846519755429126, 0.5962177031402299, 0, 0, 0, 1]
+    tt=[6.15117722e-09, 3.20510335e-09, 1.00000000e+00, 6.000000e-01,  1.40128214e-09, -1.00000000e+00,  3.20510335e-09, -2.74999998e-01, 1.00000000e+00,  1.40128212e-09, -6.15117722e-09,  -2.49999998e-01, 0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  1.00000000e+0]
+    print ak47.GetInverseResult(tt,[-0.28525098, -0.53203763, 1.36669062, -1.24286441, -1.85604731, -1.57079633])
 
 
 

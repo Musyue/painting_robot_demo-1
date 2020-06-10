@@ -199,10 +199,10 @@ class Renovation_operation():
 
         count=1
         self.manipulator_motion(pubstring1,rate,count)
-        self.painting_gun_open_control()
+       # self.painting_gun_open_control()
         count=count+1
         self.manipulator_motion(pubstring2,rate,count)
-        self.painting_gun_close_control()
+        # self.painting_gun_close_control()
         count=count+1
         self.manipulator_motion(pubstring3,rate,count)
 

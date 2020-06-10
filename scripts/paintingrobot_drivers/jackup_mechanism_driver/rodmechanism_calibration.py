@@ -38,6 +38,12 @@ def main():
     print("homing encode data is:",-a0/a1)
     visualization(x,y,a0,a1)
 
+
+    # ('a0 is:', -283.19582738776523)
+    # ('a1 is:', 0.006469488185120742)
+    # ('homing encode data is:', 43774.069800311394)
+
+
 if __name__ == "__main__":
     main()
 

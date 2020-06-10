@@ -105,7 +105,7 @@ def main():
             if len(light_scan_to_ceil_distance)!=0 and light_scan_to_ceil_distance[0]==5:
                 scan_len=len(light_scan_to_ceil_distance_str)
                 rospy.set_param('light_scan_to_ceil_distance', int(int(light_scan_to_ceil_distance_str[scan_len-4:],16))/1000.0)
-                rospy.loginfo("light scan device is ok!")
+                # rospy.loginfo("light scan device is ok!")
                 # rospy.logerr("the distance of light scan device to ceil is: %s-%s",light_scan_to_ceil_distance,int(int(light_scan_to_ceil_distance_str[scan_len-4:],16)))        
             else:
                 rospy.logerr("light scan device is not ok!")
@@ -115,7 +115,7 @@ def main():
             # rospy.logerr("-------read line %s-%s",read_line_encode_data,line_encode_str)
             if len(read_line_encode_data)!=0 and read_line_encode_data[0]==4 and len(read_line_encode_data)>=5:
                 rospy.set_param('read_line_encode', read_line_encode_data[4]/100.0)
-                rospy.loginfo("line encode for climbing joint is ok!")
+                # rospy.loginfo("line encode for climbing joint is ok!")
                 # rospy.logerr("the up line encoder data is: %s",read_line_encode_data[4]/100.0)   
             else:
                 rospy.logerr("line encode for climbing joint is not ok!")
@@ -130,7 +130,7 @@ def main():
                 low16str=low16str.zfill(len(low16str)+2-len(low16str))
                 newdata='0x'+high16str+low16str
                 rospy.set_param('rotation_abs_encode',int(newdata,16))
-                rospy.loginfo("encode for rotation joint is ok!")
+                # rospy.loginfo("encode for rotation joint is ok!")
                 # rospy.logerr('the rotation encoder data is: %s--%d',rotation_abs_encode_data,int(newdata,16))
             else:
                 rospy.logerr("encode for rotation joint is not ok!")
@@ -140,7 +140,7 @@ def main():
             # rospy.logerr("-------read_line_encode_data_bottom %s-%s",read_line_encode_data_bottom,line_encode_str_bottom)
             if len(read_line_encode_data_bottom)!=0 and read_line_encode_data_bottom[0]==4 and len(read_line_encode_data_bottom)>=5:
                 rospy.set_param('read_line_encode_bottom', read_line_encode_data_bottom[4]/100.0)
-                rospy.loginfo("line encode for holding joint is ok!")
+                # rospy.loginfo("line encode for holding joint is ok!")
                 # rospy.logerr("the bottom line encoder data is: %s",read_line_encode_data_bottom[4]/100.0)
             else:
                 rospy.logerr("line encode for holding joint is not ok!")

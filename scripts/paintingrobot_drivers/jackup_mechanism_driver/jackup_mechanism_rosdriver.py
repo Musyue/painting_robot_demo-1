@@ -388,7 +388,6 @@ def main():
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_second_climb_control'), enable_second_climb_control)
         open_rotation_flag = rospy.get_param("open_rotation_flag")
         # rospy.loginfo("%s is %s", rospy.resolve_name('enable_third_stand_bar'), enable_third_stand_bar)
-
         open_hold_to_ceil_flag = rospy.get_param("open_hold_to_ceil_flag")
 
         if clbpkg.Openmodbus_ok_flag!=1 and climb_port_ok_flag==1:
