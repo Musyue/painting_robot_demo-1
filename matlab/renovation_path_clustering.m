@@ -110,16 +110,16 @@ for i=1:1:size(pathspoints1,1)-1
     renovation_cells_paths(i,4:6)=pathspoints1(i+1,1:3);
 end
 
-figure;
-for i=1:1:size(renovation_cells_paths,1)
-    x1=[renovation_cells_paths(i,1),renovation_cells_paths(i,4)];
-    y1=[renovation_cells_paths(i,2),renovation_cells_paths(i,5)];
-    z1=[renovation_cells_paths(i,3),renovation_cells_paths(i,6)];
-    plot3(x1,y1,z1,'k','LineWidth',1)
-    hold on;
-    axis equal;
-    view(-114,24);
-end
+% figure;
+% for i=1:1:size(renovation_cells_paths,1)
+%     x1=[renovation_cells_paths(i,1),renovation_cells_paths(i,4)];
+%     y1=[renovation_cells_paths(i,2),renovation_cells_paths(i,5)];
+%     z1=[renovation_cells_paths(i,3),renovation_cells_paths(i,6)];
+%     plot3(x1,y1,z1,'k','LineWidth',1)
+%     hold on;
+%     axis equal;
+%     view(-114,24);
+% end
 
 end
 

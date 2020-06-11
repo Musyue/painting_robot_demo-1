@@ -1,4 +1,4 @@
-function [renovation_effective_waypoints,renovation_effective_waypaths,room_plane_boundary]=renovation_planes_waypoint_generation(room_plane_edge_cell,room_plane_norm_vector,room_vertices,room_plane_triangle_cell,interval1,interval2,panning_distance1)
+function [renovation_effective_waypoints,renovation_effective_waypaths,room_plane_boundary,distance_waypoints2wallboundary_direction1,distance_waypoints2wallboundary_direction2]=renovation_planes_waypoint_generation(room_plane_edge_cell,room_plane_norm_vector,room_vertices,room_plane_triangle_cell,interval1,interval2,panning_distance1)
 
 % interval1=waypoints_interval;
 % interval2=path_interval;
@@ -115,6 +115,7 @@ for i=1:1:size(room_plane_outer_boundary_point,2)
         intersect_plane1_d{i}(1,j)=dmin+(j-0.5)*interval;
     end
 end
+
 for i=1:1:size(room_plane_outer_boundary_point,2) 
     dmin=intersect_plane2_dmin_max{i}(1,1);
     dmax=intersect_plane2_dmin_max{i}(1,2);
@@ -124,6 +125,21 @@ for i=1:1:size(room_plane_outer_boundary_point,2)
         intersect_plane2_d{i}(1,j)=dmin+(j-0.5)*interval;
     end
 end
+
+for i=1:1:size(room_plane_outer_boundary_point,2)
+    distance_waypoints2wallboundary_direction1(i,1)=intersect_plane1_d{i}(1,1)-intersect_plane1_dmin_max{i}(1,1);
+    distance_waypoints2wallboundary_direction1(i,2)=intersect_plane1_dmin_max{i}(1,2)-intersect_plane1_d{i}(1,end);
+    distance_waypoints2wallboundary_direction1(i,3)=intersect_plane1_dmin_max{i}(1,2)-intersect_plane1_dmin_max{i}(1,1);
+    distance_waypoints2wallboundary_direction1(i,4)=room_plane_interval{i}(1);
+    distance_waypoints2wallboundary_direction1(i,5)=floor(abs(intersect_plane1_dmin_max{i}(1,2)-intersect_plane1_dmin_max{i}(1,1))/room_plane_interval{i}(1));
+    
+    distance_waypoints2wallboundary_direction2(i,1)=intersect_plane2_d{i}(1,1)-intersect_plane2_dmin_max{i}(1,1);
+    distance_waypoints2wallboundary_direction2(i,2)=intersect_plane2_dmin_max{i}(1,2)-intersect_plane2_d{i}(1,end);
+    distance_waypoints2wallboundary_direction2(i,3)=intersect_plane2_dmin_max{i}(1,2)-intersect_plane2_dmin_max{i}(1,1);
+    distance_waypoints2wallboundary_direction2(i,4)=room_plane_interval{i}(2);
+    distance_waypoints2wallboundary_direction2(i,5)=floor(abs(intersect_plane2_dmin_max{i}(1,2)-intersect_plane2_dmin_max{i}(1,1))/room_plane_interval{i}(2));    
+end
+
 for i=1:1:size(room_plane_outer_boundary_point,2)
     for j=1:1:size(intersect_plane1_d{i},2)
         mat1=zeros(3,3);

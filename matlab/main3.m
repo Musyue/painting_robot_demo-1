@@ -1,5 +1,10 @@
 
-% function [renovation_cells_clustering_waypaths,renovation_cells_waypioints_onwaypath,renovation_cells_manipulatorbase_positions, manipulator_endeffector_positions_onpath]=renovation_cells_generation(room_plane_edge_cell,renovation_plane_edge_cell,renovation_effective_waypaths,renovation_plane_norm_vector,manipulatorbase_plane_edge_cell,length_interval,width_interval,path_distance)
+%function [renovation_cells_clustering_waypaths,renovation_cells_waypioints_onwaypath,renovation_cells_manipulatorbase_positions, manipulator_endeffector_positions_onpath]=renovation_cells_generation(room_plane_edge_cell,renovation_plane_edge_cell,renovation_effective_waypaths,renovation_plane_norm_vector,manipulatorbase_plane_edge_cell,length_interval,width_interval,path_distance)
+
+path_interval=painting_path_interval;
+length_interval=cell_length;
+width_interval=cell_width;
+path_distance=path_interval;
 
 manipulatorbase_plane_edge_cell;
 renovation_plane_norm_vector;
@@ -15,10 +20,6 @@ for i=1:1:size(renovation_plane_norm_vector,2)
     renovation_manipulatorbase_planes{i}(1,2)=b;
     renovation_manipulatorbase_planes{i}(1,3)=d;
 end
-length_interval=cell_length;
-width_interval=cell_width;
-path_distance=path_interval;
-
 
 %% obtain two types of norm vector of intersection plane norm vector for the renovation planes edges 
 for i=1:1:size(renovation_plane_norm_vector,2)
@@ -168,7 +169,7 @@ for i=1:1:size(renovation_cells_waypaths,2)
             b=renovation_path_clustering(a);
             renovation_cells_clustering_waypaths{i}{j}{k}=b;
             if i==2 && j==1 && k==1
-                renovation_cells_clustering_waypaths{i}{j}{k}
+                renovation_cells_clustering_waypaths{i}{j}{k};
             end
         end
     end
@@ -214,7 +215,7 @@ for i=1:1:size(renovation_cells_clustering_waypaths,2)
                 end
             end
             if i==2 && j==1 && k==1
-                renovation_cells_waypioints_onwaypath{i}{j}{k}
+                renovation_cells_waypioints_onwaypath{i}{j}{k};
             end
         end
     end
@@ -349,20 +350,30 @@ for i=1:1:size(renovation_cells_manipulatorbase_positions,2)
             end
             
             if i==2 && j==1 && k==1
-                manipulator_endeffector_positions_onpath{i}{j}{k}
+                manipulator_endeffector_positions_onpath{i}{j}{k};
             end
             
         end
     end
 end
 
+save('second_scan_data/second_scan_data2.mat','manipulator_endeffector_positions_onpath','renovation_cells_manipulatorbase_positions','renovation_cells_waypioints_onwaypath');
 renovation_cells_waypath_visualization(renovation_cells_waypioints_onwaypath,renovation_cells_manipulatorbase_positions,renovation_plane_edge_cell,room_plane_edge_cell,manipulatorbase_plane_edge_cell);
 
-save('data3.mat','manipulator_endeffector_positions_onpath','renovation_cells_manipulatorbase_positions','renovation_cells_waypioints_onwaypath')
+positions_num=0;
+for i=1:1:size(renovation_cells_manipulatorbase_positions,2)
+    for j=1:1:size(renovation_cells_manipulatorbase_positions{i},2)
+        for k=1:1:size(renovation_cells_manipulatorbase_positions{i}{j},2)
+            position=renovation_cells_manipulatorbase_positions{i}{j}{k}(1,1:3);
+            fprintf('the position is: %6.4f, %6.4f, %6.4f\n',position(1),position(2),position(3));
+            positions_num=positions_num+1;
+        end
+    end
+end
+fprintf('the position number is: %6.4f\n',positions_num);
 
 
-
-% end
+%  end
 
 % [[-2.80062752e-09,  3.20510329e-09,  1.00000000e+00, 5.99999999e-01],
 % [ 9.59418094e-10, -1.00000000e+00,  3.20510329e-09, 2.50000003e-01],
