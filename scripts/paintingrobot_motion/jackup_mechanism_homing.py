@@ -36,7 +36,7 @@ def jackup_mechanism_homing(rate):
         last_motion_phase_over_flag = rospy.get_param("/renov_up_level/last_motion_phase_over_flag")
         # rospy.loginfo("%s is %s", rospy.resolve_name('last_motion_phase_over_flag'), last_motion_phase_over_flag)
         if last_motion_phase_over_flag==1:
-            rotation_enable(target_rotation_angle)
+            # rotation_enable(target_rotation_angle)
             climb_enable(target_climb_distance)
             standbar_homing_process(target_standbar_displacement)
             flexbar_downwardsmotion_process()
@@ -64,7 +64,7 @@ def jackup_mechanism_homing(rate):
         rotation_trackingerror= target_rotation_angle-current_rotation_angle
         # rospy.loginfo(("%s is %f"%("rotation  mechanism target angle",target_rotation_angle)))
         # rospy.loginfo(("%s is %f"%("rotation mechanism current angle",current_rotation_angle)))
-        rospy.logerr(("%s is %f"%("rotation mechanism tracking error",rotation_trackingerror)))
+        # rospy.logerr(("%s is %f"%("rotation mechanism tracking error",rotation_trackingerror)))
         # rospy.loginfo("-----------------------------------------------------------")
 
         # output tracking errors 
@@ -77,7 +77,8 @@ def jackup_mechanism_homing(rate):
         rospy.logerr(("%s is %f"%("climb mechanism tracking error",climb_tracking_error)))
         # rospy.loginfo("-----------------------------------------------------------")
 
-        if abs(rotation_trackingerror)<=pid_tolerance_error_rotation and abs(climb_tracking_error)<=pid_tolerance_error_climb and abs(standbar_tracking_error)<pid_tolerance_error_standbar:
+        if abs(climb_tracking_error)<=pid_tolerance_error_climb and abs(standbar_tracking_error)<pid_tolerance_error_standbar:
+        # if abs(rotation_trackingerror)<=pid_tolerance_error_rotation and abs(climb_tracking_error)<=pid_tolerance_error_climb and abs(standbar_tracking_error)<pid_tolerance_error_standbar:
             flexbar_downwardsmotion_end()
             # rospy.logerr("the motion of flexbar is closed")
             standbar_homing_end()

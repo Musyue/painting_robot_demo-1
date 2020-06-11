@@ -68,8 +68,8 @@ class RenovationRobot():
             "executing mobile platform motion"
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
-            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-            # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
+            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
             self.time1_pub.publish(delta_time1)
@@ -106,13 +106,13 @@ class RenovationRobot():
 
                 "exectuing painting operation of manipulator when climbing operation is over"
                 aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubo_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
-                # aubo5=Renovation_operation()
                 # for i in range(len(aubo_q_list)):
                 #     list1=aubo_q_list["aubo_data_num_"+str(i)]
                 #     print(list1)
-                # print("the number of aubo_q is:",len(aubo_q_list))
+                print("the number of aubo_q is:",len(aubo_q_list))
 
                 time1=time.time()
+                # aubo5=Renovation_operation()
                 # aubo5.aubo_motion1(aubo_q_list,rate)
                 # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
                 time2=time.time()
