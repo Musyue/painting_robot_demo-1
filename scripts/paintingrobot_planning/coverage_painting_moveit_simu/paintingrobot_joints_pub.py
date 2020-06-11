@@ -12,6 +12,34 @@ from Quaternion import *
 from painting_robot_demo.msg import catersian_vel,physical_para
 from sensor_msgs.msg import JointState
 
+class Renovationrobot_joints_pub():
+    def __init__(self):
+        self.aubo_joints_sub=rospy.Subscriber('aubo_joints', JointState, self.obtain_aubo_joints, queue_size=10)
+        self.mobileplatform_joints_sub=rospy.Subscriber(self.obtain_mobileplatform_states,queue_size=10)
+        self.paintingrobot_joints_pub=rospy.Publisher('')
+
+
+    def obtain_aubo_joints(self,msg):
+        
+
+    def obtain_jackup_mechanism(self):
+        
+
+    def obtain_mobileplatform_states(self):
+
+
+
+if __name__ == '__main__':
+    rospy.init_node('endeffectorpose_computation', anonymous=True)
+    listener = tf.TransformListener()
+    rate = rospy.Rate(10.0)
+    while not rospy.is_shutdown():
+        rate.sleep()
+
+
+
+
+
 # class robot_pose_computation():
 #     def __init__(self):
 #         self.T1=np.eye(4)
@@ -60,33 +88,6 @@ from sensor_msgs.msg import JointState
 #         tran_z=wholerobot_T[2][3]
 #         # obtain rpy angles and T matrix
 #     listener = tf.TransformListener()
-
-
-class Renovationrobot_joints_pub():
-    def __init__(self):
-        self.aubo_joints_sub=rospy.Subscriber('aubo_status', JointState, self.obtain_aubo_joints, queue_size=10)
-        self.mobileplatform_joints_sub=rospy.Subscriber(self.obtain_mobileplatform_states,queue_size=10)
-        self.paintingrobot_joints_pub=rospy.Publisher('')
-
-    def obtain_aubo_joints(self,msg):
-        
-
-    def obtain_jackup_mechanism(self):
-
-
-    def obtain_mobileplatform_states(self):
-
-
-
-if __name__ == '__main__':
-    rospy.init_node('endeffectorpose_computation', anonymous=True)
-    listener = tf.TransformListener()
-    rate = rospy.Rate(10.0)
-    while not rospy.is_shutdown():
-
-        rate.sleep()
-
-
 
 
 

@@ -14,7 +14,7 @@ coverage_planner_path=rospy.get_param("coverage_planner_path")
 # sys.path.append("/data/ros/renov_robot_ws/src/painting_robot_demo/scripts"
 # sys.path.append("/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/scripts")
 sys.path.append(coverage_planner_path)
-from coverage_painting_planning.coverage_planning_offline1 import *
+from coverage_painting_planning.coverage_planning_offline_drawbim import *
 
 from mobileplatform_motion import *
 from jackup_mechanism_homing import *
