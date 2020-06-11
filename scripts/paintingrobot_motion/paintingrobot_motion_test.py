@@ -14,7 +14,7 @@ coverage_planner_path=rospy.get_param("coverage_planner_path")
 # sys.path.append("/data/ros/renov_robot_ws/src/painting_robot_demo/scripts"
 # sys.path.append("/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/scripts")
 sys.path.append(coverage_planner_path)
-from coverage_painting_planning.coverage_planning_offline1 import *
+from paintingrobot_planning.coverage_planning_offline_farubim import *
 
 from mobileplatform_motion import *
 from jackup_mechanism_homing import *
@@ -49,27 +49,14 @@ class RenovationRobot():
         list1=[]
         list2=[]
         while not rospy.is_shutdown():
-            "some selection for mobile base positions"
-            if plane_num_count==0 and mobile_base_point_count==0:
-                mobile_base_point_count=mobile_base_point_count+1
-            # if plane_num_count==1 and mobile_base_point_count==0:
-            #     mobile_base_point_count=mobile_base_point_count+1
-            if plane_num_count==1 and mobile_base_point_count==5:
-                break
-            
+
             mobiledata=planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]["mobile_data_num_"+str(mobile_base_point_count)]            
-            "some adjustment of mobile base positions"
             list1.append(mobiledata)
-            if plane_num_count==0 and mobile_base_point_count==1:
-                mobiledata[1]=mobiledata[1]+0.1
-            if plane_num_count==0 and mobile_base_point_count==2:
-                mobiledata[1]=mobiledata[1]+0.15
     
             "executing mobile platform motion"
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
             renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-            # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
             self.time1_pub.publish(delta_time1)
@@ -79,8 +66,7 @@ class RenovationRobot():
             time1=time.time()
             # target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
             target_standbar_displacement=0.12
-            # rod_mechanism_holding(target_standbar_displacement,rate)
-            rod_mechanism_holding_simulation(target_standbar_displacement,rate)
+            rod_mechanism_holding(target_standbar_displacement,rate)
             time2=time.time()
             delta_time2=time2-time1
             self.time2_pub.publish(delta_time2)
@@ -99,22 +85,20 @@ class RenovationRobot():
                 "executing climbing motion of rod climbing mechanism when holding operation is over"
                 time1=time.time()
                 rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
-                # rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
                 time2=time.time()
                 delta_time3=time2-time1
                 self.time3_pub.publish(delta_time3)
 
                 "exectuing painting operation of manipulator when climbing operation is over"
                 aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubo_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
-                aubo5=Renovation_operation()
                 # for i in range(len(aubo_q_list)):
                 #     list1=aubo_q_list["aubo_data_num_"+str(i)]
                 #     print(list1)
-                print("the number of aubo_q is:",len(aubo_q_list))
+                # print("the number of aubo_q is:",len(aubo_q_list))
 
                 time1=time.time()
+                aubo5=Renovation_operation()
                 aubo5.aubo_motion1(aubo_q_list,rate)
-                # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
                 time2=time.time()
                 delta_time4=time2-time1
                 self.time4_pub.publish(delta_time4)
@@ -127,28 +111,15 @@ class RenovationRobot():
                     climb_base_count_num=0
                     os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 1')
                     break
-                # break
             "executing jackup motion of jackup mechanism when operation on one mobile base is over"
             time1=time.time()
             jackup_mechanism_homing(rate)
-            # jackup_mechanism_homing_simulation(rate)
             time2=time.time()
             delta_time5=time2-time1
             self.time5_pub.publish(delta_time5)
 
-
-            "exit condition: all renovation surface is operated"
-            if mobile_base_point_count >= len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
-                plane_num_count+=1 
-                mobile_base_point_count=0
-                # rospy.loginfo("plane_num_count is: %s",str(plane_num_count))
-            # if plane_num_count==1 and mobile_base_point_count==3:
-            #     break
-            if plane_num_count>=len(planning_source_dict):
-                rospy.loginfo("painting operation of whole room is over")
-                break
-            # break
             rate.sleep()
+            break
         print("list is:",list1)
         print("list is:",list2)
 
