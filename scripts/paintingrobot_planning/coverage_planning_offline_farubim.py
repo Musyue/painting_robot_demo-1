@@ -16,20 +16,23 @@ from robotic_functions.transfer import *
 from robotic_functions.aubo_kinematics import *
 from robotic_functions.Quaternion import *
 
+coverage_planner_path=rospy.get_param("/renov_up_level/coverage_planner_path")
+sys.path.append(coverage_planner_path)
+print("coverage_planner_path is",coverage_planner_path)
 
 class Renovation_BIM_Model_Opreating():
     def __init__(self,mat_path,parameterx,parametery,parameterz,interval):
-        self.parameterx=parameterx#0.430725381079
-        self.parametery=parametery#-0.00033063639818
-        self.parameterz=parameterz#0.028625
-        self.interval=interval#0.10
+        self.parameterx=parameterx #0.430725381079
+        self.parametery=parametery #-0.00033063639818
+        self.parameterz=parameterz #0.028625
+        self.interval=interval #0.10
         self.mat_path=mat_path
 
         self.manipulatorbase2rodmechanism_offsetlength=self.parameterz
         self.rodmechanism2ground_offsetlength=0.86
         self.rodmechanism2lineencoder_offsetlength=0.62
-        self.paintinggun_offsetlength1=-0.53
-        self.paintinggun_offsetlength2=0.53
+        self.paintinggun_offsetlength1=-0.53 #"the first one is higher position "
+        self.paintinggun_offsetlength2=0.53 #"the second one is lower position"
         self.paintinggun_offsetdistance=0.20
 
     def renovationrobot_joints_computation_1(self,manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list1,offset_length):
@@ -94,7 +97,6 @@ class Renovation_BIM_Model_Opreating():
         paintingrobotendeffector_targetpose=data['renovation_cells_waypioints_onwaypath']
 
         mobile_base=[]
-
         data_result={}
         room_num={}
         plan_num={}
@@ -138,7 +140,7 @@ class Renovation_BIM_Model_Opreating():
         
         self.print_json(plan_num)
         return plan_num
-
+                
     def show_mat(self):
         data = io.loadmat(self.mat_path)
         manipulatorbase_targetpose=data['renovation_cells_manipulatorbase_positions']
@@ -147,18 +149,20 @@ class Renovation_BIM_Model_Opreating():
         j=1
         k=1
         manipulatorbase_targetpose_onecell= manipulatorbase_targetpose[0][i][0][j][0][k]
+        print("manipulatorbase_targetpose_onecell is:",manipulatorbase_targetpose_onecell)
         manipulatorendeffector_targetpose_onecell = manipulatorendeffector_targetpose[0][i][0][j][0][k]
         print("manipulatorendeffector_targetpose_onecell is:",manipulatorendeffector_targetpose_onecell)
 
+
 def main():
-    mat_path="/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/data/data3.mat"
+    mat_path="/home/zy/catkin_ws/src/paintingrobot/paintingrobot_underusing/painting_robot_demo/matlab/second_scan_data/second_scan_data2.mat"
     parameterx=0.430725381079
     parametery=-0.00033063639818
     parameterz=0.028625
     interval=0.10
     data = io.loadmat(mat_path)
     Paintrobot2 = Renovation_BIM_Model_Opreating(mat_path,parameterx,parametery,parameterz,interval)
-    planning_source_dict=Paintrobot2.get_mat_data_json1()
+    # planning_source_dict=Paintrobot2.get_mat_data_json1()
     Paintrobot2.show_mat()
 
 if __name__ == "__main__":

@@ -1,0 +1,30 @@
+<launch>
+
+  <group ns="renov_up_level">
+    <!-- mat document reading parameters -->
+    <param name="mat_data_path" value="/home/zy/catkin_ws/src/paintingrobot/paintingrobot_underusing/painting_robot_demo/matlab/second_scan_data/second_scan_data2.mat"/>
+    <param name="coverage_planner_path" value="/home/zy/catkin_ws/src/paintingrobot/paintingrobot_underusing/painting_robot_demo/scripts"/>
+    <param name="mat_parameterx" value="0.430725381079" />
+    <param name="mat_parametery" value="-0.00033063639818" />
+    <param name="mat_parameterz" value="0.028625" />
+    <param name="mat_interval" value="0.10" />
+
+    <!--several ranges-->
+    <param name="min_holding_distance" value="-0.15" />
+    <param name="max_holding_distance" value="0.03" />
+    <param name="min_climbing_distance" value="-0.17" />
+    <param name="max_climbing_distance" value="0.90" />
+    <param name="min_rotation_distance" value="-5.50" />
+    <param name="max_rotation_distance" value="2.36" />
+
+    <node name="paintingrobot_planningresult_verification" pkg="painting_robot_demo" type="paintingrobot_planningresult_verification.py" output="screen"/>
+
+    <node name="paintingrobot_planningresult_visualization" pkg="painting_robot_demo" type="paintingrobot_planningresult_visualization.py" />
+  </group>
+  
+  <include file="$(find paintingrobot_description)/launch/display.launch">
+  </include>  
+  <!-- <include file="$(find ground_truth)/launch/ground_truth_pub.launch">
+  </include> -->
+
+</launch>

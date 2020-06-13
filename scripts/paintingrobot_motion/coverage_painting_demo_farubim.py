@@ -10,9 +10,10 @@ import sys
 from geometry_msgs.msg import PoseStamped,Quaternion
 import tf
 
-coverage_planner_path=rospy.get_param("coverage_planner_path")
 # sys.path.append("/data/ros/renov_robot_ws/src/painting_robot_demo/scripts"
 # sys.path.append("/home/zy/catkin_ws/src/paintingrobot/painting_robot_demo/scripts")
+
+coverage_planner_path=rospy.get_param("coverage_planner_path")
 sys.path.append(coverage_planner_path)
 from paintingrobot_planning.coverage_planning_offline_farubim import *
 
@@ -36,12 +37,12 @@ class RenovationRobot():
         self.time4_pub = rospy.Publisher('/renov_up_level/manipulator_motion_time', Float64, queue_size=1)
         self.time5_pub = rospy.Publisher('/renov_up_level/jackupmechanism_homing_time', Float64, queue_size=1)
 
-
     def renovation_planning_source_dict_generation(self):
         planning_source_dict={}
         rbmo=Renovation_BIM_Model_Opreating(self.mat_path,self.parameterx,self.parametery,self.parameterz,self.interval)
         planning_source_dict=rbmo.get_mat_data_json1()
         return planning_source_dict
+        
     def renovationrobot_motion(self,planning_source_dict,rate):
         plane_num_count=0
         mobile_base_point_count=0

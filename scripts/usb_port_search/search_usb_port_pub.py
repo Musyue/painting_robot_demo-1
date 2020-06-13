@@ -151,8 +151,13 @@ def main():
         if usb_ports_ok_flag==1:
             rospy.loginfo("all three usb ports are ok !")
         else:
-            rospy.logerr("some problems with usb ports")
-
+            if plc_port_ok_flag==0:
+                rospy.logerr("plc port is not ok")
+            if climb_port_ok_flag==0:
+                rospy.logerr("climb port is not ok")
+            if imu_port_ok_flag==0:
+                rospy.logerr("imu port is not ok")
+ 
         # rospy.loginfo("%s is %s", rospy.resolve_name('plc_port_ok_flag'), plc_port_ok_flag)
         # rospy.loginfo("%s is %s", rospy.resolve_name('imu_port_ok_flag'), imu_port_ok_flag)
         # rospy.loginfo("%s is %s", rospy.resolve_name('climb_port_ok_flag'), climb_port_ok_flag)

@@ -41,3 +41,5 @@ include_directories(
 
 add_executable(straight_line_path src/straight_line_path.cpp)
 target_link_libraries(straight_line_path yaml-cpp ${catkin_LIBRARIES})
+
+

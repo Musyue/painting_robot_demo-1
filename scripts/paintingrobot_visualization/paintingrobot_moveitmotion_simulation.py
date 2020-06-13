@@ -9,10 +9,12 @@ import moveit_commander
 import scipy.io as io
 import tf
 
-coverage_planner_path="/data/ros/renov_robot_ws/src/painting_robot_demo/scripts"
-mat_path="/data/ros/renov_robot_ws/src/painting_robot_demo/data/data3.mat" 
-
+# coverage_planner_path="/data/ros/renov_robot_ws/src/painting_robot_demo/scripts"
+# mat_path="/data/ros/renov_robot_ws/src/painting_robot_demo/data/data3.mat" 
+mat_path=rospy.get_param("/renov_up_level/mat_data_path")
+coverage_planner_path=rospy.get_param("/renov_up_level/coverage_planner_path")
 sys.path.append(coverage_planner_path)
+
 from paintingrobot_planning.coverage_planning_offline1 import *
 from paintingrobot_planning.robotic_functions.transfer import *
 from paintingrobot_planning.robotic_functions.aubo_kinematics import *
@@ -317,7 +319,7 @@ if __name__ == "__main__":
     paintingrobotendeffector_targetpose=data['renovation_cells_waypioints_onwaypath']
     
     Paintrobot = Renovationrobot_motion()
-    Paintrobot.homing_motion()
+    # Paintrobot.homing_motion()
     visualization_num=1
     try:
         while not rospy.is_shutdown():
