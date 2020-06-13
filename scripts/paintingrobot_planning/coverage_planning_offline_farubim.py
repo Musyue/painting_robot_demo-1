@@ -32,7 +32,7 @@ class Renovation_BIM_Model_Opreating():
         self.rodmechanism2ground_offsetlength=0.86
         self.rodmechanism2lineencoder_offsetlength=0.62
         self.paintinggun_offsetlength1=-0.53 #"the first one is higher position "
-        self.paintinggun_offsetlength2=0.53 #"the second one is lower position"
+        self.paintinggun_offsetlength2=0.60 #0.53 #"the second one is lower position"
         self.paintinggun_offsetdistance=0.20
 
     def renovationrobot_joints_computation_1(self,manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list1,offset_length):

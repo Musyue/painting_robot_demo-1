@@ -86,8 +86,6 @@ class Renovationrobot_joints_pub():
 
         self.paintingrobot_joints_pub.publish(paintingrobot_joints)
         
-
-
 if __name__ == '__main__':
     rospy.init_node('endeffectorpose_computation', anonymous=True)
     listener = tf.TransformListener()
