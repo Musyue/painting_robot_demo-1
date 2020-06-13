@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 
-import rospy
+import rospy, sys
 import math
 import tf
 import numpy as np
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import Quaternion
-from transfer import *
-from aubo_kinematics import *
-from Quaternion import *
+
+mat_path=rospy.get_param("/renov_up_level/mat_data_path")
+coverage_planner_path=rospy.get_param("/renov_up_level/coverage_planner_path")
+sys.path.append(coverage_planner_path)
+
+from paintingrobot_planning.robotic_functions.transfer import *
+from paintingrobot_planning.robotic_functions.aubo_kinematics import *
+from paintingrobot_planning.robotic_functions.Quaternion import *
+
 from painting_robot_demo.msg import catersian_vel,physical_para
 from sensor_msgs.msg import JointState
 from tf_conversions import transformations
@@ -16,33 +22,28 @@ from math import pi
 
 class Renovationrobot_joints_pub():
     def __init__(self):
-        self.aubo_joints_sub=rospy.Subscriber('aubo_joints', JointState, self.obtain_aubo_joints, queue_size=10)
-        self.mobileplatform_joints_sub=rospy.Subscriber(self.obtain_mobileplatform_states, queue_size=10)
-        self.paintingrobot_joints_pub=rospy.Publisher('paintingrobot_joints', JointState, queue_size=10)
-
         self.mobile_platform_joints_value=[0.0,0.0,0.0]
         self.jackup_mechanism_joints_value=[0.0,0.0]
-        self.aubo_arm_joints_value=[0.0,0.0,0.0,0.0,0.0,0.0]
+        self.aubo_joints_value=[0.0,0.0,0.0,0.0,0.0,0.0]
+        self.rodmechanism2ground_offsetlength1=0.86
+        self.rodmechanism2ground_offsetlength2=-1.32
 
-        self.listener = tf.TransformListener()
-        try:
-            self.tf_listener.waitForTransform('/map', '/base_link', rospy.Time(), rospy.Duration(1.0))
-        except (tf.Exception, tf.ConnectivityException, tf.LookupException):
-            return
+        self.aubo_joints_sub=rospy.Subscriber('/renov_up_level/aubo_joints', JointState, self.obtain_aubo_joints, queue_size=10)
+        self.paintingrobot_joints_pub=rospy.Publisher('/joint_states', JointState, queue_size=10)
+        self.tf_listener = tf.TransformListener()
+        # try:
+        #     self.tf_listener.waitForTransform('/map', '/base_link', rospy.Time(), rospy.Duration(1.0))
+        # except (tf.Exception, tf.ConnectivityException, tf.LookupException):
+        #     return
+        # self.mobileplatform_joints_sub=rospy.Subscriber(self.obtain_mobileplatform_states, queue_size=10)
 
-    def obtain_auboarm_states(self,msg):
+    def obtain_aubo_joints(self,msg):
         self.aubo_joints_value[0]=msg.position[0]
         self.aubo_joints_value[1]=msg.position[1]
         self.aubo_joints_value[2]=msg.position[2]
         self.aubo_joints_value[3]=msg.position[3]
         self.aubo_joints_value[4]=msg.position[4]
         self.aubo_joints_value[5]=msg.position[5]
-
-    def obtain_jackupmechanism_states(self):
-        rospy.get_param('/renov_up_level/read_line_encode')
-        rospy.get_param('/renov_up_level/read_line_encode')
-        rospy.get_param('/renov_up_level/read_line_encode')
-        
 
     def obtain_mobileplatform_states(self):
         try:
@@ -55,43 +56,61 @@ class Renovationrobot_joints_pub():
         self.mobile_platform_joints_value[1] = trans[1]
         self.mobile_platform_joints_value[2] = euler[2] / pi * 180
 
+
+    def obtain_jackupmechanism_states(self):
+        line_encoder_data=rospy.get_param('/renov_up_level/read_line_encode')
+        self.jackup_mechanism_joints_value[0]=line_encoder_data+self.rodmechanism2ground_offsetlength1+self.rodmechanism2ground_offsetlength2
+        self.jackup_mechanism_joints_value[1]=0.0
+
+
     def obtain_paintingrobot_states(self):
         paintingrobot_joints=JointState()
         paintingrobot_joints.header.stamp=rospy.Time.now()
+        paintingrobot_joints.name = []
+        paintingrobot_joints.position = []
+        paintingrobot_joints.velocity = []
+        paintingrobot_joints.effort = []
 
-        paintingrobot_joints.name[0]='base_joint1'
-        paintingrobot_joints.position[0]=self.mobile_platform_joints_value[0]
-        paintingrobot_joints.name[1]='base_joint2'
-        paintingrobot_joints.position[1]=self.mobile_platform_joints_value[1]
-        paintingrobot_joints.name[2]='mobilebase_joint'
-        paintingrobot_joints.position[2]=self.mobile_platform_joints_value[2]
+        paintingrobot_joints.name.append('base_joint1')
+        paintingrobot_joints.position.append(self.mobile_platform_joints_value[0])
+        print(paintingrobot_joints.position)
+        # paintingrobot_joints.name[0]='base_joint1'
+        # paintingrobot_joints.position[0]=self.mobile_platform_joints_value[0]
+        paintingrobot_joints.name.append('base_joint2')
+        paintingrobot_joints.position.append(self.mobile_platform_joints_value[1])
+        paintingrobot_joints.name.append('mobilebase_joint')
+        paintingrobot_joints.position.append(self.mobile_platform_joints_value[2])
 
-        paintingrobot_joints.name[3]='rodclimbing_joint1'
-        paintingrobot_joints.position[3]=self.jackup_mechanism_joints_value[0]
-        paintingrobot_joints.name[4]='rodclimbing_joint2'
-        paintingrobot_joints.position[4]=self.jackup_mechanism_joints_value[1]
+        paintingrobot_joints.name.append('rodclimbing_joint1')
+        paintingrobot_joints.position.append(self.jackup_mechanism_joints_value[0])
+        paintingrobot_joints.name.append('rodclimbing_joint2')
+        paintingrobot_joints.position.append(self.jackup_mechanism_joints_value[1])
 
-        paintingrobot_joints.name[5]='shoulder_joint'
-        paintingrobot_joints.position[5]=self.aubo_arm_joints_value[0]
-        paintingrobot_joints.name[6]='upperArm_joint'
-        paintingrobot_joints.position[6]=self.aubo_arm_joints_value[1]
-        paintingrobot_joints.name[7]='foreArm_joint'
-        paintingrobot_joints.position[7]=self.aubo_arm_joints_value[2]
-        paintingrobot_joints.name[8]='wrist1_joint'
-        paintingrobot_joints.position[8]=self.aubo_arm_joints_value[3]
-        paintingrobot_joints.name[9]='wrist2_joint'
-        paintingrobot_joints.position[9]=self.aubo_arm_joints_value[4]
-        paintingrobot_joints.name[10]='wrist3_joint'
-        paintingrobot_joints.position[10]=self.aubo_arm_joints_value[5]
+        paintingrobot_joints.name.append('shoulder_joint')
+        paintingrobot_joints.position.append(self.aubo_joints_value[0])
+        paintingrobot_joints.name.append('upperArm_joint')
+        paintingrobot_joints.position.append(self.aubo_joints_value[1])
+        paintingrobot_joints.name.append('foreArm_joint')
+        paintingrobot_joints.position.append(self.aubo_joints_value[2])
+        paintingrobot_joints.name.append('wrist1_joint')
+        paintingrobot_joints.position.append(self.aubo_joints_value[3])
+        paintingrobot_joints.name.append('wrist2_joint')
+        paintingrobot_joints.position.append(self.aubo_joints_value[4])
+        paintingrobot_joints.name.append('wrist3_joint')
+        paintingrobot_joints.position.append(self.aubo_joints_value[5])
 
         self.paintingrobot_joints_pub.publish(paintingrobot_joints)
+        rate.sleep()
         
 if __name__ == '__main__':
-    rospy.init_node('endeffectorpose_computation', anonymous=True)
-    listener = tf.TransformListener()
+    rospy.init_node('paintingrobot_jointsvalue_publish', anonymous=True)
     rate = rospy.Rate(10.0)
+    Renovationrobot=Renovationrobot_joints_pub()
     while not rospy.is_shutdown():
-        rate.sleep()
+        Renovationrobot.obtain_mobileplatform_states()
+        Renovationrobot.obtain_jackupmechanism_states()
+        Renovationrobot.obtain_paintingrobot_states()
+        # rate.sleep()
 
 
 

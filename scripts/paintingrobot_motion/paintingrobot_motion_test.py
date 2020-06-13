@@ -56,7 +56,7 @@ class RenovationRobot():
             "executing mobile platform motion"
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
-            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
             self.time1_pub.publish(delta_time1)
@@ -65,7 +65,7 @@ class RenovationRobot():
             "executing rod mechanism holding operation when mobile platform motion is over"
             time1=time.time()
             # target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
-            target_standbar_displacement=0.12
+            target_standbar_displacement=0.10
             rod_mechanism_holding(target_standbar_displacement,rate)
             time2=time.time()
             delta_time2=time2-time1
