@@ -31,6 +31,7 @@ class Renovation_BIM_Model_Opreating():
         self.manipulatorbase2rodmechanism_offsetlength=self.parameterz
         self.rodmechanism2ground_offsetlength=0.86
         self.rodmechanism2lineencoder_offsetlength=0.62
+        self.experiment_adjustmentvalue=0.07
         self.paintinggun_offsetlength1=-0.53 #"the first one is higher position "
         self.paintinggun_offsetlength2=0.60 #0.53 #"the second one is lower position"
         self.paintinggun_offsetdistance=0.20
@@ -118,7 +119,7 @@ class Renovation_BIM_Model_Opreating():
                     manipulatorendeffector_targetpose_onecell = manipulatorendeffector_targetpose[0][i][0][j][0][k]
 
                     if k==0:
-                        offset_length=self.paintinggun_offsetlength1 
+                        offset_length=self.paintinggun_offsetlength1+self.experiment_adjustmentvalue
                         mobileplatform_targetjoints, rodclimbing_robot_targetjoints,aubo_targetjoints = self.renovationrobot_joints_computation_1(manipulatorbase_targetpose_onecell,manipulatorendeffector_targetpose_onecell,aubo_joints_list_1,offset_length)
                     else:
                         offset_length=self.paintinggun_offsetlength2 

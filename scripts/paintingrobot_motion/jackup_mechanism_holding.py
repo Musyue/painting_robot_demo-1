@@ -53,6 +53,7 @@ def rod_mechanism_holding(target_standbar_displacement,rate):
         # if top_limit_switch_status==1:
             standbar_motion_end()
             flexbar_upwardsmotion_end()
+            rospy.sleep(2)
             rospy.loginfo("step 2: rod_mechanism_holding is closed")
             os.system('rosparam set /renov_up_level/last_motion_phase_over_flag 0')
             os.system('rosparam set /renov_up_level/current_motion_phase_over_flag 1')

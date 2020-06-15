@@ -53,7 +53,7 @@ class RenovationRobot():
             # "some selection for mobile base positions"
             # if plane_num_count==0 and mobile_base_point_count==0:
             #     mobile_base_point_count=mobile_base_point_count+1
-            if plane_num_count==1 and mobile_base_point_count==0:
+            if plane_num_count==0 and mobile_base_point_count==0:
                 mobile_base_point_count=mobile_base_point_count+1
             # if plane_num_count==1 and mobile_base_point_count==5:
             #     break
@@ -70,7 +70,7 @@ class RenovationRobot():
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
             # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-            renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
+            # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
             self.time1_pub.publish(delta_time1)
@@ -80,7 +80,7 @@ class RenovationRobot():
             time1=time.time()
             # target_standbar_displacement=holding_rod_mechanism_target_standbar_displacement_computation()
             target_standbar_displacement=0.12
-            # rod_mechanism_holding(target_standbar_displacement,rate)
+            rod_mechanism_holding(target_standbar_displacement,rate)
             # rod_mechanism_holding_simulation(target_standbar_displacement,rate)
             time2=time.time()
             delta_time2=time2-time1
@@ -99,7 +99,7 @@ class RenovationRobot():
 
                 "executing climbing motion of rod climbing mechanism when holding operation is over"
                 time1=time.time()
-                # rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
+                rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
                 # rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
                 time2=time.time()
                 delta_time3=time2-time1
@@ -131,7 +131,7 @@ class RenovationRobot():
                 # break
             "executing jackup motion of jackup mechanism when operation on one mobile base is over"
             time1=time.time()
-            # jackup_mechanism_homing(rate)
+            jackup_mechanism_homing(rate)
             # jackup_mechanism_homing_simulation(rate)
             time2=time.time()
             delta_time5=time2-time1
@@ -147,7 +147,7 @@ class RenovationRobot():
             if plane_num_count>=len(planning_source_dict):
                 rospy.loginfo("painting operation of whole room is over")
                 break
-            # break
+            break
             rate.sleep()
         print("list is:",list1)
         print("list is:",list2)

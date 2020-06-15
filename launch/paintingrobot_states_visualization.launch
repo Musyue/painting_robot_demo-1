@@ -27,7 +27,7 @@
   <include file="$(find paintingrobot_description)/launch/display.launch">
   </include>  
 
-  <!-- <include file="$(find ground_truth)/launch/ground_truth_pub.launch">
-  </include> -->
+  <include file="$(find ground_truth)/launch/ground_truth_pub.launch">
+  </include>
 
 </launch>

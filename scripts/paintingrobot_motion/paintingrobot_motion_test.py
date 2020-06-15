@@ -49,6 +49,8 @@ class RenovationRobot():
         list1=[]
         list2=[]
         while not rospy.is_shutdown():
+            if plane_num_count==0 and mobile_base_point_count==0:
+                mobile_base_point_count=mobile_base_point_count+1
 
             mobiledata=planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]["mobile_data_num_"+str(mobile_base_point_count)]            
             list1.append(mobiledata)
@@ -56,7 +58,7 @@ class RenovationRobot():
             "executing mobile platform motion"
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
-            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
             self.time1_pub.publish(delta_time1)

@@ -47,14 +47,17 @@ class Renovationrobot_joints_pub():
 
     def obtain_mobileplatform_states(self):
         try:
-            (trans,rot) = self.tf_listener.lookupTransform('/map', '/base_link', rospy.Time(0))
+            (trans,rot) = self.tf_listener.lookupTransform( '/map','/base_link', rospy.Time(0))
         except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
             rospy.loginfo("tf Error")
             return None
         euler = transformations.euler_from_quaternion(rot)
         self.mobile_platform_joints_value[0] = trans[0]
         self.mobile_platform_joints_value[1] = trans[1]
-        self.mobile_platform_joints_value[2] = euler[2] / pi * 180
+        self.mobile_platform_joints_value[2] = euler[2]
+        # print("mobile platform x is:", self.mobile_platform_joints_value[0])
+        # print("mobile platform y is:", self.mobile_platform_joints_value[1])
+        print("the angle is:", self.mobile_platform_joints_value[2])
 
 
     def obtain_jackupmechanism_states(self):
@@ -72,14 +75,15 @@ class Renovationrobot_joints_pub():
         paintingrobot_joints.effort = []
 
         paintingrobot_joints.name.append('base_joint1')
-        paintingrobot_joints.position.append(self.mobile_platform_joints_value[0])
-        print(paintingrobot_joints.position)
+        paintingrobot_joints.position.append(0.0)
+        # print(paintingrobot_joints.position)
         # paintingrobot_joints.name[0]='base_joint1'
         # paintingrobot_joints.position[0]=self.mobile_platform_joints_value[0]
         paintingrobot_joints.name.append('base_joint2')
-        paintingrobot_joints.position.append(self.mobile_platform_joints_value[1])
+        paintingrobot_joints.position.append(0.0)
         paintingrobot_joints.name.append('mobilebase_joint')
-        paintingrobot_joints.position.append(self.mobile_platform_joints_value[2])
+        paintingrobot_joints.position.append(0.0)
+        print("the received angle is:",self.mobile_platform_joints_value[2])
 
         paintingrobot_joints.name.append('rodclimbing_joint1')
         paintingrobot_joints.position.append(self.jackup_mechanism_joints_value[0])
