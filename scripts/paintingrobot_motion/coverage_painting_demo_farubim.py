@@ -69,7 +69,7 @@ class RenovationRobot():
             "executing mobile platform motion"
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
-            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
             # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
@@ -113,8 +113,8 @@ class RenovationRobot():
                 print("the number of aubo_q is:",len(aubo_q_list))
 
                 time1=time.time()
-                # aubo5=Renovation_operation()
-                # aubo5.aubo_motion1(aubo_q_list,rate)
+                aubo5=Renovation_operation()
+                aubo5.aubo_motion1(aubo_q_list,rate)
                 # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
                 time2=time.time()
                 delta_time4=time2-time1
@@ -147,7 +147,7 @@ class RenovationRobot():
             if plane_num_count>=len(planning_source_dict):
                 rospy.loginfo("painting operation of whole room is over")
                 break
-            break
+            # break
             rate.sleep()
         print("list is:",list1)
         print("list is:",list2)
