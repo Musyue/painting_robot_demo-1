@@ -18,9 +18,9 @@
     <param name="min_rotation_distance" value="-5.50" />
     <param name="max_rotation_distance" value="2.36" />
 
-    <!-- <node name="paintingrobot_planningresult_verification" pkg="painting_robot_demo" type="paintingrobot_planningresult_verification.py" output="screen"/> -->
     <node name="paintingrobot_planningresult_visualization" pkg="painting_robot_demo" type="paintingrobot_planningresult_visualization.py" />
-    <node name="paintingrobot_jointsvalue_visualization" pkg="painting_robot_demo" type="paintingrobot_jointsvalue_publish.py" output="screen"/>
+    <!-- <node name="paintingrobot_jointsvalue_visualization" pkg="painting_robot_demo" type="paintingrobot_jointsvalue_publish.py" output="screen"/> -->
+    <!-- <node name="paintingrobot_planningscene_visualization" pkg="painting_robot_demo" type="paintingrobot_stl_planningscene_visualization.py" /> -->
 
   </group>
   

@@ -16,7 +16,7 @@ class MoveItObstaclesDemo:
         # 初始化场景对象
         scene = PlanningSceneInterface()
         # 创建一个发布场景变化信息的发布者
-        self.scene_pub = rospy.Publisher('planning_scene', PlanningScene, queue_size=5)
+        self.scene_pub = rospy.Publisher('/renov_up_level/planning_scene', PlanningScene, queue_size=5)
         # 创建一个存储物体颜色的字典对象
         self.colors = dict()
         # 等待场景准备就绪
@@ -32,10 +32,11 @@ class MoveItObstaclesDemo:
         stl_pose.pose.position.y = 0.0
         stl_pose.pose.position.z = -2.4701
         stl_pose.pose.orientation.w = 1.0
-        scene.add_mesh(stl_id,stl_pose,'/data/ros/renov_robot_ws/src/painting_robot_demo/matlab/bim_document/001_1.stl')   
+        scene.add_mesh(stl_id,stl_pose,'/home/zy/catkin_ws/src/paintingrobot/paintingrobot_underusing/painting_robot_demo/matlab/bim_document/second_scan_2.stl')   
         self.setColor(stl_id, 0.8, 0.4, 0, 1.0)
         # 将场景中的颜色设置发布
-        self.sendColors()    
+        while not rospy.is_shutdown():
+            self.sendColors()    
         # 关闭并退出moveit
         moveit_commander.roscpp_shutdown()
         moveit_commander.os._exit(0)
@@ -67,6 +68,7 @@ class MoveItObstaclesDemo:
 
 if __name__ == "__main__":
     try:
+        # while not rospy.is_shutdown():
         MoveItObstaclesDemo()
     except KeyboardInterrupt:
         raise

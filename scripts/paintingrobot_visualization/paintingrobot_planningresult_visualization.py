@@ -37,6 +37,8 @@ class Renovationrobot_positions_visualization():
         self.interval = rospy.get_param('mat_interval') #0.10
         self.marker_pub = rospy.Publisher("visualization_marker", Marker, queue_size=10)
 
+        self.paintinggun_offsetlength1=-0.53 #"the first one is higher position "
+        self.paintinggun_offsetlength2=0.53 #0.53 #"the second one is lower position"
 
     def mobile_platform_visualization(self,visualization_num,mobileplatform_targetjoints):
         # visualization of target mobile platform positions and mobile platform path
@@ -120,8 +122,14 @@ class Renovationrobot_positions_visualization():
             visualization_num=visualization_num+1
 
 
-            "visualization of manipulator paths"
+            "visualization of manipulator base positions"
+            manipulatorbase_targetpose_onecell=[]
             manipulatorbase_targetpose_onecell= manipulatorbase_targetpose[0][plane_num_count][0][mobile_base_point_count][0][climb_base_count_num]
+            # manipulatorbase_targetpose_onecell1=manipulatorbase_targetpose_onecell[0][:]
+            # if climb_base_count_num==0:
+            #     manipulatorbase_targetpose_onecell[0][2]=manipulatorbase_targetpose_onecell[0][2]+self.paintinggun_offsetlength1
+            # else:
+            #     manipulatorbase_targetpose_onecell[0][2]=manipulatorbase_targetpose_onecell[0][2]+self.paintinggun_offsetlength2
             visualization_num=self.manipulatorbase_positions_visualization(visualization_num, manipulatorbase_targetpose_onecell)
             visualization_num=visualization_num+1
 
